@@ -47,6 +47,10 @@ public class Pessoa {
     public Endereco getEndereco() {
         return endereco;
     }
+    
+    public String getEnderecoString(){
+        return endereco.toString();
+    }
 
     public void setEndereco(Endereco endereco) {
         Objects.requireNonNull(endereco);

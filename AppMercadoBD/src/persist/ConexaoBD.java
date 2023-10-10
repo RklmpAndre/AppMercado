@@ -13,7 +13,7 @@ public class ConexaoBD {
  */
     //Atributos para manipulação do BD
     private static String user="root";
-    private static String password="Madrelajj22!";
+    private static String password=null;
     private static String driver="com.mysql.cj.jdbc.Driver";
     private static String url= "jdbc:mysql://localhost:3306/app_mercadoTeste";
     private static Connection conexao;
