@@ -3,7 +3,7 @@ package persist;
 import java.sql.*; // para manipulação do JDBC
 /**
  *
- * @author andre
+ * @author mk
  */
 public class ConexaoBD {
     
@@ -15,7 +15,7 @@ public class ConexaoBD {
     private static String user="root";
     private static String password=null;
     private static String driver="com.mysql.cj.jdbc.Driver";
-    private static String url= "jdbc:mysql://localhost:3306/app_mercadoTeste";
+    private static String url= "jdbc:mysql://localhost:3306/appmercado_bd";
     private static Connection conexao;
     private static ConexaoBD conexaoBD;
     

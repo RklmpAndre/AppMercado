@@ -14,8 +14,6 @@ public class Pessoa {
     private Usuario user;
     //cpf será final pois uma pessoa tem apenas 1 cpf
     private String cpf;
-    //relaciona o endereço com a pessoa
-    private Endereco endereco;
 
     private String nome, sobrenome;
 
@@ -23,12 +21,11 @@ public class Pessoa {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Pessoa(String cpf, String nome, String sobrenome, LocalDate dataNascimento, Endereco endereco) {
+    public Pessoa(String cpf, String nome, String sobrenome, LocalDate dataNascimento) {
         setCpf(cpf);
         setNome(nome);
         setSobrenome(sobrenome);
         setDataNascimento(dataNascimento);
-        setEndereco(endereco);
     }
     
     public Pessoa(){
@@ -42,19 +39,6 @@ public class Pessoa {
     public void setUser(Usuario user) {
         Objects.requireNonNull(user);
         this.user = user;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-    
-    public String getEnderecoString(){
-        return endereco.toString();
-    }
-
-    public void setEndereco(Endereco endereco) {
-        Objects.requireNonNull(endereco);
-        this.endereco = endereco;
     }
 
     public String getCpf() {
@@ -123,7 +107,7 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Nome: " + getNome() + " " + getSobrenome() + "\nCPF: " + getCpf() + "\nData de Nascimento: " + getDataNascimentoString()+ "\n" + getEndereco() + "\n";
+        return "Nome: " + getNome() + " " + getSobrenome() + "\nCPF: " + getCpf() + "\nData de Nascimento: " + getDataNascimentoString()+ "\n";
     }
     
 }

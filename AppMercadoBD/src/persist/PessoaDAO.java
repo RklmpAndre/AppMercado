@@ -41,35 +41,34 @@ public class PessoaDAO implements DAO {
 
     @Override
     public boolean create(Object obj) {
-        Objects.requireNonNull(obj);
-        if(obj instanceof Pessoa){
+        if (obj != null && obj instanceof Pessoa) {
             Pessoa p = (Pessoa) obj;
+            String nome = p.getNome() + " " + p.getSobrenome();
             String cpf = p.getCpf();
-            String nome = p.getNome() + p.getSobrenome();
             String dataNascimento = p.getDataNascimentoString();
-            String endereco = p.getEnderecoString();
-            String login = p.getUser().getLogin();
+            String email = p.getUser().getLogin();
             String senha = p.getUser().getSenha();
             Enum tipo = p.getUser().getTipoUsuario();
             int tipoUser = tipo.ordinal();
-            String sql = "INSERT INTO usuario (cpf, endereco, nome, dataNascimento, email, senha, tipoUsuario)" 
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO usuario (cpf, dataNascimento, email, nome, senha, tipoUsuario)"
+                    + "VALUES ( ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
                 pstmt.setString(1, cpf);
-                pstmt.setString(2, endereco);
-                pstmt.setString(3, nome);
-                pstmt.setString(4, dataNascimento);
-                pstmt.setString(5, login);
-                pstmt.setString(6, senha);
-                pstmt.setInt(7, tipoUser);
+                pstmt.setString(2, dataNascimento);
+                pstmt.setString(3, email);
+                pstmt.setString(4, nome);
+                pstmt.setString(5, senha);
+                pstmt.setInt(6, tipoUser);
                 pstmt.executeUpdate();
                 return true;
             } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
             }
         }
         return false;
     }
+
 
     @Override
     public Object read(Object obj) {
