@@ -2,10 +2,15 @@ package persist;
 
 
 import entity.Pessoa;
+import entity.Usuario;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -71,8 +76,35 @@ public class PessoaDAO implements DAO {
 
 
     @Override
+    //Em obj estará o cpf
     public Object read(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (obj != null && obj instanceof String) {
+            try {
+                String cpf = (String) obj;
+                String sql = "SELECT * FROM appmercado_bd WHERE cpf = '" + cpf + "'";
+                Statement stmt = conexao.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                if (rs.isBeforeFirst()) { //verifica se resultou algo da pesquisa
+                    rs.next();
+                    int id = rs.getInt(1);
+                    String login = cpf; //2ª coluna da tabela
+                    String dataNascimento = rs.getString(3);
+                    String nome = rs.getString(4);
+                    String senha = rs.getString(5);
+                    int tipoUsuario = (rs.getInt(6));
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate data = LocalDate.parse(dataNascimento, formato);
+                    Pessoa p = new Pessoa(cpf, nome, data, sexo);
+                    p.setId(id);
+                    Usuario user = new Usuario(login, senha);
+                    p.setUser(user);
+                    return p;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return null;
     }
 
     @Override
