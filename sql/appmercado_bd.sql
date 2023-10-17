@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 05-Out-2023 às 16:59
--- Versão do servidor: 10.1.37-MariaDB
--- versão do PHP: 7.3.0
+-- Tempo de geração: 17-Out-2023 às 22:30
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `appmercado_bd`
+-- Banco de dados: `appmercado_bd`
 --
 
 -- --------------------------------------------------------
@@ -36,7 +35,7 @@ CREATE TABLE `estoque` (
   `descricao` varchar(255) NOT NULL,
   `preco` double NOT NULL,
   `tipo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -46,36 +45,42 @@ CREATE TABLE `estoque` (
 
 CREATE TABLE `usuario` (
   `cpf` varchar(14) NOT NULL,
-  `endereco` varchar(256) NOT NULL,
   `nome` varchar(75) NOT NULL,
-  `dataNascimento` date NOT NULL,
+  `dataNascimento` varchar(10) NOT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(50) NOT NULL,
   `tipoUsuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Indexes for dumped tables
+-- Extraindo dados da tabela `usuario`
+--
+
+INSERT INTO `usuario` (`cpf`, `nome`, `dataNascimento`, `email`, `senha`, `tipoUsuario`) VALUES
+('040.217.400-31', 'André Mendes Pinto', '03/07/2003', 'a@a.com', '12345678', 0);
+
+--
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `estoque`
+-- Índices para tabela `estoque`
 --
 ALTER TABLE `estoque`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usuario`
+-- Índices para tabela `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`cpf`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `estoque`
+-- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
