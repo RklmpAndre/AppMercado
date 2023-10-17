@@ -88,7 +88,7 @@ public class Produto {
         return tipo;
     }
 
-    public void setTipo(TipoProduto tipo) {
+    public void setTipoProduto (TipoProduto tipo) {
         Objects.requireNonNull(tipo);
         this.tipo = tipo;
     }
