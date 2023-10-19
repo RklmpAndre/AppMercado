@@ -1,6 +1,5 @@
 package persist;
 
-
 import entity.Pessoa;
 import entity.Usuario;
 import java.sql.Connection;
@@ -74,37 +73,29 @@ public class PessoaDAO implements DAO {
         return false;
     }
 
-
     @Override
     //Em obj estará o cpf
     public Object read(Object obj) {
-        if (obj != null && obj instanceof String) {
+        Objects.requireNonNull(obj);
+        if (obj instanceof String) {
             try {
                 String cpf = (String) obj;
-                String sql = "SELECT * FROM appmercado_bd WHERE cpf = '" + cpf + "'";
+                String sql = "SELECT * FROM tbpessoa WHERE cpf = '" + cpf + "'";
                 Statement stmt = conexao.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
-                if (rs.isBeforeFirst()) { //verifica se resultou algo da pesquisa
+                if (rs.isBeforeFirst()) {
                     rs.next();
-                    int id = rs.getInt(1);
-                    String login = cpf; //2ª coluna da tabela
-                    String dataNascimento = rs.getString(3);
+                    String dataNascimento = rs.getString(2);
+                    String email = rs.getString(3);
                     String nome = rs.getString(4);
                     String senha = rs.getString(5);
-                    int tipoUsuario = (rs.getInt(6));
-                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    LocalDate data = LocalDate.parse(dataNascimento, formato);
-                    Pessoa p = new Pessoa(cpf, nome, data, sexo);
-                    p.setId(id);
-                    Usuario user = new Usuario(login, senha);
-                    p.setUser(user);
-                    return p;
+                    int tipo = rs.getInt(6);
+                    Enum
+
                 }
-            } catch (SQLException ex) {
-                System.out.println("Erro = " + ex);
+            } catch (SQLException e) {
             }
         }
-        return null;
     }
 
     @Override
