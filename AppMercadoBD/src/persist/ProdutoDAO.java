@@ -45,6 +45,7 @@ public class ProdutoDAO implements DAO{
             String marca = p.getMarca();
             String nome = p.getNome();
         }
+        return false;
     }
 
     @Override

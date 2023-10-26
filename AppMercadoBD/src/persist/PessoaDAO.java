@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import util.TipoUsuario;
 
 /**
  *
@@ -80,22 +81,33 @@ public class PessoaDAO implements DAO {
         if (obj instanceof String) {
             try {
                 String cpf = (String) obj;
-                String sql = "SELECT * FROM tbpessoa WHERE cpf = '" + cpf + "'";
+                String sql = "SELECT * FROM usuario WHERE cpf = '" + cpf + "'";
                 Statement stmt = conexao.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.isBeforeFirst()) {
                     rs.next();
-                    String dataNascimento = rs.getString(2);
-                    String email = rs.getString(3);
-                    String nome = rs.getString(4);
+                    String nome = rs.getString(2);
+                    String data = rs.getString(3);
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate dataNascimento = LocalDate.parse(data, formato);
+                    String email = rs.getString(4);
                     String senha = rs.getString(5);
                     int tipo = rs.getInt(6);
-                    Enum
-
+                    Enum tipoUser = TipoUsuario.COMUN;
+                    if (tipo != 0) {
+                        tipoUser = TipoUsuario.ADMIN;
+                    }
+                    Usuario user = new Usuario(email, senha);
+                    user.setTipoUsuario(tipoUser);
+                    Pessoa p = new Pessoa(cpf, nome, nome, dataNascimento);
+                    p.setUser(user);
+                    return p;
                 }
-            } catch (SQLException e) {
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
             }
         }
+        return null;
     }
 
     @Override
