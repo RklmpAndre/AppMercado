@@ -15,16 +15,15 @@ public class Pessoa {
     //cpf será final pois uma pessoa tem apenas 1 cpf
     private String cpf;
 
-    private String nome, sobrenome;
+    private String nome;
 
     private LocalDate dataNascimento;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Pessoa(String cpf, String nome, String sobrenome, LocalDate dataNascimento) {
+    public Pessoa(String cpf, String nome, LocalDate dataNascimento) {
         setCpf(cpf);
         setNome(nome);
-        setSobrenome(sobrenome);
         setDataNascimento(dataNascimento);
     }
     
@@ -59,15 +58,6 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        Objects.requireNonNull(sobrenome);
-        this.sobrenome = sobrenome;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
@@ -86,7 +76,6 @@ public class Pessoa {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.cpf);
         hash = 97 * hash + Objects.hashCode(this.nome);
-        hash = 97 * hash + Objects.hashCode(this.sobrenome);
         return hash;
     }
 
@@ -107,7 +96,7 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Nome: " + getNome() + " " + getSobrenome() + "\nCPF: " + getCpf() + "\nData de Nascimento: " + getDataNascimentoString()+ "\n";
+        return "Nome: " + getNome() + "\nCPF: " + getCpf() + "\nData de Nascimento: " + getDataNascimentoString()+ "\n" + getUser();
     }
     
 }

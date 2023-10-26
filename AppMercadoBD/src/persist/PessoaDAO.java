@@ -48,7 +48,7 @@ public class PessoaDAO implements DAO {
     public boolean create(Object obj) {
         if (obj != null && obj instanceof Pessoa) {
             Pessoa p = (Pessoa) obj;
-            String nome = p.getNome() + " " + p.getSobrenome();
+            String nome = p.getNome();
             String cpf = p.getCpf();
             String dataNascimento = p.getDataNascimentoString();
             String email = p.getUser().getLogin();
@@ -99,7 +99,7 @@ public class PessoaDAO implements DAO {
                     }
                     Usuario user = new Usuario(email, senha);
                     user.setTipoUsuario(tipoUser);
-                    Pessoa p = new Pessoa(cpf, nome, nome, dataNascimento);
+                    Pessoa p = new Pessoa(cpf, nome, dataNascimento);
                     p.setUser(user);
                     return p;
                 }
