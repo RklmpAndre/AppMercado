@@ -112,7 +112,24 @@ public class PessoaDAO implements DAO {
 
     @Override
     public boolean update(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Objects.requireNonNull(obj);
+        if (obj instanceof Pessoa) {
+            try {
+                Pessoa p = (Pessoa) obj;
+                String sql = "UPDATE tbpessoa SET nome = ?, dataNascimento = ?, email = ?, senha = ?, tipoUsuario = ? WHERE cpf = ?";
+                PreparedStatement pstmt = conexao.prepareStatement(sql);
+                pstmt.setString(1, p.getNome());
+                pstmt.setString(2, p.getDataNascimentoString());
+                pstmt.setString(3, p.getUser().getLogin());
+                pstmt.setString(4, p.getUser().getSenha());
+                pstmt.setInt(5, p.getUser().getTipoUsuario().ordinal());
+                pstmt.executeUpdate();
+                return true;
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return false;
     }
 
     @Override
