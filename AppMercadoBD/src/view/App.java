@@ -17,6 +17,8 @@ public class App {
         PessoaDAO pdao = PessoaDAO.getInstance();
 
         System.out.println(pdao.read("040.217.400-31"));
+        
+        System.out.println(pdao.read("001.001.001-01"));
     }
 
 }

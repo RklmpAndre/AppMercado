@@ -85,7 +85,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Login: " + getLogin() + "\nSenha: " + getSenha() + "\nUsuario: " + getTipoUsuario();
+        return "Login: " + getLogin() + "\nSenha: " + getSenha() + "\nUsuario: " + getTipoUsuario() + "\n";
     }
 
 }
