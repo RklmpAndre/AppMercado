@@ -46,7 +46,8 @@ public class PessoaDAO implements DAO {
 
     @Override
     public boolean create(Object obj) {
-        if (obj != null && obj instanceof Pessoa) {
+        Objects.requireNonNull(obj);
+        if (obj instanceof Pessoa) {
             Pessoa p = (Pessoa) obj;
             String nome = p.getNome();
             String cpf = p.getCpf();
@@ -116,13 +117,14 @@ public class PessoaDAO implements DAO {
         if (obj instanceof Pessoa) {
             try {
                 Pessoa p = (Pessoa) obj;
-                String sql = "UPDATE tbpessoa SET nome = ?, dataNascimento = ?, email = ?, senha = ?, tipoUsuario = ? WHERE cpf = ?";
+                String sql = "UPDATE usuario SET nome = ?, dataNascimento = ?, email = ?, senha = ?, tipoUsuario = ? WHERE cpf = ?";
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
                 pstmt.setString(1, p.getNome());
                 pstmt.setString(2, p.getDataNascimentoString());
                 pstmt.setString(3, p.getUser().getLogin());
                 pstmt.setString(4, p.getUser().getSenha());
                 pstmt.setInt(5, p.getUser().getTipoUsuario().ordinal());
+                pstmt.setString(6, p.getCpf());
                 pstmt.executeUpdate();
                 return true;
             } catch (SQLException ex) {
@@ -134,7 +136,21 @@ public class PessoaDAO implements DAO {
 
     @Override
     public boolean delete(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Objects.requireNonNull(obj);
+        if (obj instanceof String) {
+            try {
+                String cpf = (String) obj;
+                String sql = "DELETE FROM usuario WHERE cpf = '" + cpf + "'";
+                Statement stmt = conexao.createStatement();
+                int nreg = stmt.executeUpdate(sql);
+                if (nreg > 0) {
+                    return true;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return false;
     }
 
 }
