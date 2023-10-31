@@ -16,11 +16,9 @@ public class App {
     public static void main(String[] args) {
         PessoaDAO pdao = PessoaDAO.getInstance();
 
-<<<<<<< HEAD
         System.out.println(pdao.read("040.217.400-31"));
         
         System.out.println(pdao.read("001.001.001-01"));
-=======
         Usuario user = new Usuario("a@aa.com", "12345678");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -40,7 +38,6 @@ public class App {
        
        pdao.update(p2);
 
->>>>>>> cd05176344a8d374d074a397b108ff2a000b63fa
     }
 
 }

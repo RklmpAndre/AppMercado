@@ -112,9 +112,6 @@ public class PessoaDAO implements DAO {
 
     @Override
     public boolean update(Object obj) {
-<<<<<<< HEAD
-        
-=======
         Objects.requireNonNull(obj);
         if (obj instanceof Pessoa) {
             try {
@@ -133,7 +130,6 @@ public class PessoaDAO implements DAO {
             }
         }
         return false;
->>>>>>> cd05176344a8d374d074a397b108ff2a000b63fa
     }
 
     @Override
