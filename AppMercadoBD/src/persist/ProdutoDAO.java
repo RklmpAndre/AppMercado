@@ -23,7 +23,7 @@ public class ProdutoDAO implements DAO{
 
     private ProdutoDAO() {
         ConexaoBD conexaoBD;
-
+s
         try {
             conexaoBD = ConexaoBD.getInstance();
             conexao = ConexaoBD.getConexao();
