@@ -17,4 +17,15 @@ public enum TipoUsuario {
         }
         throw new IllegalArgumentException("Valor de enum inválido: " + ordinal);
     }
+    
+    public static TipoUsuario fromInt(int valor) {
+        switch (valor) {
+            case 0:
+                return COMUN;
+            case 1:
+                return ADMIN;
+            default:
+                throw new IllegalArgumentException("Valor inválido: " + valor);
+        }
+    }
 }

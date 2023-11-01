@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 31-Out-2023 às 21:52
+-- Tempo de geração: 01-Nov-2023 às 15:49
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -36,6 +36,15 @@ CREATE TABLE `estoque` (
   `preco` double NOT NULL,
   `tipo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Extraindo dados da tabela `estoque`
+--
+
+INSERT INTO `estoque` (`id`, `marca`, `nome`, `quantidade`, `descricao`, `preco`, `tipo`) VALUES
+(1, 'Lacta', 'Chocolate ao leite', 1000, 'Um barra de chocolate ao leite', 9.99, 0),
+(2, 'Garoto', 'Chocolate ao leite', 1010, 'Um barra de chocolate ao leite', 2.99, 0),
+(3, 'Paulo lunes', 'Chocolate ao leite', 1010, 'Um barra de chocolate ao leite', 2.99, 0);
 
 -- --------------------------------------------------------
 
@@ -86,7 +95,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

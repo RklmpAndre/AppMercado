@@ -11,16 +11,34 @@ public enum TipoProduto {
     BENS_DE_EMERGÊNCIA("Bens de Emergência"),
     BENS_DURÁVEIS("Bens Duráveis"),
     PRODUTOS_ESPECIAIS("Produtos Especiais");
-    
+
     private final String tipoProduto;
-    
-    TipoProduto(String tipoProduto){
+
+    TipoProduto(String tipoProduto) {
         this.tipoProduto = tipoProduto;
     }
- 
-    public String getTipoProduto(){
+
+    public String getTipoProduto() {
         return this.tipoProduto;
     }
-    
-    
+
+    public static TipoProduto fromInt(int valor) {
+        switch (valor) {
+            case 0:
+                return BENS_DE_CONSUMO;
+            case 1:
+                return SERVIÇOS;
+            case 2:
+                return BENS_DE_USO_COMUM;
+            case 3:
+                return BENS_DE_EMERGÊNCIA;
+            case 4:
+                return BENS_DURÁVEIS;
+            case 5:
+                return PRODUTOS_ESPECIAIS;
+            default:
+                throw new IllegalArgumentException("Valor inválido: " + valor);
+        }
+    }
+
 }
