@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 /**
  *
  * @author andre; arthur
@@ -48,26 +49,25 @@ public class ProdutoDAO implements DAO{
             String nome = p.getNome();
             double preco = p.getPreco();
             int quantidade = p.getQuantidade();
-            Enum tipoEnum = p.getTipo();
-            int tipoOrdinal = tipoEnum.ordinal();
+            int tipoOrdinal = p.getTipo().ordinal();
             try {
-                String sql = "INSERT INTO estoque (cpf, altura,medidacintura, peso, pressaomin, pressaomax, data) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO estoque (marca, nome, quantidade, descricao, preco, tipo) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement pstmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                pstmt.setString(1, cpf);
-                pstmt.setInt(2, altura);
-                pstmt.setInt(3, cintura);
-                pstmt.setDouble(4, peso);
-                pstmt.setInt(5, pressaoMin);
-                pstmt.setInt(6, pressoaMax);
-                pstmt.setString(7, data);
+                pstmt.setString(1, marca);
+                pstmt.setString(2, nome);
+                pstmt.setInt(3, quantidade);
+                pstmt.setString(4, descricao);
+                pstmt.setDouble(5, preco);
+                pstmt.setInt(6, tipoOrdinal);
                 pstmt.executeUpdate();
+                
 
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
                     id = rs.getInt(1); //geralmente a chave primária é a primeira coluna
-                    hist.setId(id);
+                    p.setId(id);
+                    return true;
                 }
-                return id;
             } catch (SQLException sqe) {
                 System.out.println("Erro = " + sqe);
             }
