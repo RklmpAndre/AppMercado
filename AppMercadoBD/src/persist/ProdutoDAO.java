@@ -8,14 +8,6 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-<<<<<<< HEAD
-=======
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import util.TipoProduto;
-import util.TipoUsuario;
->>>>>>> 758ad7525a836734ad12c7492839ab0931aeb85b
 /**
  *
  * @author andre; arthur
@@ -69,10 +61,6 @@ public class ProdutoDAO implements DAO{
                 pstmt.setString(4, descricao);
                 pstmt.setDouble(5, preco);
                 pstmt.setInt(6, tipoOrdinal);
-<<<<<<< HEAD
-=======
-                
->>>>>>> 758ad7525a836734ad12c7492839ab0931aeb85b
                 pstmt.executeUpdate();
                 
 
@@ -80,13 +68,8 @@ public class ProdutoDAO implements DAO{
                 if (rs.next()) {
                     id = rs.getInt(1); //geralmente a chave primária é a primeira coluna
                     p.setId(id);
-<<<<<<< HEAD
                     return true;
                 }
-=======
-                }
-                return true;
->>>>>>> 758ad7525a836734ad12c7492839ab0931aeb85b
             } catch (SQLException sqe) {
                 System.out.println("Erro = " + sqe);
             }
