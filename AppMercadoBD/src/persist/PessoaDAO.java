@@ -56,7 +56,7 @@ public class PessoaDAO implements DAO {
             String senha = p.getUser().getSenha();
             Enum tipo = p.getUser().getTipoUsuario();
             int tipoUser = tipo.ordinal();
-            String sql = "INSERT INTO usuario (cpf, dataNascimento, email, nome, senha, tipoUsuario)"
+            String sql = "INSERT INTO usuários (cpf, dataNascimento, email, nome, senha, tipoUsuario)"
                     + "VALUES ( ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
@@ -82,16 +82,16 @@ public class PessoaDAO implements DAO {
         if (obj instanceof String) {
             try {
                 String cpf = (String) obj;
-                String sql = "SELECT * FROM usuario WHERE cpf = '" + cpf + "'";
+                String sql = "SELECT * FROM usuários WHERE cpf = '" + cpf + "'";
                 Statement stmt = conexao.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.isBeforeFirst()) {
                     rs.next();
-                    String nome = rs.getString(2);
-                    String data = rs.getString(3);
+                    String nome = rs.getString(3);
+                    String data = rs.getString(4);
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate dataNascimento = LocalDate.parse(data, formato);
-                    String email = rs.getString(4);
+                    String email = rs.getString(2);
                     String senha = rs.getString(5);
                     int tipo = rs.getInt(6);
                     Enum tipoUser = TipoUsuario.COMUN;
@@ -117,7 +117,7 @@ public class PessoaDAO implements DAO {
         if (obj instanceof Pessoa) {
             try {
                 Pessoa p = (Pessoa) obj;
-                String sql = "UPDATE usuario SET nome = ?, dataNascimento = ?, email = ?, senha = ?, tipoUsuario = ? WHERE cpf = ?";
+                String sql = "UPDATE usuários SET nome = ?, dataNascimento = ?, email = ?, senha = ?, tipoUsuario = ? WHERE cpf = ?";
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
                 pstmt.setString(1, p.getNome());
                 pstmt.setString(2, p.getDataNascimentoString());
@@ -140,7 +140,7 @@ public class PessoaDAO implements DAO {
         if (obj instanceof String) {
             try {
                 String cpf = (String) obj;
-                String sql = "DELETE FROM usuario WHERE cpf = '" + cpf + "'";
+                String sql = "DELETE FROM usuários WHERE cpf = '" + cpf + "'";
                 Statement stmt = conexao.createStatement();
                 int nreg = stmt.executeUpdate(sql);
                 if (nreg > 0) {

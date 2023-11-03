@@ -25,17 +25,17 @@ public enum TipoProduto {
     public static TipoProduto fromInt(int valor) {
         switch (valor) {
             case 0:
-                return BENS_DE_CONSUMO;
+                return TipoProduto.BENS_DE_CONSUMO;
             case 1:
-                return SERVIÇOS;
+                return TipoProduto.SERVIÇOS;
             case 2:
-                return BENS_DE_USO_COMUM;
+                return TipoProduto.BENS_DE_USO_COMUM;
             case 3:
-                return BENS_DE_EMERGÊNCIA;
+                return TipoProduto.BENS_DE_EMERGÊNCIA;
             case 4:
-                return BENS_DURÁVEIS;
+                return TipoProduto.BENS_DURÁVEIS;
             case 5:
-                return PRODUTOS_ESPECIAIS;
+                return TipoProduto.PRODUTOS_ESPECIAIS;
             default:
                 throw new IllegalArgumentException("Valor inválido: " + valor);
         }
