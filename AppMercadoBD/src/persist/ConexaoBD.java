@@ -3,7 +3,7 @@
 import java.sql.*; // para manipulação do JDBC
 /**
  *
- * @author mk
+ * @author andre; arthur
  */
 public class ConexaoBD {
     

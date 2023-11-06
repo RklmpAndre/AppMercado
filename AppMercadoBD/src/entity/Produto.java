@@ -6,7 +6,7 @@ import util.TipoProduto;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public class Produto {
     

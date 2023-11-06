@@ -20,7 +20,6 @@ public class Carrinho {
     private LocalDate data_criacao;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private StatusCarrinho status;
-     
    
     public Carrinho() {
 

@@ -8,7 +8,7 @@ import persist.PessoaDAO;
 
 /**
  *
- * @author 08050431
+ * @author andre; arthur
  */
 public class TelaLogin extends javax.swing.JFrame {
 

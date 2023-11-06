@@ -13,7 +13,7 @@ import util.UnidadeFederacao;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public class TelaLoja extends javax.swing.JFrame {
 
@@ -27,6 +27,15 @@ public class TelaLoja extends javax.swing.JFrame {
      * Creates new form TelaPrincipal
      */
     public TelaLoja() {
+        adicionaRadioButton();
+        
+        enderecoCheckBox();
+
+        preencherComboBoxEstado();
+        preencherComboBoxProdutos();
+
+        configurarTabela();
+        atualizarTabelaCarrinho();
         initComponents();
     }
 
@@ -38,7 +47,9 @@ public class TelaLoja extends javax.swing.JFrame {
         initComponents();
 
         prdao = ProdutoDAO.getInstance();
-
+        
+        adicionaRadioButton();
+        
         enderecoCheckBox();
 
         preencherComboBoxEstado();
@@ -57,6 +68,7 @@ public class TelaLoja extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        formaPagamentoGroup = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         menusPainel = new javax.swing.JPanel();
@@ -85,12 +97,12 @@ public class TelaLoja extends javax.swing.JFrame {
         nomeTextField = new javax.swing.JFormattedTextField();
         dataEntregaTextField = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
-        entregaPainel1 = new javax.swing.JPanel();
+        finalizacaoPainel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         comprarBtn = new javax.swing.JToggleButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        pixRadioButton = new javax.swing.JRadioButton();
+        creditoRadioButton = new javax.swing.JRadioButton();
+        debitoRadioButton = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -280,57 +292,57 @@ public class TelaLoja extends javax.swing.JFrame {
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        entregaPainel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        entregaPainel1.setPreferredSize(new java.awt.Dimension(1007, 86));
+        finalizacaoPainel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        finalizacaoPainel.setPreferredSize(new java.awt.Dimension(1007, 86));
 
         jLabel2.setText("Formas de Pagamento");
 
         comprarBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         comprarBtn.setText("Finalizar Compra");
 
-        jRadioButton3.setText("Pix");
+        pixRadioButton.setText("Pix");
 
-        jRadioButton2.setText("Crédito");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        creditoRadioButton.setText("Crédito");
+        creditoRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                creditoRadioButtonActionPerformed(evt);
             }
         });
 
-        jRadioButton1.setText("Débito");
+        debitoRadioButton.setText("Débito");
 
-        javax.swing.GroupLayout entregaPainel1Layout = new javax.swing.GroupLayout(entregaPainel1);
-        entregaPainel1.setLayout(entregaPainel1Layout);
-        entregaPainel1Layout.setHorizontalGroup(
-            entregaPainel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(entregaPainel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout finalizacaoPainelLayout = new javax.swing.GroupLayout(finalizacaoPainel);
+        finalizacaoPainel.setLayout(finalizacaoPainelLayout);
+        finalizacaoPainelLayout.setHorizontalGroup(
+            finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(finalizacaoPainelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(entregaPainel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addGroup(entregaPainel1Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                    .addGroup(finalizacaoPainelLayout.createSequentialGroup()
+                        .addComponent(debitoRadioButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)
+                        .addComponent(creditoRadioButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton3)
+                        .addComponent(pixRadioButton)
                         .addGap(54, 54, 54)
                         .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        entregaPainel1Layout.setVerticalGroup(
-            entregaPainel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(entregaPainel1Layout.createSequentialGroup()
+        finalizacaoPainelLayout.setVerticalGroup(
+            finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(finalizacaoPainelLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addComponent(jLabel2)
-                .addGroup(entregaPainel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(entregaPainel1Layout.createSequentialGroup()
+                .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(finalizacaoPainelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton1))
+                        .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pixRadioButton)
+                            .addComponent(creditoRadioButton)
+                            .addComponent(debitoRadioButton))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, entregaPainel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, finalizacaoPainelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))))
@@ -381,7 +393,7 @@ public class TelaLoja extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(entregaPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
-                            .addComponent(entregaPainel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE))
+                            .addComponent(finalizacaoPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(menusPainel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -389,7 +401,6 @@ public class TelaLoja extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -408,7 +419,7 @@ public class TelaLoja extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(entregaPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(entregaPainel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(finalizacaoPainel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -420,12 +431,13 @@ public class TelaLoja extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nomeTextFieldActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void creditoRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creditoRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_creditoRadioButtonActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        this.dispose();
+        new TelaLogin().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void dataEntregaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataEntregaTextFieldActionPerformed
@@ -496,21 +508,21 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JLabel cidadeLabel;
     private javax.swing.JFormattedTextField cidadeTextField;
     private javax.swing.JToggleButton comprarBtn;
+    private javax.swing.JRadioButton creditoRadioButton;
     private javax.swing.JFormattedTextField dataEntregaTextField;
+    private javax.swing.JRadioButton debitoRadioButton;
     private javax.swing.JCheckBox entregaCheckBox;
     private javax.swing.JPanel entregaPainel;
-    private javax.swing.JPanel entregaPainel1;
     private javax.swing.JComboBox<String> estadoComboBox;
     private javax.swing.JLabel estadoLabel;
+    private javax.swing.JPanel finalizacaoPainel;
+    private javax.swing.ButtonGroup formaPagamentoGroup;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton limparBtn;
@@ -521,6 +533,7 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField numeroTextField;
     private javax.swing.JLabel paisLabel;
     private javax.swing.JFormattedTextField paisTextField;
+    private javax.swing.JRadioButton pixRadioButton;
     private javax.swing.JLabel produtoLabel;
     private javax.swing.JComboBox<String> produtosComboBox;
     private javax.swing.JLabel quantidadeLabel;
@@ -642,5 +655,11 @@ public class TelaLoja extends javax.swing.JFrame {
             };
             tableModel.addRow(rowData);
         }
+    }
+    
+    private void adicionaRadioButton(){
+        formaPagamentoGroup.add(debitoRadioButton);
+        formaPagamentoGroup.add(creditoRadioButton);
+        formaPagamentoGroup.add(pixRadioButton);
     }
 }

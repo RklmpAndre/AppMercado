@@ -16,13 +16,11 @@ public class ItemCarrinho {
         setCarrinhoID(carrinhoID);
         setProdutoID(produtoID);
     }
+    
     public ItemCarrinho(int carrinhoID, int produtoID, int quantidade) {
-        setCarrinhoID(carrinhoID);
-        setProdutoID(produtoID);
+        this(carrinhoID, produtoID);
         setQuantidade(quantidade);
     }
-   
-    
 
     public int getCarrinhoID() {
         return carrinhoID;
@@ -78,11 +76,8 @@ public class ItemCarrinho {
         return this.produtoID == other.produtoID;
     }
     
-    
     @Override
     public String toString() {
         return "ItemCarrinho{" + "carrinhoID=" + carrinhoID + ", produtoID=" + produtoID + ", quantidade=" + quantidade + '}';
     }
-
-    
 }

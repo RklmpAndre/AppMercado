@@ -2,7 +2,7 @@ package util;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public enum StatusCarrinho {
     FINALIZADO,

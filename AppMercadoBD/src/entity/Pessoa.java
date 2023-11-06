@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public class Pessoa {
 

@@ -2,7 +2,7 @@ package persist;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public interface DAO {
     

@@ -5,7 +5,7 @@ import util.TipoUsuario;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public class Usuario {
     

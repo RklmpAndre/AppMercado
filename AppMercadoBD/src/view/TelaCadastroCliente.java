@@ -14,7 +14,7 @@ import util.ValidaCPF;
 
 /**
  *
- * @author 08050431
+ * @author andre; arthur
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
     

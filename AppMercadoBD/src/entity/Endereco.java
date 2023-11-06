@@ -5,7 +5,7 @@ import util.UnidadeFederacao;
 
 /**
  *
- * @author andre
+ * @author andre; arthur
  */
 public class Endereco {
     private String complemento, pais,cidade, bairro, rua;
@@ -118,7 +118,7 @@ public class Endereco {
 
     @Override
     public String toString() {
-        return "\nPais: " + getPais() + "\nEstado: " + getEstado() +
+        return "\nPais: " + getPais() + "\nEstado: " + getEstado().getNome() +
                 "\nCidade: " + getCidade() + "\nBairro: " + getBairro() +
                 "\nRua: " + getRua() + "\nNúmero: " + getNumero() + "\nComplemento: " + getComplemento();
     }
