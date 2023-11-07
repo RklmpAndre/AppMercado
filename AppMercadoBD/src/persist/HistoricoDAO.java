@@ -1,12 +1,16 @@
 package persist;
 
+import entity.Carrinho;
 import entity.Historico;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import util.StatusCarrinho;
 
 /**
  *
@@ -124,5 +128,28 @@ public class HistoricoDAO implements DAO {
         }
         return false;
     }
+    
+    public Historico readUser(Object obj) {
+        Objects.requireNonNull(obj);
+        if (obj instanceof String) {
+            String userID = (String) obj;
+            try {
+                String sql = "SELECT * FROM historicos WHERE userID = '" + userID + "'";
+                Statement stmt = conexao.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                if (rs.isBeforeFirst()) {
+                    rs.next();
+                    int id = rs.getInt(1);
+                    String user_id = rs.getString(2);
+                    Historico h = new Historico(userID);
+                    h.setId(id);
 
+                    return h;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return null; // Retorna null se nenhum carrinho for encontrado para o usuário com o CPF especificado
+    }
 }

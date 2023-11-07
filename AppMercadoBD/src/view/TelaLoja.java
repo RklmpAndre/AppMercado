@@ -2,13 +2,21 @@ package view;
 
 import Controller.CarrinhoController;
 import entity.Carrinho;
+import entity.Compra;
+import entity.Historico;
 import entity.ItemCarrinho;
+import entity.ItemComprado;
 import entity.Produto;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import persist.ComprasDAO;
+import persist.HistoricoDAO;
 import persist.ItemCarrinhoDAO;
 import persist.ProdutoDAO;
+import util.TipoPagamento;
 import util.UnidadeFederacao;
 
 /**
@@ -22,13 +30,16 @@ public class TelaLoja extends javax.swing.JFrame {
     private ProdutoDAO prdao;
     private Carrinho carrinho;
     private CarrinhoController cntrl;
+    private ComprasDAO cdao;
+    private HistoricoDAO hdao;
+    private Historico historico;
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaLoja() {
         adicionaRadioButton();
-        
+
         enderecoCheckBox();
 
         preencherComboBoxEstado();
@@ -39,17 +50,20 @@ public class TelaLoja extends javax.swing.JFrame {
         initComponents();
     }
 
-    public TelaLoja(String usuario_id, Carrinho carrinho) {
+    public TelaLoja(String usuario_id, Carrinho carrinho, Historico historico) {
 
         this.usuario_id = usuario_id;
         this.carrinho = carrinho;
+        this.historico = historico;
         cntrl = new CarrinhoController();
         initComponents();
 
         prdao = ProdutoDAO.getInstance();
-        
+        cdao = ComprasDAO.getInstance();
+        hdao = HistoricoDAO.getInstance();
+
         adicionaRadioButton();
-        
+
         enderecoCheckBox();
 
         preencherComboBoxEstado();
@@ -299,6 +313,11 @@ public class TelaLoja extends javax.swing.JFrame {
 
         comprarBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         comprarBtn.setText("Finalizar Compra");
+        comprarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comprarBtnActionPerformed(evt);
+            }
+        });
 
         pixRadioButton.setText("Pix");
 
@@ -462,6 +481,24 @@ public class TelaLoja extends javax.swing.JFrame {
     private void limparBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparBtnActionPerformed
         limparCarrinho();
     }//GEN-LAST:event_limparBtnActionPerformed
+
+    private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
+        List<ItemComprado> itensComprados = new ArrayList<>();
+        
+        if (cntrl.listarProdutosCarrinho(carrinho.getId()).isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
+        } else if (formaPagamentoGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
+        } else if (entregaCheckBox.isSelected()) {
+
+            for (ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())) {
+                Produto p = (Produto) prdao.read(ic.getProdutoID());
+                ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
+                itensComprados.add(item);
+            }
+            Compra c = new Compra(historico, itensComprados, cntrl.calculoTotal(carrinho.getId()), LocalDate.now(), true, TipoPagamento., endrecoEntrega);
+        }
+    }//GEN-LAST:event_comprarBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -656,8 +693,8 @@ public class TelaLoja extends javax.swing.JFrame {
             tableModel.addRow(rowData);
         }
     }
-    
-    private void adicionaRadioButton(){
+
+    private void adicionaRadioButton() {
         formaPagamentoGroup.add(debitoRadioButton);
         formaPagamentoGroup.add(creditoRadioButton);
         formaPagamentoGroup.add(pixRadioButton);

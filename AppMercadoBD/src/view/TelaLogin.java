@@ -1,9 +1,11 @@
 package view;
 
 import entity.Carrinho;
+import entity.Historico;
 import entity.Pessoa;
 import javax.swing.JOptionPane;
 import persist.CarrinhoDAO;
+import persist.HistoricoDAO;
 import persist.PessoaDAO;
 
 /**
@@ -155,7 +157,8 @@ public class TelaLogin extends javax.swing.JFrame {
             Pessoa p = (Pessoa) pdao.read(login);
             if (senha.equals(p.getUser().getSenha())) {
                 Carrinho c = cdao.readUser(p.getCpf());
-                new TelaLoja(p.getCpf(), c).setVisible(true);
+                Historico h = HistoricoDAO.getInstance().readUser(p.getUser().getLogin());
+                new TelaLoja(p.getCpf(), c, h).setVisible(true);
                 this.setVisible(false);
             }
         } else {

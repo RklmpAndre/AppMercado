@@ -1,8 +1,11 @@
 package Controller;
 
+import entity.Historico;
 import entity.ItemCarrinho;
+import entity.ItemComprado;
 import entity.Produto;
 import java.util.List;
+import persist.HistoricoDAO;
 import persist.ItemCarrinhoDAO;
 import persist.ProdutoDAO;
 
@@ -101,5 +104,9 @@ public class CarrinhoController {
 
         return ItemCarrinhoDAO.getInstance().listarItensCarrinho(carrinho_id);
 
+    }
+    
+    public List<ItemComprado> itensComprado(){
+        HistoricoDAO.getInstance().read('')
     }
 }
