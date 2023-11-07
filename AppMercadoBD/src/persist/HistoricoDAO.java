@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 
 /**
@@ -65,22 +66,63 @@ public class HistoricoDAO implements DAO {
     @Override
     public Object read(Object obj) {
         Objects.requireNonNull(obj);
-        if(obj instanceof Integer || obj instanceof String){
+        if (obj instanceof Integer) {
             try {
-                var pesquisa = 
-            } catch (Exception e) {
+                Integer id = (Integer) obj;
+                String sql = "SELECT * FROM historicos WHERE id = '" + id + "'";
+                Statement stmt = conexao.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                if (rs.isBeforeFirst()) {
+                    rs.next();
+                    String user_id = rs.getString(2);
+                    id = rs.getInt(1);
+                    Historico h = new Historico(user_id);
+                    h.setId(id);
+                    return h;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
             }
         }
+        return null;
     }
 
     @Override
     public boolean update(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Objects.requireNonNull(obj);
+        if (obj instanceof Historico) {
+            Historico h = (Historico) obj;
+            try {
+                String sql = "UPDATE historicos SET user_id = ? WHERE id = ?";
+                PreparedStatement pstmt = conexao.prepareStatement(sql);
+                pstmt.setString(1, h.getUserId());
+                pstmt.setInt(2, h.getId());
+                pstmt.executeUpdate();
+                return true;
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean delete(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Objects.requireNonNull(obj);
+        if (obj instanceof Integer) {
+            Integer id = (Integer) obj;
+            try {
+                String sql = "DELETE FROM historicos WHERE id = '" + id + "'";
+                Statement stmt = conexao.createStatement();
+                int nreg = stmt.executeUpdate(sql);
+                if (nreg > 0) {
+                    return true;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return false;
     }
 
 }

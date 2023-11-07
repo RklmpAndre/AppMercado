@@ -12,6 +12,7 @@ import util.TipoPagamento;
  */
 public class Compra {
     private List<ItemComprado> itemComprado;//
+    private int id, historico_id;
     private double precoTotal;
     private LocalDate dataCompra;//
     private boolean pedidoEntrega;//
@@ -19,19 +20,39 @@ public class Compra {
     private Endereco enderecoEntrega;//
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Compra(List<ItemComprado> itemComprado, double precoTotal, LocalDate dataCompra, boolean pedidoEntrega, TipoPagamento tipoPagamento) {
+    public Compra() {
+    }
+    
+    public Compra(int historico_id, List<ItemComprado> itemComprado, double precoTotal, LocalDate dataCompra, boolean pedidoEntrega, TipoPagamento tipoPagamento) {
         setItemComprado(itemComprado);
         setPrecoTotal(precoTotal);
         setDataCompra(dataCompra);
         setPedidoEntrega(pedidoEntrega);
         setTipoPagamento(tipoPagamento);
+        setHistorico_id(historico_id);
     }
 
-    public Compra(List<ItemComprado> itemComprado, double precoTotal, LocalDate dataCompra, boolean pedidoEntrega, TipoPagamento tipoPagamento, Endereco endrecoEntrega) {
-        this(itemComprado, precoTotal, dataCompra, pedidoEntrega, tipoPagamento);
+    public Compra(int historico_id, List<ItemComprado> itemComprado, double precoTotal, LocalDate dataCompra, boolean pedidoEntrega, TipoPagamento tipoPagamento, Endereco endrecoEntrega) {
+        this(historico_id,itemComprado, precoTotal, dataCompra, pedidoEntrega, tipoPagamento);
         setEnderecoEntrega(enderecoEntrega);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getHistorico_id() {
+        return historico_id;
+    }
+
+    public void setHistorico_id(int historico_id) {
+        this.historico_id = historico_id;
+    }
+    
     public List<ItemComprado> getItemComprado() {
         return itemComprado;
     }

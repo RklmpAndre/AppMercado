@@ -60,7 +60,7 @@ CREATE TABLE `compras` (
   `produtos` text NOT NULL,
   `endereco_entrega` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +69,7 @@ CREATE TABLE `compras` (
 
 LOCK TABLES `compras` WRITE;
 /*!40000 ALTER TABLE `compras` DISABLE KEYS */;
+INSERT INTO `compras` VALUES (1,1,'07/11/2023',0,0,10.1,'[Produto: Nove54 Sifão 10un R$20.2\n, Produto: Castela Brasil Bicicleta De Equilíbrio Infantil Sem Pedal KBK-068 10un R$20.2\n, Produto: SunSun Termomêtro 10un R$20.2\n, Produto: Grenal Corte de cabelo 10un R$20.2\n]',' ');
 /*!40000 ALTER TABLE `compras` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,4 +194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-06  7:32:13
+-- Dump completed on 2023-11-07 11:28:15

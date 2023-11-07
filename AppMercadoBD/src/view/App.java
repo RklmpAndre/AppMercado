@@ -8,6 +8,7 @@ import entity.Produto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import persist.ComprasDAO;
 import persist.HistoricoDAO;
 import persist.ProdutoDAO;
 import util.TipoPagamento;
@@ -37,12 +38,13 @@ public class App {
         itens.add(itemComprado2);
         itens.add(itemComprado3);
         
-        Compra dados = new Compra(itens, 10.22, LocalDate.now(), false, TipoPagamento.DEBITO);
-        Historico h = new Historico("040.217.400-31");
+        
+        Compra c = new Compra(1, itens, 10.10, LocalDate.now(), false, TipoPagamento.DEBITO);
+        
+        ComprasDAO cdao = ComprasDAO.getInstance();
+        
+        cdao.create(c);
         
         
-        hdao.create(h);
-        
-        System.out.println(dados.toString());
     }
 }
