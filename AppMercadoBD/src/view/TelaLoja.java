@@ -3,6 +3,7 @@ package view;
 import Controller.CarrinhoController;
 import entity.Carrinho;
 import entity.Compra;
+import entity.Endereco;
 import entity.Historico;
 import entity.ItemCarrinho;
 import entity.ItemComprado;
@@ -13,7 +14,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import persist.ComprasDAO;
-import persist.HistoricoDAO;
 import persist.ItemCarrinhoDAO;
 import persist.ProdutoDAO;
 import util.TipoPagamento;
@@ -31,7 +31,6 @@ public class TelaLoja extends javax.swing.JFrame {
     private Carrinho carrinho;
     private CarrinhoController cntrl;
     private ComprasDAO cdao;
-    private HistoricoDAO hdao;
     private Historico historico;
 
     /**
@@ -60,7 +59,6 @@ public class TelaLoja extends javax.swing.JFrame {
 
         prdao = ProdutoDAO.getInstance();
         cdao = ComprasDAO.getInstance();
-        hdao = HistoricoDAO.getInstance();
 
         adicionaRadioButton();
 
@@ -484,20 +482,24 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
         List<ItemComprado> itensComprados = new ArrayList<>();
-        
+        Compra compra;
         if (cntrl.listarProdutosCarrinho(carrinho.getId()).isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
         } else if (formaPagamentoGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
-        } else if (entregaCheckBox.isSelected()) {
-
-            for (ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())) {
+        } else if (entregaCheckBox.isSelected() == false) {
+            for(ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())){
                 Produto p = (Produto) prdao.read(ic.getProdutoID());
-                ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
+                ItemComprado item  = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
                 itensComprados.add(item);
             }
-            Compra c = new Compra(historico, itensComprados, cntrl.calculoTotal(carrinho.getId()), LocalDate.now(), true, TipoPagamento., endrecoEntrega);
+            int forma_pagamentoInt = (int) formaPagamentoGroup.getSelection()
+            compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), false, TipoPagamento.fromInt(formaPagamentoGroup.getButtonCount()-1));
+            cdao.create(compra);
+            limparCarrinho();
+            JOptionPane.showMessageDialog(this, compra.toString());
         }
+
     }//GEN-LAST:event_comprarBtnActionPerformed
 
     /**
@@ -580,13 +582,16 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField ruaTextField;
     // End of variables declaration//GEN-END:variables
 
-    private void limparCarrinho() {
-        int resposta = JOptionPane.showConfirmDialog(this, "Tem certeza de que deseja limpar o carrinho?", "Confirmação", JOptionPane.YES_NO_OPTION);
+    private Endereco getEndereco() {
+        int numero = Integer.parseInt(numeroTextField.getText());
+        UnidadeFederacao uf = UnidadeFederacao.fromSigla((String) estadoComboBox.getSelectedItem());
+        Endereco endereco = new Endereco(usuario_id, paisTextField.getText(), cidadeTextField.getText(), bairroTextField.getText(), ruaTextField.getText(), numero, uf);
+        return endereco;
+    }
 
-        if (resposta == JOptionPane.YES_OPTION) {
-            cntrl.limparCarrinho(carrinho.getId());
-            atualizarTabelaCarrinho();
-        }
+    private void limparCarrinho() {
+        cntrl.limparCarrinho(carrinho.getId());
+        atualizarTabelaCarrinho();
     }
 
     private void adicionarProduto() {
@@ -693,6 +698,7 @@ public class TelaLoja extends javax.swing.JFrame {
             tableModel.addRow(rowData);
         }
     }
+
 
     private void adicionaRadioButton() {
         formaPagamentoGroup.add(debitoRadioButton);

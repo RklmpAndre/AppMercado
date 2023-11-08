@@ -16,12 +16,14 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private PessoaDAO pdao;
     private CarrinhoDAO cdao;
+    private HistoricoDAO hdao;
 
     /**
      * Creates new form TelaLogin
      */
     public TelaLogin() {
-
+        
+        hdao = HistoricoDAO.getInstance();
         cdao = CarrinhoDAO.getInstance();
         pdao = PessoaDAO.getInstance();
         initComponents();
@@ -157,7 +159,7 @@ public class TelaLogin extends javax.swing.JFrame {
             Pessoa p = (Pessoa) pdao.read(login);
             if (senha.equals(p.getUser().getSenha())) {
                 Carrinho c = cdao.readUser(p.getCpf());
-                Historico h = HistoricoDAO.getInstance().readUser(p.getUser().getLogin());
+                Historico h = hdao.readUser(p.getCpf());
                 new TelaLoja(p.getCpf(), c, h).setVisible(true);
                 this.setVisible(false);
             }

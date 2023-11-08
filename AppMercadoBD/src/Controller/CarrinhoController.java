@@ -105,8 +105,4 @@ public class CarrinhoController {
         return ItemCarrinhoDAO.getInstance().listarItensCarrinho(carrinho_id);
 
     }
-    
-    public List<ItemComprado> itensComprado(){
-        HistoricoDAO.getInstance().read('')
-    }
 }
