@@ -1,23 +1,14 @@
 package view;
 
 import Controller.CarrinhoController;
-import entity.Carrinho;
-import entity.Compra;
-import entity.Endereco;
-import entity.Historico;
-import entity.ItemCarrinho;
-import entity.ItemComprado;
-import entity.Produto;
+import entity.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import persist.ComprasDAO;
-import persist.ItemCarrinhoDAO;
-import persist.ProdutoDAO;
-import util.TipoPagamento;
-import util.UnidadeFederacao;
+import persist.*;
+import util.*;
 
 /**
  *
@@ -488,13 +479,23 @@ public class TelaLoja extends javax.swing.JFrame {
         } else if (formaPagamentoGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
         } else if (entregaCheckBox.isSelected() == false) {
-            for(ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())){
+            for (ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())) {
                 Produto p = (Produto) prdao.read(ic.getProdutoID());
-                ItemComprado item  = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
+                ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
                 itensComprados.add(item);
             }
-            int forma_pagamentoInt = (int) formaPagamentoGroup.getSelection()
-            compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), false, TipoPagamento.fromInt(formaPagamentoGroup.getButtonCount()-1));
+            compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), false, retornaTipoPagamento());
+            cdao.create(compra);
+            limparCarrinho();
+            JOptionPane.showMessageDialog(this, compra.toString());
+        } else {
+            for (ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())) {
+                Produto p = (Produto) prdao.read(ic.getProdutoID());
+                ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
+                itensComprados.add(item);
+            }
+            Endereco en = new Endereco(nomeTextField, paisTextField, cidadeTextField, bairroTextField, ruaTextField, numeroTextField, UnidadeFederacao.fromSigla(estadoComboBox.));
+            compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), true, retornaTipoPagamento(), endrecoEntrega);
             cdao.create(compra);
             limparCarrinho();
             JOptionPane.showMessageDialog(this, compra.toString());
@@ -699,10 +700,34 @@ public class TelaLoja extends javax.swing.JFrame {
         }
     }
 
-
+    private Endereco retornaEndereco(){
+        
+    }
+    
     private void adicionaRadioButton() {
         formaPagamentoGroup.add(debitoRadioButton);
         formaPagamentoGroup.add(creditoRadioButton);
         formaPagamentoGroup.add(pixRadioButton);
+    }
+
+    private TipoPagamento retornaTipoPagamento() {
+        TipoPagamento tp;
+        if (formaPagamentoGroup.getSelection() != null) {
+            if (debitoRadioButton.isSelected()) {
+                // O usuário selecionou Débito
+                tp = TipoPagamento.DEBITO;
+                return tp;
+                // Agora você pode usar o tipoPagamento como necessário
+            } else if (creditoRadioButton.isSelected()) {
+                // O usuário selecionou Crédito
+                return tp = TipoPagamento.CREDITO;
+                // Agora você pode usar o tipoPagamento como necessário
+            } else if (pixRadioButton.isSelected()) {
+                // O usuário selecionou Pix
+                return tp = TipoPagamento.PIX;
+                // Agora você pode usar o tipoPagamento como necessário
+            }
+        }
+        return null;
     }
 }

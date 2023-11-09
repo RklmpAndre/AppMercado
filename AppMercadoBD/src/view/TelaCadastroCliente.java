@@ -457,7 +457,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             if (pdao.create(p)) {
                 Carrinho c = new Carrinho(p.getCpf(), LocalDate.now());
                 JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso!");
-                new TelaLoja(p.getCpf(), c).setVisible(true);
                 this.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(null, "CPF já cadastrado");
