@@ -1,8 +1,8 @@
 package view;
 
-import entity.Historico;
-import persist.HistoricoDAO;
-
+import entity.*;
+import persist.*;
+import util.*;
 /**
  *
  * @author andre; arthur

@@ -494,11 +494,11 @@ public class TelaLoja extends javax.swing.JFrame {
                 ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
                 itensComprados.add(item);
             }
-            Endereco en = new Endereco(nomeTextField, paisTextField, cidadeTextField, bairroTextField, ruaTextField, numeroTextField, UnidadeFederacao.fromSigla(estadoComboBox.));
-            compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), true, retornaTipoPagamento(), endrecoEntrega);
-            cdao.create(compra);
+            //Endereco en = new Endereco(nomeTextField, paisTextField, cidadeTextField, bairroTextField, ruaTextField, numeroTextField, UnidadeFederacao.fromSigla(estadoComboBox.));
+            //compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), true, retornaTipoPagamento(), endrecoEntrega);
+            //cdao.create(compra);
             limparCarrinho();
-            JOptionPane.showMessageDialog(this, compra.toString());
+            //JOptionPane.showMessageDialog(this, compra.toString());
         }
 
     }//GEN-LAST:event_comprarBtnActionPerformed
@@ -698,10 +698,6 @@ public class TelaLoja extends javax.swing.JFrame {
             };
             tableModel.addRow(rowData);
         }
-    }
-
-    private Endereco retornaEndereco(){
-        
     }
     
     private void adicionaRadioButton() {
