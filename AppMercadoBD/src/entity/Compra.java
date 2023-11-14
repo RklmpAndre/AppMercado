@@ -11,10 +11,12 @@ import util.TipoPagamento;
  * @author andre; arthur
  */
 public class Compra {
+
     private List<ItemComprado> itemComprado;//
     private int id, historico_id;
     private double precoTotal;
-    private LocalDate dataCompra;//
+    private LocalDate dataEntrega;
+    private final LocalDate dataCompra = LocalDate.now();//
     private boolean pedidoEntrega;//
     private TipoPagamento tipoPagamento;
     private Endereco enderecoEntrega;//
@@ -22,51 +24,20 @@ public class Compra {
 
     public Compra() {
     }
-    
-    public Compra(int historico_id, List<ItemComprado> itemComprado, double precoTotal, LocalDate dataCompra, boolean pedidoEntrega, TipoPagamento tipoPagamento) {
+
+    public Compra(int historico_id, List<ItemComprado> itemComprado, double precoTotal, LocalDate dataEntrega, boolean pedidoEntrega, TipoPagamento tipoPagamento) {
         setItemComprado(itemComprado);
         setPrecoTotal(precoTotal);
-        setDataCompra(dataCompra);
+        setDataEntrega(dataEntrega);
         setPedidoEntrega(pedidoEntrega);
         setTipoPagamento(tipoPagamento);
         setHistorico_id(historico_id);
+
     }
 
-    public Compra(int historico_id, List<ItemComprado> itemComprado, double precoTotal, LocalDate dataCompra, boolean pedidoEntrega, TipoPagamento tipoPagamento, Endereco endrecoEntrega) {
-        this(historico_id,itemComprado, precoTotal, dataCompra, pedidoEntrega, tipoPagamento);
+    public Compra(int historico_id, List<ItemComprado> itemComprado, double precoTotal, LocalDate dataEntrega, boolean pedidoEntrega, TipoPagamento tipoPagamento, Endereco enderecoEntrega) {
+        this(historico_id, itemComprado, precoTotal, dataEntrega, pedidoEntrega, tipoPagamento);
         setEnderecoEntrega(enderecoEntrega);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    public int getHistorico_id() {
-        return historico_id;
-    }
-
-    public void setHistorico_id(int historico_id) {
-        this.historico_id = historico_id;
-    }
-    
-    public List<ItemComprado> getItemComprado() {
-        return itemComprado;
-    }
-
-    public void setItemComprado(List<ItemComprado> itemComprado) {
-        this.itemComprado = itemComprado;
-    }
-    
-    public double getPrecoTotal() {
-        return precoTotal;
-    }
-
-    public void setPrecoTotal(double precoTotal) {
-        this.precoTotal = precoTotal;
     }
 
     public LocalDate getDataCompra() {
@@ -76,10 +47,54 @@ public class Compra {
     public String getDataCompraString() {
         return dataCompra.format(formatter);
     }
+    
+    public boolean isPedidoEntrega() {
+        return pedidoEntrega;
+    }
+    
+    public int getId() {
+        return id;
+    }
 
-    public void setDataCompra(LocalDate dataCompra) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getHistorico_id() {
+        return historico_id;
+    }
+
+    public void setHistorico_id(int historico_id) {
+        this.historico_id = historico_id;
+    }
+
+    public List<ItemComprado> getItemComprado() {
+        return itemComprado;
+    }
+
+    public void setItemComprado(List<ItemComprado> itemComprado) {
+        this.itemComprado = itemComprado;
+    }
+
+    public double getPrecoTotal() {
+        return precoTotal;
+    }
+
+    public void setPrecoTotal(double precoTotal) {
+        this.precoTotal = precoTotal;
+    }
+
+    public LocalDate getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public String getDataEntregaString() {
+        return dataEntrega.format(formatter);
+    }
+
+    public void setDataEntrega(LocalDate dataCompra) {
         Objects.requireNonNull(dataCompra);
-        this.dataCompra = dataCompra;
+        this.dataEntrega = dataCompra;
     }
 
     public boolean getPedidoEntrega() {
@@ -103,7 +118,7 @@ public class Compra {
     }
 
     public void setEnderecoEntrega(Endereco enderecoEntrega) {
-        
+
         this.enderecoEntrega = enderecoEntrega;
     }
 
@@ -118,7 +133,7 @@ public class Compra {
     @Override
     public String toString() {
         if (getPedidoEntrega()) {
-            return "Compra do dia: " + getDataCompraString() + "\nPedido de Entrega: Sim" + "\nEndereço: " + getEnderecoEntrega() 
+            return "Compra do dia: " + getDataCompraString() + "\nPedido de Entrega: Sim" + "\nEndereço: " + getEnderecoEntrega()
                     + "\n" + itemComprado.toString() + "\nTotal: " + getPrecoTotal() + "\nForma de Pagamento: " + getTipoPagamento().getTipoProduto();
         }
         return "Compra do dia: " + getDataCompraString() + "\nPedido de Entrega: Não\n" + itemComprado.toString() + "Total: " + getPrecoTotal() + "\nForma de Pagamento: " + getTipoPagamento().getTipoProduto();

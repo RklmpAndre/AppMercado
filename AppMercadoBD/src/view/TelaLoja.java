@@ -3,6 +3,7 @@ package view;
 import Controller.CarrinhoController;
 import entity.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -28,20 +29,21 @@ public class TelaLoja extends javax.swing.JFrame {
      * Creates new form TelaPrincipal
      */
     public TelaLoja() {
+        
         adicionaRadioButton();
 
         enderecoCheckBox();
 
         preencherComboBoxEstado();
         preencherComboBoxProdutos();
-
+        adminArea();
         configurarTabela();
         atualizarTabelaCarrinho();
         initComponents();
     }
 
     public TelaLoja(String usuario_id, Carrinho carrinho, Historico historico) {
-
+        
         this.usuario_id = usuario_id;
         this.carrinho = carrinho;
         this.historico = historico;
@@ -57,7 +59,7 @@ public class TelaLoja extends javax.swing.JFrame {
 
         preencherComboBoxEstado();
         preencherComboBoxProdutos();
-
+        adminArea();
         configurarTabela();
         atualizarTabelaCarrinho();
     }
@@ -84,32 +86,35 @@ public class TelaLoja extends javax.swing.JFrame {
         limparBtn = new javax.swing.JButton();
         entregaPainel = new javax.swing.JPanel();
         entregaCheckBox = new javax.swing.JCheckBox();
-        paisLabel = new javax.swing.JLabel();
-        paisTextField = new javax.swing.JFormattedTextField();
         estadoComboBox = new javax.swing.JComboBox<>();
         estadoLabel = new javax.swing.JLabel();
-        cidadeTextField = new javax.swing.JFormattedTextField();
+        cepFormattedTextField = new javax.swing.JFormattedTextField();
+        cepLabel1 = new javax.swing.JLabel();
+        cidadeFormattedTextField = new javax.swing.JFormattedTextField();
         cidadeLabel = new javax.swing.JLabel();
-        bairroTextField = new javax.swing.JFormattedTextField();
+        bairroFormattedTextField = new javax.swing.JFormattedTextField();
         bairroLabel = new javax.swing.JLabel();
-        ruaTextField = new javax.swing.JFormattedTextField();
+        ruaFormattedTextField = new javax.swing.JFormattedTextField();
         ruaLabel = new javax.swing.JLabel();
-        numeroTextField = new javax.swing.JFormattedTextField();
+        numeroFormattedTextField = new javax.swing.JFormattedTextField();
         numeroLabel = new javax.swing.JLabel();
+        complementoFormattedTextField = new javax.swing.JFormattedTextField();
+        complementoLabel = new javax.swing.JLabel();
+        nomeFormattedTextField = new javax.swing.JFormattedTextField();
         nomeLabel = new javax.swing.JLabel();
-        nomeTextField = new javax.swing.JFormattedTextField();
-        dataEntregaTextField = new javax.swing.JFormattedTextField();
-        jLabel3 = new javax.swing.JLabel();
+        dataEntregaFormattedTextField = new javax.swing.JFormattedTextField();
+        dataEntregaLabel = new javax.swing.JLabel();
         finalizacaoPainel = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         comprarBtn = new javax.swing.JToggleButton();
         pixRadioButton = new javax.swing.JRadioButton();
         creditoRadioButton = new javax.swing.JRadioButton();
         debitoRadioButton = new javax.swing.JRadioButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menu = new javax.swing.JMenuBar();
+        perfilMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        admMenu = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -185,21 +190,21 @@ public class TelaLoja extends javax.swing.JFrame {
             }
         });
 
-        entregaPainel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        entregaPainel.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço"));
         entregaPainel.setPreferredSize(new java.awt.Dimension(1007, 86));
 
-        entregaCheckBox.setText("Entrega");
+        entregaCheckBox.setText("Quero Entrega");
         entregaCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 entregaCheckBoxActionPerformed(evt);
             }
         });
 
-        paisLabel.setText("País");
-
         estadoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         estadoLabel.setText("Estado");
+
+        cepLabel1.setText("CEP");
 
         cidadeLabel.setText("Cidade");
 
@@ -209,21 +214,11 @@ public class TelaLoja extends javax.swing.JFrame {
 
         numeroLabel.setText("Número");
 
-        nomeLabel.setText("Nome do Endereço");
+        complementoLabel.setText("Complemento");
 
-        nomeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomeTextFieldActionPerformed(evt);
-            }
-        });
+        nomeLabel.setText("Nome");
 
-        dataEntregaTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dataEntregaTextFieldActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Dia de Entrega");
+        dataEntregaLabel.setText("Data de Entrega");
 
         javax.swing.GroupLayout entregaPainelLayout = new javax.swing.GroupLayout(entregaPainel);
         entregaPainel.setLayout(entregaPainelLayout);
@@ -231,74 +226,81 @@ public class TelaLoja extends javax.swing.JFrame {
             entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(entregaPainelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(entregaCheckBox)
-                .addGap(18, 18, 18)
                 .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dataEntregaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomeLabel)
-                    .addComponent(nomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(paisTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paisLabel))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(estadoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(estadoLabel))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cidadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cidadeLabel))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bairroTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bairroLabel))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ruaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ruaLabel))
-                .addGap(18, 18, 18)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(numeroLabel)
-                    .addComponent(numeroTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(entregaCheckBox)
+                    .addGroup(entregaPainelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cepLabel1)
+                            .addComponent(cepFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cidadeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cidadeLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(estadoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(estadoLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bairroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bairroLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ruaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ruaLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(entregaPainelLayout.createSequentialGroup()
+                                .addComponent(numeroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(complementoFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(entregaPainelLayout.createSequentialGroup()
+                                .addComponent(numeroLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(complementoLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nomeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nomeLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dataEntregaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dataEntregaFormattedTextField))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         entregaPainelLayout.setVerticalGroup(
             entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(entregaPainelLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, entregaPainelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(entregaCheckBox)
+                .addGap(9, 9, 9)
                 .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(paisLabel)
-                    .addComponent(estadoLabel)
                     .addComponent(cidadeLabel)
+                    .addComponent(cepLabel1)
+                    .addComponent(estadoLabel)
                     .addComponent(bairroLabel)
                     .addComponent(ruaLabel)
                     .addComponent(numeroLabel)
+                    .addComponent(complementoLabel)
                     .addComponent(nomeLabel)
-                    .addComponent(jLabel3))
+                    .addComponent(dataEntregaLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(paisTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(estadoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cidadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bairroTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ruaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(numeroTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(entregaCheckBox)
-                        .addComponent(nomeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(dataEntregaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cepFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cidadeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(estadoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bairroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ruaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numeroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(complementoFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataEntregaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        finalizacaoPainel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        finalizacaoPainel.setBorder(javax.swing.BorderFactory.createTitledBorder("Pagamento"));
         finalizacaoPainel.setPreferredSize(new java.awt.Dimension(1007, 86));
-
-        jLabel2.setText("Formas de Pagamento");
 
         comprarBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         comprarBtn.setText("Finalizar Compra");
@@ -324,42 +326,32 @@ public class TelaLoja extends javax.swing.JFrame {
         finalizacaoPainelLayout.setHorizontalGroup(
             finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(finalizacaoPainelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(debitoRadioButton)
                 .addGap(18, 18, 18)
-                .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(finalizacaoPainelLayout.createSequentialGroup()
-                        .addComponent(debitoRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(creditoRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(pixRadioButton)
-                        .addGap(54, 54, 54)
-                        .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(creditoRadioButton)
+                .addGap(18, 18, 18)
+                .addComponent(pixRadioButton)
+                .addGap(18, 18, 18)
+                .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         finalizacaoPainelLayout.setVerticalGroup(
             finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(finalizacaoPainelLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jLabel2)
-                .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(finalizacaoPainelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pixRadioButton)
-                            .addComponent(creditoRadioButton)
-                            .addComponent(debitoRadioButton))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, finalizacaoPainelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))))
+                .addGap(1, 1, 1)
+                .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(debitoRadioButton)
+                    .addComponent(creditoRadioButton)
+                    .addComponent(pixRadioButton)
+                    .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Perfil");
+        perfilMenu.setText("Perfil");
 
         jMenuItem1.setText("Histórico de Compras");
-        jMenu1.add(jMenuItem1);
+        perfilMenu.add(jMenuItem1);
 
         jMenuItem2.setText("Sair");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -367,11 +359,18 @@ public class TelaLoja extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        perfilMenu.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu1);
+        menu.add(perfilMenu);
 
-        setJMenuBar(jMenuBar1);
+        admMenu.setText("Administrador Área");
+
+        jMenuItem3.setText("Produtos");
+        admMenu.add(jMenuItem3);
+
+        menu.add(admMenu);
+
+        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -396,12 +395,12 @@ public class TelaLoja extends javax.swing.JFrame {
                         .addComponent(removerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(limparBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 196, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(entregaPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
-                            .addComponent(finalizacaoPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE))
+                            .addComponent(entregaPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
+                            .addComponent(finalizacaoPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(menusPainel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -422,22 +421,18 @@ public class TelaLoja extends javax.swing.JFrame {
                         .addComponent(produtoLabel)
                         .addComponent(quantidadeLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(menusPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(entregaPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(entregaPainel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(finalizacaoPainel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(finalizacaoPainel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void nomeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeTextFieldActionPerformed
 
     private void creditoRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creditoRadioButtonActionPerformed
         // TODO add your handling code here:
@@ -447,14 +442,6 @@ public class TelaLoja extends javax.swing.JFrame {
         new TelaLogin().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void dataEntregaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataEntregaTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dataEntregaTextFieldActionPerformed
-
-    private void entregaCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entregaCheckBoxActionPerformed
-        enderecoCheckBox();
-    }//GEN-LAST:event_entregaCheckBoxActionPerformed
 
     private void quantidadeSpnVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_quantidadeSpnVetoableChange
     }//GEN-LAST:event_quantidadeSpnVetoableChange
@@ -494,14 +481,20 @@ public class TelaLoja extends javax.swing.JFrame {
                 ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
                 itensComprados.add(item);
             }
-            //Endereco en = new Endereco(nomeTextField, paisTextField, cidadeTextField, bairroTextField, ruaTextField, numeroTextField, UnidadeFederacao.fromSigla(estadoComboBox.));
-            //compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), true, retornaTipoPagamento(), endrecoEntrega);
-            //cdao.create(compra);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate data_entrega = LocalDate.parse(dataEntregaFormattedTextField.getText(), formatter);
+            compra = new Compra(historico.getId(), itensComprados, cntrl.calculoTotal(carrinho.getId()), data_entrega, true, retornaTipoPagamento(), getEndereco());
+            cdao.create(compra);
+            JOptionPane.showMessageDialog(this, compra.toString());
             limparCarrinho();
-            //JOptionPane.showMessageDialog(this, compra.toString());
         }
 
+
     }//GEN-LAST:event_comprarBtnActionPerformed
+
+    private void entregaCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entregaCheckBoxActionPerformed
+        enderecoCheckBox();
+    }//GEN-LAST:event_entregaCheckBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -532,6 +525,18 @@ public class TelaLoja extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -543,13 +548,19 @@ public class TelaLoja extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarBtn;
+    private javax.swing.JMenu admMenu;
+    private javax.swing.JFormattedTextField bairroFormattedTextField;
     private javax.swing.JLabel bairroLabel;
-    private javax.swing.JFormattedTextField bairroTextField;
+    private javax.swing.JFormattedTextField cepFormattedTextField;
+    private javax.swing.JLabel cepLabel1;
+    private javax.swing.JFormattedTextField cidadeFormattedTextField;
     private javax.swing.JLabel cidadeLabel;
-    private javax.swing.JFormattedTextField cidadeTextField;
+    private javax.swing.JFormattedTextField complementoFormattedTextField;
+    private javax.swing.JLabel complementoLabel;
     private javax.swing.JToggleButton comprarBtn;
     private javax.swing.JRadioButton creditoRadioButton;
-    private javax.swing.JFormattedTextField dataEntregaTextField;
+    private javax.swing.JFormattedTextField dataEntregaFormattedTextField;
+    private javax.swing.JLabel dataEntregaLabel;
     private javax.swing.JRadioButton debitoRadioButton;
     private javax.swing.JCheckBox entregaCheckBox;
     private javax.swing.JPanel entregaPainel;
@@ -557,37 +568,111 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JLabel estadoLabel;
     private javax.swing.JPanel finalizacaoPainel;
     private javax.swing.ButtonGroup formaPagamentoGroup;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton limparBtn;
+    private javax.swing.JMenuBar menu;
     private javax.swing.JPanel menusPainel;
+    private javax.swing.JFormattedTextField nomeFormattedTextField;
     private javax.swing.JLabel nomeLabel;
-    private javax.swing.JFormattedTextField nomeTextField;
+    private javax.swing.JFormattedTextField numeroFormattedTextField;
     private javax.swing.JLabel numeroLabel;
-    private javax.swing.JFormattedTextField numeroTextField;
-    private javax.swing.JLabel paisLabel;
-    private javax.swing.JFormattedTextField paisTextField;
+    private javax.swing.JMenu perfilMenu;
     private javax.swing.JRadioButton pixRadioButton;
     private javax.swing.JLabel produtoLabel;
     private javax.swing.JComboBox<String> produtosComboBox;
     private javax.swing.JLabel quantidadeLabel;
     private javax.swing.JSpinner quantidadeSpn;
     private javax.swing.JButton removerBtn;
+    private javax.swing.JFormattedTextField ruaFormattedTextField;
     private javax.swing.JLabel ruaLabel;
-    private javax.swing.JFormattedTextField ruaTextField;
     // End of variables declaration//GEN-END:variables
 
+    private void adminArea() {
+        boolean isAdmin = false;
+        admMenu.setVisible(isAdmin);
+
+        Pessoa p = (Pessoa) PessoaDAO.getInstance().read(usuario_id);
+        if (p.getUser().getTipoUsuario().ordinal() == 1) {
+            isAdmin = true;
+            admMenu.setVisible(isAdmin);
+        }
+
+    }
+
     private Endereco getEndereco() {
-        int numero = Integer.parseInt(numeroTextField.getText());
+        boolean status = true;
+        int numero = 0;
+
+        String cep = cepFormattedTextField.getText();
+
+        if (cep.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "CEP não foi informado");
+            cepFormattedTextField.grabFocus();
+            status = false;
+        }
+
+        String cidade = cidadeFormattedTextField.getText();
+
+        if (cidade.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cidade não foi informada");
+            cidadeFormattedTextField.grabFocus();
+            status = false;
+        }
+
         UnidadeFederacao uf = UnidadeFederacao.fromSigla((String) estadoComboBox.getSelectedItem());
-        Endereco endereco = new Endereco(usuario_id, paisTextField.getText(), cidadeTextField.getText(), bairroTextField.getText(), ruaTextField.getText(), numero, uf);
-        return endereco;
+
+        String bairro = bairroFormattedTextField.getText();
+
+        if (bairro.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bairro não foi informado");
+            bairroFormattedTextField.grabFocus();
+            status = false;
+        }
+
+        String rua = ruaFormattedTextField.getText();
+
+        if (rua.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Rua não foi informada");
+            ruaFormattedTextField.grabFocus();
+            status = false;
+        }
+
+        try {
+            numero = Integer.parseInt(numeroFormattedTextField.getText());
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar número");
+            numeroFormattedTextField.grabFocus();
+            status = false;
+        }
+
+        String complemento = complementoFormattedTextField.getText();
+
+        if (complemento.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Complemento não foi informado");
+            complementoFormattedTextField.grabFocus();
+            status = false;
+        }
+
+        String nome = nomeFormattedTextField.getText();
+
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nome não foi informado");
+            nomeFormattedTextField.grabFocus();
+            status = false;
+        }
+
+        if (status) {
+            Endereco endereco = new Endereco(cep, cidade, uf, bairro, rua, numero, complemento, nome);
+            JOptionPane.showMessageDialog(this, endereco.toString());
+            return endereco;
+        }
+
+        return null;
+
     }
 
     private void limparCarrinho() {
@@ -639,24 +724,27 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void enderecoCheckBox() {
         boolean selecionado = entregaCheckBox.isSelected();
-        dataEntregaTextField.setEnabled(false);
-        nomeTextField.setEnabled(false);
-        paisTextField.setEnabled(false);
+
+        cepFormattedTextField.setEnabled(false);
+        cidadeFormattedTextField.setEnabled(false);
         estadoComboBox.setEnabled(false);
-        cidadeTextField.setEnabled(false);
-        bairroTextField.setEnabled(false);
-        ruaTextField.setEnabled(false);
-        numeroTextField.setEnabled(false);
+        bairroFormattedTextField.setEnabled(false);
+        ruaFormattedTextField.setEnabled(false);
+        numeroFormattedTextField.setEnabled(false);
+        complementoFormattedTextField.setEnabled(false);
+        nomeFormattedTextField.setEnabled(false);
+        dataEntregaFormattedTextField.setEnabled(false);
 
         if (selecionado) {
-            dataEntregaTextField.setEnabled(true);
-            nomeTextField.setEnabled(true);
-            paisTextField.setEnabled(true);
+            cepFormattedTextField.setEnabled(true);
+            cidadeFormattedTextField.setEnabled(true);
             estadoComboBox.setEnabled(true);
-            cidadeTextField.setEnabled(true);
-            bairroTextField.setEnabled(true);
-            ruaTextField.setEnabled(true);
-            numeroTextField.setEnabled(true);
+            bairroFormattedTextField.setEnabled(true);
+            ruaFormattedTextField.setEnabled(true);
+            numeroFormattedTextField.setEnabled(true);
+            complementoFormattedTextField.setEnabled(true);
+            nomeFormattedTextField.setEnabled(true);
+            dataEntregaFormattedTextField.setEnabled(true);
         }
     }
 
@@ -699,7 +787,7 @@ public class TelaLoja extends javax.swing.JFrame {
             tableModel.addRow(rowData);
         }
     }
-    
+
     private void adicionaRadioButton() {
         formaPagamentoGroup.add(debitoRadioButton);
         formaPagamentoGroup.add(creditoRadioButton);

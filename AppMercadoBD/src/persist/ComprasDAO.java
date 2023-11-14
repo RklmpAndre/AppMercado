@@ -56,9 +56,10 @@ public class ComprasDAO implements DAO {
             double total_compra = c.getPrecoTotal();
             String produtos = c.getItemComprado().toString();
             String endereco_entrega = c.getPedidoEntrega() ? c.getEnderecoEntrega().toString() : " ";
+            String data_entrega = c.getPedidoEntrega() ? c.getDataEntregaString() : " ";
             try {
-                String sql = "INSERT INTO compras (historico_id, data_compra, pedido_entrega, forma_pagamento, total_compra, produtos, endereco_entrega)"
-                        + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO compras (historico_id, data_compra, pedido_entrega, forma_pagamento, total_compra, produtos, endereco_entrega, data_entrega)"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pstmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                 pstmt.setInt(1, historico_id);
                 pstmt.setString(2, data_compra);
@@ -67,6 +68,7 @@ public class ComprasDAO implements DAO {
                 pstmt.setDouble(5, total_compra);
                 pstmt.setString(6, produtos);
                 pstmt.setString(7, endereco_entrega);
+                pstmt.setString(8, data_entrega);
                 pstmt.executeUpdate();
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
