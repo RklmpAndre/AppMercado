@@ -138,4 +138,7 @@ public class Compra {
         }
         return "Compra do dia: " + getDataCompraString() + "\nPedido de Entrega: Não\n" + itemComprado.toString() + "Total: " + getPrecoTotal() + "\nForma de Pagamento: " + getTipoPagamento().getTipoProduto();
     }
+    public static void CompraString(){
+        
+    }
 }

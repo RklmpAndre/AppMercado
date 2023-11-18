@@ -1,11 +1,13 @@
 package persist;
 
-import entity.Carrinho;
 import entity.Compra;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -97,5 +99,26 @@ public class ComprasDAO implements DAO {
     public boolean delete(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
+    public List<Compra> listarTudo(int historico_id) {
+        List<Compra> compras = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM compras WHERE historico_id = '" + historico_id + "'";
+            Statement stmt = conexao.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                
+                int id = rs.getInt(1);
+                String marca = rs.getString(2);
+                String nome = rs.getString(3);
+                int quantidade = rs.getInt(4);
+                String descricao = rs.getString(5);
+                double preco = rs.getDouble(6);
+                int tipo = rs.getInt(7);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro = " + ex);
+        }
+        return null;
+    }
 }

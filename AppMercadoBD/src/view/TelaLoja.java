@@ -351,6 +351,11 @@ public class TelaLoja extends javax.swing.JFrame {
         perfilMenu.setText("Perfil");
 
         jMenuItem1.setText("Histórico de Compras");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         perfilMenu.add(jMenuItem1);
 
         jMenuItem2.setText("Sair");
@@ -495,6 +500,10 @@ public class TelaLoja extends javax.swing.JFrame {
     private void entregaCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entregaCheckBoxActionPerformed
         enderecoCheckBox();
     }//GEN-LAST:event_entregaCheckBoxActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
