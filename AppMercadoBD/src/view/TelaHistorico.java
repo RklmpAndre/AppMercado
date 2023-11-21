@@ -19,14 +19,12 @@ public class TelaHistorico extends javax.swing.JFrame {
     public TelaHistorico() {
 
         configurarTabela();
-        atualizarTabelaCarrinho();
         initComponents();
     }
 
     public TelaHistorico(int historico_id) {
         this.historico_id = historico_id;
         configurarTabela();
-        atualizarTabelaCarrinho();
         initComponents();
     }
     
@@ -140,17 +138,5 @@ public class TelaHistorico extends javax.swing.JFrame {
         jTable1.setModel(tableModel);
     }
 
-    private void atualizarTabelaCarrinho() {
-        tableModel.setRowCount(0);
-        List<Compra> compras = new ArrayList<>();
-        for (Compra compra : ) {
-            Produto p = (Produto) prdao.read(item.getProdutoID());
-            Object[] rowData = {
-                p.getMarca() + " " + p.getNome(),
-                item.getQuantidade(),
-                cntrl.produtoValor(carrinho.getId(), item.getProdutoID())
-            };
-            tableModel.addRow(rowData);
-        }
-    }
+  
 }
