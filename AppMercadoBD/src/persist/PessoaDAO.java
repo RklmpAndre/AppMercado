@@ -56,13 +56,13 @@ public class PessoaDAO implements DAO {
             String senha = p.getUser().getSenha();
             Enum tipo = p.getUser().getTipoUsuario();
             int tipoUser = tipo.ordinal();
-            String sql = "INSERT INTO usuários (cpf, dataNascimento, email, nome, senha, tipoUsuario)"
+            String sql = "INSERT INTO usuarios (cpf, email, data_nascimento, nome, senha, tipo)"
                     + "VALUES ( ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
                 pstmt.setString(1, cpf);
-                pstmt.setString(2, dataNascimento);
-                pstmt.setString(3, email);
+                pstmt.setString(3, dataNascimento);
+                pstmt.setString(2, email);
                 pstmt.setString(4, nome);
                 pstmt.setString(5, senha);
                 pstmt.setInt(6, tipoUser);
@@ -82,17 +82,17 @@ public class PessoaDAO implements DAO {
         if (obj instanceof String) {
             try {
                 String cpf = (String) obj;
-                String sql = "SELECT * FROM usuários WHERE cpf = '" + cpf + "'";
+                String sql = "SELECT * FROM usuarios WHERE cpf = '" + cpf + "'";
                 Statement stmt = conexao.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.isBeforeFirst()) {
                     rs.next();
-                    String nome = rs.getString(3);
-                    String data = rs.getString(4);
+                    String email =  rs.getString(2);
+                    String data = rs.getString(3);
+                    String nome = rs.getString(4);
+                    String senha = rs.getString(5);
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate dataNascimento = LocalDate.parse(data, formato);
-                    String email = rs.getString(2);
-                    String senha = rs.getString(5);
                     int tipo = rs.getInt(6);
                     Enum tipoUser = TipoUsuario.COMUN;
                     if (tipo != 0) {
@@ -117,11 +117,11 @@ public class PessoaDAO implements DAO {
         if (obj instanceof Pessoa) {
             try {
                 Pessoa p = (Pessoa) obj;
-                String sql = "UPDATE usuários SET nome = ?, dataNascimento = ?, email = ?, senha = ?, tipoUsuario = ? WHERE cpf = ?";
+                String sql = "UPDATE usuarios SET email = ?, data_nascimento = ?, nome = ?, senha = ?, tipo = ? WHERE cpf = ?";
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
-                pstmt.setString(1, p.getNome());
+                pstmt.setString(3, p.getNome());
                 pstmt.setString(2, p.getDataNascimentoString());
-                pstmt.setString(3, p.getUser().getLogin());
+                pstmt.setString(1, p.getUser().getLogin());
                 pstmt.setString(4, p.getUser().getSenha());
                 pstmt.setInt(5, p.getUser().getTipoUsuario().ordinal());
                 pstmt.setString(6, p.getCpf());
@@ -140,7 +140,7 @@ public class PessoaDAO implements DAO {
         if (obj instanceof String) {
             try {
                 String cpf = (String) obj;
-                String sql = "DELETE FROM usuários WHERE cpf = '" + cpf + "'";
+                String sql = "DELETE FROM usuarios WHERE cpf = '" + cpf + "'";
                 Statement stmt = conexao.createStatement();
                 int nreg = stmt.executeUpdate(sql);
                 if (nreg > 0) {

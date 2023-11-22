@@ -4,17 +4,29 @@
  */
 package view;
 
+import entity.Pessoa;
+import entity.Usuario;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import javax.swing.JOptionPane;
+import persist.PessoaDAO;
+import util.ValidaCPF;
+
 /**
  *
  * @author andre
  */
 public class TelaCadastro extends javax.swing.JFrame {
-
+    
+    private PessoaDAO pdao;
+    
     /**
      * Creates new form TelaCadastro
      */
     public TelaCadastro() {
         initComponents();
+        pdao = PessoaDAO.getInstance();
     }
 
     /**
@@ -26,129 +38,134 @@ public class TelaCadastro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jFormattedTextField5 = new javax.swing.JFormattedTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        dadosPessoaisPanel = new javax.swing.JPanel();
+        nomeFTF = new javax.swing.JFormattedTextField();
+        nomeLabel = new javax.swing.JLabel();
+        cpfLabel = new javax.swing.JLabel();
+        cpfFTF = new javax.swing.JFormattedTextField();
+        dataFTF = new javax.swing.JFormattedTextField();
+        dataLabel = new javax.swing.JLabel();
+        cadastroPanel = new javax.swing.JPanel();
+        confirmaEmailFTF = new javax.swing.JFormattedTextField();
+        confirmaEmailLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        emailFTF = new javax.swing.JFormattedTextField();
+        senhaLabel = new javax.swing.JLabel();
+        confirmarSenhaLabel = new javax.swing.JLabel();
+        confirmarSenhaPF = new javax.swing.JPasswordField();
+        senhaPF = new javax.swing.JPasswordField();
+        logarButton = new javax.swing.JButton();
+        cadastrarButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Pessoais"));
+        dadosPessoaisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Pessoais"));
 
-        jLabel1.setText("Nome Completo");
+        nomeLabel.setText("Nome Completo");
 
-        jLabel2.setText("CPF");
+        cpfLabel.setText("CPF");
 
-        jLabel3.setText("Data Nascimento");
+        dataLabel.setText("Data Nascimento");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout dadosPessoaisPanelLayout = new javax.swing.GroupLayout(dadosPessoaisPanel);
+        dadosPessoaisPanel.setLayout(dadosPessoaisPanelLayout);
+        dadosPessoaisPanelLayout.setHorizontalGroup(
+            dadosPessoaisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dadosPessoaisPanelLayout.createSequentialGroup()
                 .addContainerGap(62, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(dadosPessoaisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cpfLabel)
+                    .addComponent(nomeLabel)
+                    .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataLabel)
+                    .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        dadosPessoaisPanelLayout.setVerticalGroup(
+            dadosPessoaisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dadosPessoaisPanelLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jLabel2)
+                .addComponent(cpfLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(nomeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(dataLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro"));
+        cadastroPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro"));
 
-        jLabel4.setText("Confirmar Email");
+        confirmaEmailLabel.setText("Confirmar Email");
 
-        jLabel5.setText("Email");
+        emailLabel.setText("Email");
 
-        jLabel6.setText("Senha");
+        senhaLabel.setText("Senha");
 
-        jLabel7.setText("Confirmar Senha");
+        confirmarSenhaLabel.setText("Confirmar Senha");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout cadastroPanelLayout = new javax.swing.GroupLayout(cadastroPanel);
+        cadastroPanel.setLayout(cadastroPanelLayout);
+        cadastroPanelLayout.setHorizontalGroup(
+            cadastroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cadastroPanelLayout.createSequentialGroup()
                 .addContainerGap(62, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jFormattedTextField4)
-                    .addComponent(jLabel6)
-                    .addComponent(jFormattedTextField5)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addGroup(cadastroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(confirmarSenhaLabel)
+                    .addComponent(emailLabel)
+                    .addComponent(confirmaEmailLabel)
+                    .addComponent(confirmaEmailFTF)
+                    .addComponent(senhaLabel)
+                    .addComponent(emailFTF)
+                    .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(senhaPF, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        cadastroPanelLayout.setVerticalGroup(
+            cadastroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cadastroPanelLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jLabel5)
+                .addComponent(emailLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(confirmaEmailLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(confirmaEmailFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
+                .addComponent(senhaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(senhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jLabel7)
+                .addComponent(confirmarSenhaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Já possui um cadastro? Aperte aqui para entrar!");
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        logarButton.setText("Já possui um cadastro? Aperte aqui para entrar!");
+        logarButton.setToolTipText("");
+        logarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                logarButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton2.setText("Cadastrar");
+        cadastrarButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        cadastrarButton.setText("Cadastrar");
+        cadastrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/APP-MERCADO__IFRStore_-removebg-preview.png"))); // NOI18N
 
@@ -159,10 +176,10 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logarButton)
+                    .addComponent(cadastrarButton)
+                    .addComponent(cadastroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dadosPessoaisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
@@ -172,13 +189,13 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dadosPessoaisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cadastroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cadastrarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(logarButton)
                 .addGap(15, 15, 15))
         );
 
@@ -186,10 +203,85 @@ public class TelaCadastro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void logarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logarButtonActionPerformed
         new TelaLogin().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_logarButtonActionPerformed
+
+    private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
+        boolean status = true;
+
+        String cpf = cpfFTF.getText();
+        if (cpf.isEmpty() || !ValidaCPF.isValido(cpf)) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar o cpf");
+            cpfFTF.grabFocus();
+            status = false;
+        }
+
+        String nome = nomeFTF.getText();
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar o nome");
+            nomeFTF.grabFocus();
+            status = false;
+        }
+
+        String data = dataFTF.getText();
+        LocalDate dataAniversario = null;
+        LocalDate hoje = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            dataAniversario = LocalDate.parse(data, formato);
+            if (dataAniversario.compareTo(hoje) > 0) {
+                status = false;
+                JOptionPane.showMessageDialog(this, "A data de aniversario deve ser anterior ao dia de hoje");
+            }
+
+        } catch (DateTimeParseException dex) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar a data de aniversario");
+            status = false;
+        }
+
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String email = emailFTF.getText();
+        if (!email.matches(EMAIL_PATTERN)) {
+            JOptionPane.showMessageDialog(null, "Endereço de email errado!");
+            status = false;
+        }
+
+        String email2 = emailFTF.getText();
+        if (!email.equals(email2)) {
+            JOptionPane.showMessageDialog(this, "Os emails não conferem");
+            confirmaEmailFTF.grabFocus();
+            status = false;
+        }
+
+        String senha = senhaPF.getText();
+        if (senha.isEmpty() || senha.length() < 8) {
+            JOptionPane.showMessageDialog(this, "A senha deve ter pelo menos 8 digitos");
+            senhaPF.grabFocus();
+            status = false;
+        }
+
+        String senha2 = confirmarSenhaPF.getText();
+        if (!senha.equals(senha2)) {
+            JOptionPane.showMessageDialog(this, "As senhas não conferem");
+            confirmarSenhaPF.grabFocus();
+            status = false;
+        }
+        
+        if(status){
+            Pessoa pessoa = new Pessoa(cpf, nome, dataAniversario);
+            Usuario usuario = new Usuario(email, senha);
+            pessoa.setUser(usuario);
+            if(pdao.create(pessoa)){
+                JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
+                new TelaLoja(pessoa.getCpf());
+            }else{
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
+            }
+        }
+    }//GEN-LAST:event_cadastrarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,26 +319,31 @@ public class TelaCadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JFormattedTextField jFormattedTextField5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JButton cadastrarButton;
+    private javax.swing.JPanel cadastroPanel;
+    private javax.swing.JFormattedTextField confirmaEmailFTF;
+    private javax.swing.JLabel confirmaEmailLabel;
+    private javax.swing.JLabel confirmarSenhaLabel;
+    private javax.swing.JPasswordField confirmarSenhaPF;
+    private javax.swing.JFormattedTextField cpfFTF;
+    private javax.swing.JLabel cpfLabel;
+    private javax.swing.JPanel dadosPessoaisPanel;
+    private javax.swing.JFormattedTextField dataFTF;
+    private javax.swing.JLabel dataLabel;
+    private javax.swing.JFormattedTextField emailFTF;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JButton logarButton;
+    private javax.swing.JFormattedTextField nomeFTF;
+    private javax.swing.JLabel nomeLabel;
+    private javax.swing.JLabel senhaLabel;
+    private javax.swing.JPasswordField senhaPF;
     // End of variables declaration//GEN-END:variables
+
+    public boolean getValores(){
+        
+        return false;
+        
+    }
+    
 }

@@ -29,39 +29,29 @@ public class TelaLoja extends javax.swing.JFrame {
      * Creates new form TelaPrincipal
      */
     public TelaLoja() {
-        
-        adicionaRadioButton();
-
-        enderecoCheckBox();
-
-        preencherComboBoxEstado();
-        preencherComboBoxProdutos();
-        adminArea();
-        configurarTabela();
-        atualizarTabelaCarrinho();
-        initComponents();
-    }
-
-    public TelaLoja(String usuario_id, Carrinho carrinho, Historico historico) {
-        
-        this.usuario_id = usuario_id;
-        this.carrinho = carrinho;
-        this.historico = historico;
-        cntrl = new CarrinhoController();
-        initComponents();
-
         prdao = ProdutoDAO.getInstance();
-        cdao = ComprasDAO.getInstance();
-
+        initComponents();
         adicionaRadioButton();
-
         enderecoCheckBox();
-
         preencherComboBoxEstado();
         preencherComboBoxProdutos();
-        adminArea();
         configurarTabela();
         atualizarTabelaCarrinho();
+        
+    }
+    
+    
+    public TelaLoja(String usuario_id) {
+        prdao = ProdutoDAO.getInstance();
+        this.usuario_id = usuario_id;
+        initComponents();
+        adicionaRadioButton();
+        enderecoCheckBox();
+        preencherComboBoxEstado();
+        preencherComboBoxProdutos();
+        configurarTabela();
+        atualizarTabelaCarrinho();
+         
     }
 
     /**
@@ -600,17 +590,7 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JLabel ruaLabel;
     // End of variables declaration//GEN-END:variables
 
-    private void adminArea() {
-        boolean isAdmin = false;
-        admMenu.setVisible(isAdmin);
-
-        Pessoa p = (Pessoa) PessoaDAO.getInstance().read(usuario_id);
-        if (p.getUser().getTipoUsuario().ordinal() == 1) {
-            isAdmin = true;
-            admMenu.setVisible(isAdmin);
-        }
-
-    }
+    
 
     private Endereco getEndereco() {
         boolean status = true;

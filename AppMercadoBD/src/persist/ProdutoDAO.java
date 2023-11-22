@@ -56,13 +56,13 @@ public class ProdutoDAO implements DAO {
             int quantidade = p.getQuantidade();
             int tipoOrdinal = p.getTipo().ordinal();
             try {
-                String sql = "INSERT INTO estoque (marca, nome, quantidade, descricao, preco, tipo) VALUES (?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO estoque (descricao, marca, nome, valor_unitario, quantidade, tipo) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement pstmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                pstmt.setString(1, marca);
-                pstmt.setString(2, nome);
-                pstmt.setInt(3, quantidade);
-                pstmt.setString(4, descricao);
-                pstmt.setDouble(5, preco);
+                pstmt.setString(1, descricao);
+                pstmt.setString(2, marca);
+                pstmt.setString(3, nome);
+                pstmt.setDouble(4, preco);
+                pstmt.setInt(5, quantidade);
                 pstmt.setInt(6, tipoOrdinal);
                 pstmt.executeUpdate();
 
@@ -162,13 +162,13 @@ public class ProdutoDAO implements DAO {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int id = rs.getInt(1);
-                String marca = rs.getString(2);
-                String nome = rs.getString(3);
-                int quantidade = rs.getInt(4);
-                String descricao = rs.getString(5);
-                double preco = rs.getDouble(6);
+                String descricao = rs.getString(2);
+                String marca = rs.getString(3);
+                String nome = rs.getString(4);
+                double valor = rs.getDouble(5);
+                int quantidade = rs.getInt(6);
                 int tipo = rs.getInt(7);
-                Produto produto = new Produto(marca, nome, descricao, quantidade, preco, TipoProduto.fromInt(tipo));
+                Produto produto = new Produto(marca, nome, descricao, quantidade, valor, TipoProduto.fromInt(tipo));
                 produto.setId(id);
                 produtos.add(produto);
             }

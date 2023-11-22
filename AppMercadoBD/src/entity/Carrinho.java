@@ -2,10 +2,7 @@ package entity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import util.StatusCarrinho;
 
 /**
  *
@@ -14,22 +11,17 @@ import util.StatusCarrinho;
 public class Carrinho {
 
     private int id;
-    private double totalCompra;
-    private String userCPF;
-    private List<ItemCarrinho> itens;
-    private LocalDate data_criacao;
+    private String usuario_cpf;
+    private LocalDate data_compra;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private StatusCarrinho status;
    
     public Carrinho() {
 
     }
     
-    public Carrinho(String userCPF, LocalDate data_criacao){
-        setUserCPF(userCPF);
-        setDataCricao(data_criacao);
-        itens = new ArrayList<>();
-        status = StatusCarrinho.ATIVO;
+    public Carrinho(String usuario_cpf, LocalDate data_compra){
+        setUsuarioCpf(usuario_cpf);
+        setDataCompra(data_compra);
     }
 
     public int getId() {
@@ -37,57 +29,28 @@ public class Carrinho {
     }
 
     public void setId(int id) {
-        if(id < 0){
-            throw new IllegalArgumentException("ID inválido");
-        }
         this.id = id;
     }
 
-    public String getUserCPF() {
-        return userCPF;
+    public String getUsuarioCpf() {
+        return usuario_cpf;
     }
 
-    public void setUserCPF(String userCPF) {
-        Objects.requireNonNull(userCPF);
-        this.userCPF = userCPF;
+    public void setUsuarioCpf(String usuario_cpf) {
+        this.usuario_cpf = usuario_cpf;
     }
 
-    public List<ItemCarrinho> getItens() {
-        return itens;
-    }
-    
-    public LocalDate getDataCriacao() {
-        return data_criacao;
+    public LocalDate getDataCompra() {
+        return data_compra;
     }
 
-    public String getDataCriacaoString() {
-        return data_criacao.format(formatter);
+    public String getDataCompraString() {
+        return data_compra.format(formatter);
     }
 
-    public void setDataCricao(LocalDate dataNascimento) {
-        Objects.requireNonNull(dataNascimento);
-        this.data_criacao = dataNascimento;
+    public void setDataCompra(LocalDate data_compra) {
+        Objects.requireNonNull(data_compra);
+        this.data_compra = data_compra;
     }
 
-    public StatusCarrinho getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusCarrinho status) {
-        this.status = status;
-    }
-
-    public double getTotalCompra() {
-        return totalCompra;
-    }
-
-    public void setTotalCompra(double totalCompra) {
-        if(totalCompra < 0.0){
-            throw new IllegalArgumentException("Valor inválido");
-        }
-        this.totalCompra = totalCompra;
-    }
-
-    
-    
 }

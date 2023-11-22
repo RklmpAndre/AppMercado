@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import util.StatusCarrinho;
 
 /**
  *
@@ -47,24 +46,22 @@ public class CarrinhoDAO implements DAO {
     public boolean create(Object obj) {
         Objects.requireNonNull(obj);
         if (obj instanceof Carrinho) {
-            Carrinho c = (Carrinho) obj;
+            Carrinho carrinho = (Carrinho) obj;
             int id = -1;
-            String usercpf = c.getUserCPF();
-            String data_criacao = c.getDataCriacaoString();
-            int status = c.getStatus().ordinal();
+            String usuario_cpf = carrinho.getUsuarioCpf();
+            String data_compra = carrinho.getDataCompraString();
             try {
-                String sql = "INSERT INTO carrinhos (userID, data_criação, condição) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO carrinhos (id_usuario, data) VALUES (?, ?)";
                 PreparedStatement pstmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                pstmt.setString(1, usercpf);
-                pstmt.setString(2, data_criacao);
-                pstmt.setInt(3, status);
+                pstmt.setString(1, usuario_cpf);
+                pstmt.setString(2, data_compra);
                 pstmt.executeUpdate();
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
-                    id = rs.getInt(1); //geralmente a chave primária é a primeira coluna
-                    c.setId(id);
+                    id = rs.getInt(1);
+                    carrinho.setId(id);
+                    return true;
                 }
-                return true;
             } catch (SQLException sqe) {
                 System.out.println("Erro = " + sqe);
             }
@@ -83,17 +80,15 @@ public class CarrinhoDAO implements DAO {
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.isBeforeFirst()) {
                     rs.next();
-                    String userID = rs.getString(2);
-                    String data_criacao = rs.getString(3);
-                    int status = rs.getInt(4);
+                    String usuario_id = rs.getString(2);
+                    String data_compra = rs.getString(3);
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    Carrinho c = new Carrinho(userID, LocalDate.parse(data_criacao, formato));
-                    c.setId(rs.getInt(1));
-                    c.setStatus(StatusCarrinho.fromInt(status));
-                    return c;
+                    Carrinho carrinho = new Carrinho(usuario_id, LocalDate.parse(data_compra, formato));
+                    carrinho.setId(rs.getInt(1));
+                    return carrinho;
                 }
-            } catch (SQLException ex) {
-                System.out.println("Erro = " + ex);
+            } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
             }
         }
         return null;
@@ -103,17 +98,16 @@ public class CarrinhoDAO implements DAO {
     public boolean update(Object obj) {
         Objects.requireNonNull(obj);
         if (obj instanceof Carrinho) {
-            Carrinho c = (Carrinho) obj;
+            Carrinho carrinho = (Carrinho) obj;
             try {
-                String sql = "UPDATE carrinhos SET data_criação = ?, condição = ? WHERE id = ?";
+                String sql = "UPDATE carrinhos SET data = ? WHERE id = ?";
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
-                pstmt.setString(1, c.getDataCriacaoString());
-                pstmt.setInt(2, c.getStatus().ordinal());
-                pstmt.setInt(3, c.getId());
+                pstmt.setString(1, carrinho.getDataCompraString());
+                pstmt.setInt(2, carrinho.getId());
                 pstmt.executeUpdate();
                 return true;
-            } catch (SQLException ex) {
-                System.out.println("Erro = " + ex);
+            } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
             }
         }
         return false;
@@ -131,8 +125,8 @@ public class CarrinhoDAO implements DAO {
                 if (nreg > 0) {
                     return true;
                 }
-            } catch (SQLException ex) {
-                System.out.println("Erro = " + ex);
+            } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
             }
         }
         return false;
@@ -155,7 +149,6 @@ public class CarrinhoDAO implements DAO {
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     Carrinho c = new Carrinho(userID, LocalDate.parse(data_criacao, formato));
                     c.setId(id);
-                    c.setStatus(StatusCarrinho.fromInt(status));
 
                     return c;
                 }

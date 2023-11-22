@@ -1,11 +1,7 @@
 package view;
 
-import entity.Carrinho;
-import entity.Historico;
 import entity.Pessoa;
 import javax.swing.JOptionPane;
-import persist.CarrinhoDAO;
-import persist.HistoricoDAO;
 import persist.PessoaDAO;
 
 /**
@@ -15,16 +11,12 @@ import persist.PessoaDAO;
 public class TelaLogin extends javax.swing.JFrame {
 
     private PessoaDAO pdao;
-    private CarrinhoDAO cdao;
-    private HistoricoDAO hdao;
 
     /**
      * Creates new form TelaLogin
      */
     public TelaLogin() {
         
-        hdao = HistoricoDAO.getInstance();
-        cdao = CarrinhoDAO.getInstance();
         pdao = PessoaDAO.getInstance();
         initComponents();
 
@@ -39,9 +31,6 @@ public class TelaLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
         painelLogin = new javax.swing.JPanel();
         loginLabel = new javax.swing.JLabel();
         senhaLabel = new javax.swing.JLabel();
@@ -49,21 +38,6 @@ public class TelaLogin extends javax.swing.JFrame {
         cadastro_areaButton = new javax.swing.JButton();
         loginTextField = new javax.swing.JFormattedTextField();
         entrarButton = new javax.swing.JButton();
-
-        jLabel3.setText("jLabel3");
-
-        jInternalFrame1.setVisible(true);
-
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IFStore Login");
@@ -102,19 +76,17 @@ public class TelaLogin extends javax.swing.JFrame {
                     .addComponent(senhaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.CENTER, painelLoginLayout.createSequentialGroup()
-                .addGap(174, 174, 174)
-                .addComponent(cadastro_areaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(174, 174, 174))
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, painelLoginLayout.createSequentialGroup()
-                .addGap(211, 211, 211)
-                .addComponent(entrarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(211, 211, 211))
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, painelLoginLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addGroup(painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(loginTextField, javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(senhaPasswordField, javax.swing.GroupLayout.Alignment.CENTER))
                 .addGap(102, 102, 102))
+            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, painelLoginLayout.createSequentialGroup()
+                .addGap(174, 174, 174)
+                .addGroup(painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cadastro_areaButton, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(entrarButton, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(174, 174, 174))
         );
         painelLoginLayout.setVerticalGroup(
             painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,9 +134,7 @@ public class TelaLogin extends javax.swing.JFrame {
         if (pdao.read(login) != null) {
             Pessoa p = (Pessoa) pdao.read(login);
             if (senha.equals(p.getUser().getSenha())) {
-                Carrinho c = cdao.readUser(p.getCpf());
-                Historico h = hdao.readUser(p.getCpf());
-                new TelaLoja(p.getCpf(), c, h).setVisible(true);
+                new TelaLoja(p.getCpf()).setVisible(true);
                 this.setVisible(false);
             }
         } else {
@@ -213,9 +183,6 @@ public class TelaLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cadastro_areaButton;
     private javax.swing.JButton entrarButton;
-    private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JFormattedTextField loginTextField;
     private javax.swing.JPanel painelLogin;
