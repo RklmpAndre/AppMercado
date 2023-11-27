@@ -90,7 +90,4 @@ public class ItensCarrinho {
     public String toString() {
         return "ItensCarrinho{" + "id=" + id + ", carrinho_id=" + carrinho_id + ", produto_id=" + produto_id + ", quantidade=" + quantidade + ", valor=" + valor + '}';
     }
-    
-    
-    
 }

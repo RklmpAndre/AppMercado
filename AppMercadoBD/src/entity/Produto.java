@@ -1,5 +1,6 @@
 package entity;
 
+import entity.*;
 import java.util.Objects;
 import util.TipoProduto;
 
@@ -109,38 +110,5 @@ public class Produto {
         hash = 41 * hash + Objects.hashCode(this.tipo);
         return hash;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Produto other = (Produto) obj;
-        if (this.quantidade != other.quantidade) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.preco) != Double.doubleToLongBits(other.preco)) {
-            return false;
-        }
-        if (!Objects.equals(this.nome, other.nome)) {
-            return false;
-        }
-        if (!Objects.equals(this.descricao, other.descricao)) {
-            return false;
-        }
-        return this.tipo == other.tipo;
-    }
-
-    
-    
-    
-    
-    
     
 }

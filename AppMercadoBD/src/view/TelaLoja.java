@@ -1,15 +1,13 @@
 package view;
 
-import Controller.CarrinhoController;
+import persist.*;
 import entity.*;
+import Controller.*;
+import util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import persist.*;
-import util.*;
 
 /**
  *
@@ -17,19 +15,27 @@ import util.*;
  */
 public class TelaLoja extends javax.swing.JFrame {
 
-    private String usuario_id;
-    private DefaultTableModel tableModel;
+    private CarrinhoDAO cdao;
     private ProdutoDAO prdao;
+    private ItensCarrinhoDAO icdao;
+    private HistoricoDAO hdao;
+    private Pessoa usuario;
+    private DefaultTableModel tableModel;
     private Carrinho carrinho;
-    private CarrinhoController cntrl;
-    private ComprasDAO cdao;
+    private Controller cntrl;
     private Historico historico;
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaLoja() {
+        cntrl = new Controller();
+        hdao = HistoricoDAO.getInstance();
         prdao = ProdutoDAO.getInstance();
+        carrinho = new Carrinho();
+        cdao = CarrinhoDAO.getInstance();
+        icdao = ItensCarrinhoDAO.getInstance();
+        historico = new Historico();
         initComponents();
         adicionaRadioButton();
         enderecoCheckBox();
@@ -37,13 +43,17 @@ public class TelaLoja extends javax.swing.JFrame {
         preencherComboBoxProdutos();
         configurarTabela();
         atualizarTabelaCarrinho();
-        
     }
-    
-    
+
     public TelaLoja(String usuario_id) {
+        usuario = (Pessoa) PessoaDAO.getInstance().read(usuario_id);
+        cntrl = new Controller();
+        hdao = HistoricoDAO.getInstance();
         prdao = ProdutoDAO.getInstance();
-        this.usuario_id = usuario_id;
+        carrinho = new Carrinho();
+        cdao = CarrinhoDAO.getInstance();
+        icdao = ItensCarrinhoDAO.getInstance();
+        historico = new Historico();
         initComponents();
         adicionaRadioButton();
         enderecoCheckBox();
@@ -51,7 +61,6 @@ public class TelaLoja extends javax.swing.JFrame {
         preencherComboBoxProdutos();
         configurarTabela();
         atualizarTabelaCarrinho();
-         
     }
 
     /**
@@ -101,8 +110,8 @@ public class TelaLoja extends javax.swing.JFrame {
         debitoRadioButton = new javax.swing.JRadioButton();
         menu = new javax.swing.JMenuBar();
         perfilMenu = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        historicoComprasBtn = new javax.swing.JMenuItem();
+        sairBtn = new javax.swing.JMenuItem();
         admMenu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -340,21 +349,21 @@ public class TelaLoja extends javax.swing.JFrame {
 
         perfilMenu.setText("Perfil");
 
-        jMenuItem1.setText("Histórico de Compras");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        historicoComprasBtn.setText("Histórico de Compras");
+        historicoComprasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                historicoComprasBtnActionPerformed(evt);
             }
         });
-        perfilMenu.add(jMenuItem1);
+        perfilMenu.add(historicoComprasBtn);
 
-        jMenuItem2.setText("Sair");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        sairBtn.setText("Sair");
+        sairBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                sairBtnActionPerformed(evt);
             }
         });
-        perfilMenu.add(jMenuItem2);
+        perfilMenu.add(sairBtn);
 
         menu.add(perfilMenu);
 
@@ -375,29 +384,30 @@ public class TelaLoja extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(produtoLabel)
-                                .addGap(124, 124, 124)
-                                .addComponent(quantidadeLabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(produtosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(quantidadeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(adicionarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(removerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(limparBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 196, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(entregaPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
                             .addComponent(finalizacaoPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(menusPainel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(menusPainel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(produtoLabel)
+                            .addComponent(produtosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(quantidadeLabel)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(quantidadeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(adicionarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(removerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(limparBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 107, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,16 +415,16 @@ public class TelaLoja extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quantidadeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(adicionarBtn)
                             .addComponent(removerBtn)
                             .addComponent(quantidadeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(limparBtn)
                             .addComponent(produtosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(produtoLabel)
-                        .addComponent(quantidadeLabel)))
+                    .addComponent(produtoLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(menusPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,20 +443,20 @@ public class TelaLoja extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_creditoRadioButtonActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void sairBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairBtnActionPerformed
         new TelaLogin().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_sairBtnActionPerformed
 
     private void quantidadeSpnVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_quantidadeSpnVetoableChange
     }//GEN-LAST:event_quantidadeSpnVetoableChange
 
     private void adicionarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarBtnActionPerformed
-        adicionarProduto();
+        maisProdutos();
     }//GEN-LAST:event_adicionarBtnActionPerformed
 
     private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
-        removerProduto();
+        menosProdutos();
     }//GEN-LAST:event_removerBtnActionPerformed
 
     private void limparBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparBtnActionPerformed
@@ -454,46 +464,52 @@ public class TelaLoja extends javax.swing.JFrame {
     }//GEN-LAST:event_limparBtnActionPerformed
 
     private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
-        List<ItemComprado> itensComprados = new ArrayList<>();
-        Compra compra;
-        if (cntrl.listarProdutosCarrinho(carrinho.getId()).isEmpty()) {
+        double valor_total = 0.0;
+        if (cntrl.listarItens(usuario).isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
         } else if (formaPagamentoGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
         } else if (entregaCheckBox.isSelected() == false) {
-            for (ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())) {
-                Produto p = (Produto) prdao.read(ic.getProdutoID());
-                ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
-                itensComprados.add(item);
+            carrinho.setDataCompra(LocalDate.now());
+            carrinho.setUsuarioCpf(usuario.getCpf());
+            cdao.create(carrinho);
+            for (ItemEscolhido item_escolhido : cntrl.listarItens(usuario)) {
+                valor_total += cntrl.valorProdutoCarrinho(item_escolhido.getProduto(), item_escolhido.getQuantidade());
+                ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
+                icdao.create(ic);
             }
-            compra = new Compra(this.historico.getId(), itensComprados, cntrl.calculoTotal(this.carrinho.getId()), LocalDate.now(), false, retornaTipoPagamento());
-            cdao.create(compra);
+            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), false, valor_total);
+            historico = historico2;
+            hdao.create(historico);
             limparCarrinho();
-            JOptionPane.showMessageDialog(this, compra.toString());
+            JOptionPane.showMessageDialog(this, "Compra realizada com sucesso!");
         } else {
-            for (ItemCarrinho ic : cntrl.listarProdutosCarrinho(carrinho.getId())) {
-                Produto p = (Produto) prdao.read(ic.getProdutoID());
-                ItemComprado item = new ItemComprado(p, ic.getQuantidade(), cntrl.produtoValor(carrinho.getId(), p.getId()));
-                itensComprados.add(item);
+            carrinho.setDataCompra(LocalDate.now());
+            carrinho.setUsuarioCpf(usuario.getCpf());
+            cdao.create(carrinho);
+            for (ItemEscolhido item_escolhido : cntrl.listarItens(usuario)) {
+                valor_total += cntrl.valorProdutoCarrinho(item_escolhido.getProduto(), item_escolhido.getQuantidade());
+                ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
+                icdao.create(ic);
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate data_entrega = LocalDate.parse(dataEntregaFormattedTextField.getText(), formatter);
-            compra = new Compra(historico.getId(), itensComprados, cntrl.calculoTotal(carrinho.getId()), data_entrega, true, retornaTipoPagamento(), getEndereco());
-            cdao.create(compra);
-            JOptionPane.showMessageDialog(this, compra.toString());
+            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), true, getEndereco(), data_entrega, valor_total);
+            historico = historico2;
+            hdao.create(historico);
             limparCarrinho();
+            JOptionPane.showMessageDialog(this, "Compra realizada com sucesso!");
         }
-
-
     }//GEN-LAST:event_comprarBtnActionPerformed
 
     private void entregaCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entregaCheckBoxActionPerformed
         enderecoCheckBox();
     }//GEN-LAST:event_entregaCheckBoxActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void historicoComprasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoComprasBtnActionPerformed
+        new TelaHistorico().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_historicoComprasBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -509,33 +525,25 @@ public class TelaLoja extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoja.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoja.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoja.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaLoja.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -567,8 +575,7 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JLabel estadoLabel;
     private javax.swing.JPanel finalizacaoPainel;
     private javax.swing.ButtonGroup formaPagamentoGroup;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem historicoComprasBtn;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
@@ -588,9 +595,8 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JButton removerBtn;
     private javax.swing.JFormattedTextField ruaFormattedTextField;
     private javax.swing.JLabel ruaLabel;
+    private javax.swing.JMenuItem sairBtn;
     // End of variables declaration//GEN-END:variables
-
-    
 
     private Endereco getEndereco() {
         boolean status = true;
@@ -665,38 +671,46 @@ public class TelaLoja extends javax.swing.JFrame {
     }
 
     private void limparCarrinho() {
-        cntrl.limparCarrinho(carrinho.getId());
+        cntrl.esvaziarCarrinho(usuario);
         atualizarTabelaCarrinho();
     }
 
-    private void adicionarProduto() {
+    private void maisProdutos() {
         Produto p = produtoSelecionado();
         int quantidade = (int) quantidadeSpn.getValue();
         if (quantidade <= 0) {
-            cntrl.adicionarProdutosCarrinho(carrinho.getId(), p.getId(), 1);
+            cntrl.maisProduto(usuario, p, 1);
             atualizarTabelaCarrinho();
             return;
         }
-        cntrl.adicionarProdutosCarrinho(carrinho.getId(), p.getId(), quantidade);
+        cntrl.maisProduto(usuario, p, quantidade);
         atualizarTabelaCarrinho();
     }
 
-    private void removerProduto() {
+    private void menosProdutos() {
         Produto p = produtoSelecionado();
         Integer chave[] = {carrinho.getId(), p.getId()};
-        ItemCarrinho item = (ItemCarrinho) ItemCarrinhoDAO.getInstance().read(chave);
         int quantidade = (int) quantidadeSpn.getValue();
         if (quantidade <= 0) {
-            cntrl.removerProdutoCarrinho(carrinho.getId(), p.getId(), 1);
-            atualizarTabelaCarrinho();
-            return;
-        } else if (quantidade >= item.getQuantidade()) {
-            cntrl.apagarProdutoCarrinho(carrinho.getId(), p.getId());
+            cntrl.menosProduto(usuario, p, 1);
             atualizarTabelaCarrinho();
             return;
         }
-        cntrl.removerProdutoCarrinho(carrinho.getId(), p.getId(), quantidade);
+        cntrl.menosProduto(usuario, p, quantidade);
         atualizarTabelaCarrinho();
+    }
+
+    private void atualizarTabelaCarrinho() {
+        tableModel.setRowCount(0);
+
+        for (ItemEscolhido item : cntrl.listarItens(usuario)) {
+            Object[] rowData = {
+                item.getProduto().getMarca() + " " + item.getProduto().getNome(),
+                item.getQuantidade(),
+                cntrl.valorProdutoCarrinho(item.getProduto(), item.getQuantidade())
+            };
+            tableModel.addRow(rowData);
+        }
     }
 
     private Produto produtoSelecionado() {
@@ -739,8 +753,7 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void preencherComboBoxProdutos() {
         produtosComboBox.removeAllItems();
-        List<Produto> produtos = prdao.listarTudo();
-        for (Produto produto : produtos) {
+        for (Produto produto : prdao.listarTudo()) {
             produtosComboBox.addItem(produto.getMarca() + " " + produto.getNome()
                     + " - R$" + produto.getPreco());
         }
@@ -761,20 +774,6 @@ public class TelaLoja extends javax.swing.JFrame {
         );
 
         jTable1.setModel(tableModel);
-    }
-
-    private void atualizarTabelaCarrinho() {
-        tableModel.setRowCount(0);
-
-        for (ItemCarrinho item : cntrl.listarProdutosCarrinho(carrinho.getId())) {
-            Produto p = (Produto) prdao.read(item.getProdutoID());
-            Object[] rowData = {
-                p.getMarca() + " " + p.getNome(),
-                item.getQuantidade(),
-                cntrl.produtoValor(carrinho.getId(), item.getProdutoID())
-            };
-            tableModel.addRow(rowData);
-        }
     }
 
     private void adicionaRadioButton() {

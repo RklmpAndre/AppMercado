@@ -3,9 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/view/TelaLoja.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/view/App.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/persist/ItemEscolhidoDAO.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/Controller/Controller.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/entity/Carrinho.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/entity/Historico.java</file>
             <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/persist/PessoaDAO.java</file>
-            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/view/TelaLogin.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/view/TelaLoja.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/view/TelaHistorico.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/persist/HistoricoDAO.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/persist/ProdutoDAO.java</file>
+            <file>file:/D:/andre/Documents/Prog/AppMercado_BD/AppMercadoBD/src/persist/HistoricoTO.java</file>
         </group>
     </open-files>
 </project-private>

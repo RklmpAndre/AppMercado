@@ -49,7 +49,7 @@
                 <Column editable="false" title="Forma de pagamento" type="java.lang.Object"/>
                 <Column editable="false" title="Total da compra" type="java.lang.Object"/>
                 <Column editable="false" title="Produtos" type="java.lang.Object"/>
-                <Column editable="false" title="Endereco de Entrega" type="java.lang.Object"/>
+                <Column editable="false" title="Endereco de entrega" type="java.lang.Object"/>
                 <Column editable="false" title="Data de entrega" type="java.lang.Object"/>
               </Table>
             </Property>

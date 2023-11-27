@@ -25,12 +25,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="painelLogin" alignment="0" max="32767" attributes="0"/>
+          <Component id="painelLogin" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="painelLogin" alignment="0" max="32767" attributes="0"/>
+          <Component id="painelLogin" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -41,47 +41,37 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="loginLabel" alignment="0" min="-2" pref="52" max="-2" attributes="0"/>
-                      <Component id="senhaLabel" alignment="0" min="-2" pref="52" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="2" attributes="0">
                   <EmptySpace min="102" pref="102" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="loginTextField" alignment="2" max="32767" attributes="0"/>
-                      <Component id="senhaPasswordField" alignment="2" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="2" attributes="0">
+                          <Component id="senhaPasswordField" alignment="2" min="-2" pref="178" max="-2" attributes="0"/>
+                          <Component id="senhaLabel" alignment="2" min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="entrarButton" alignment="2" min="-2" pref="104" max="-2" attributes="0"/>
+                          <Component id="cadastro_areaButton" alignment="2" min="-2" pref="178" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="loginTextField" min="-2" pref="178" max="-2" attributes="0"/>
+                      <Component id="loginLabel" min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="102" pref="102" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="2" attributes="0">
-                  <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cadastro_areaButton" alignment="2" min="-2" pref="178" max="-2" attributes="0"/>
-                      <Component id="entrarButton" alignment="2" min="-2" pref="104" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
+                  <EmptySpace pref="73" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="64" pref="64" max="-2" attributes="0"/>
                   <Component id="loginLabel" min="-2" pref="27" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                   <Component id="loginTextField" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                   <Component id="senhaLabel" min="-2" pref="27" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                   <Component id="senhaPasswordField" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                   <Component id="entrarButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                  <EmptySpace pref="21" max="32767" attributes="0"/>
                   <Component id="cadastro_areaButton" min="-2" pref="15" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

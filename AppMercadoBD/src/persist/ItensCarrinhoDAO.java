@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -100,12 +102,77 @@ public class ItensCarrinhoDAO implements DAO {
 
     @Override
     public boolean update(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Objects.requireNonNull(obj);
+        if (obj instanceof ItensCarrinho) {
+            ItensCarrinho ic = (ItensCarrinho) obj;
+            String sql = "UPDATE itens_carrinho SET carrinho_id = ?, produto_id = ?, quantidade = ?, valor = ? WHERE id = ?";
+            PreparedStatement pstmt;
+            try {
+                pstmt = conexao.prepareStatement(sql);
+                pstmt.setInt(1, ic.getCarrinho_id());
+                pstmt.setInt(2, ic.getProduto_id());
+                pstmt.setInt(3, ic.getQuantidade());
+                pstmt.setDouble(4, ic.getValor());
+                pstmt.setInt(5, ic.getId());
+                pstmt.executeUpdate();
+                return true;
+            } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean delete(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Object retornoCarrinhoProduto(Object obj) {
+        Objects.requireNonNull(obj);
+        if (obj instanceof Integer[]) {
+            Integer[] ids = (Integer[]) obj;
+            int carrinhoId = ids[0];
+            int produtoId = ids[1];
+            String sql = "SELECT * FROM itens_carrinho WHERE carrinho_id = ? AND produto_id = ?";
+            try {
+                PreparedStatement pstmt = conexao.prepareStatement(sql);
+                pstmt.setInt(1, carrinhoId);
+                pstmt.setInt(2, produtoId);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    int id = rs.getInt("id");
+                    int quantidade = rs.getInt("quantidade");
+                    double valor = rs.getDouble("valor");
+
+                    ItensCarrinho ic = new ItensCarrinho(carrinhoId, produtoId, quantidade, valor);
+                    return ic;
+                }
+            } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
+            }
+        }
+        return null;
+    }
+
+    public List<ItensCarrinho> listarItensCarrinho(int carrinho_id) {
+        List<ItensCarrinho> itensCarrinho = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM itens_carrinho WHERE carrinho_id = " + carrinho_id;
+            Statement stmt = conexao.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int produtoId = rs.getInt(2);
+                int quantidade = rs.getInt(3);
+                double valor = rs.getDouble(4);
+                ItensCarrinho item = new ItensCarrinho(carrinho_id, produtoId, quantidade, valor);
+
+                itensCarrinho.add(item);
+            }
+        } catch (SQLException sqe) {
+            System.out.println("Erro = " + sqe);
+        }
+        return itensCarrinho;
     }
 
 }

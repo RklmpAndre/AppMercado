@@ -1,5 +1,7 @@
 package persist;
 
+import persist.*;
+
 /**
  *
  * @author andre; arthur

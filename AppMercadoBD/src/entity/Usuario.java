@@ -1,5 +1,6 @@
 package entity;
 
+import entity.*;
 import java.util.Objects;
 import util.TipoUsuario;
 

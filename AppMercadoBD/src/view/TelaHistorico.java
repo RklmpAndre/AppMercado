@@ -1,8 +1,7 @@
 package view;
 
-import entity.Compra;
-import java.util.ArrayList;
-import java.util.List;
+import entity.Carrinho;
+import entity.Pessoa;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 public class TelaHistorico extends javax.swing.JFrame {
 
     private DefaultTableModel tableModel;
-    private int historico_id;
+    private Carrinho carrinho;
+    private Pessoa usuario;
+
     /**
      * Creates new form TelaHistorico
      */
@@ -22,12 +23,13 @@ public class TelaHistorico extends javax.swing.JFrame {
         initComponents();
     }
 
-    public TelaHistorico(int historico_id) {
-        this.historico_id = historico_id;
+    public TelaHistorico(Pessoa usuario, Carrinho carrinho) {
+        this.carrinho = carrinho;
+        this.usuario = usuario;
         configurarTabela();
         initComponents();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +52,7 @@ public class TelaHistorico extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Data da compra", "Pedido de entrega", "Forma de pagamento", "Total da compra", "Produtos", "Endereco de Entrega", "Data de entrega"
+                "Data da compra", "Pedido de entrega", "Forma de pagamento", "Total da compra", "Produtos", "Endereco de entrega", "Data de entrega"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -132,11 +134,12 @@ public class TelaHistorico extends javax.swing.JFrame {
         // Configura o DefaultTableModel para a jTable1
         tableModel = new DefaultTableModel(
                 new Object[][]{}, // Dados iniciais (vazio)
-                new String[]{"Produto", "Quantidade", "Valor"} // Nomes das colunas
+                new String[]{"Data da compra", "Pedido de entrega", "Forma de pagamento", "Total da compra", "Produtos", "Endereco de entrega", "Data de entrega"} // Nomes das colunas
         );
 
         jTable1.setModel(tableModel);
     }
 
-  
+    
+
 }

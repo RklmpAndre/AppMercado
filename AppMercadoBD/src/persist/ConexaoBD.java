@@ -1,42 +1,44 @@
-    package persist;
+package persist;
 
 import java.sql.*; // para manipulação do JDBC
+
 /**
  *
  * @author andre; arthur
  */
 public class ConexaoBD {
-    
-/**
- * Classe respons�vel pelo gerenciamento da conex�o com o banco de dados
- * @author Karen Borges
- */
+
+    /**
+     * Classe respons�vel pelo gerenciamento da conex�o com o banco de dados
+     *
+     * @author Karen Borges
+     */
     //Atributos para manipulação do BD
-    private static String user="root";
-    private static String password= "Lunezinho1702!";
-    private static String driver="com.mysql.cj.jdbc.Driver";
-    private static String url= "jdbc:mysql://localhost:3306/appmercado_bd";
+    private static String user = "root";
+    private static String password = "Lunezinho1702!";
+    private static String driver = "com.mysql.cj.jdbc.Driver";
+    private static String url = "jdbc:mysql://localhost:3306/appmercado_bd";
     private static Connection conexao;
     private static ConexaoBD conexaoBD;
-    
-    public static ConexaoBD getInstance() throws ClassNotFoundException, SQLException  {
-         if( conexaoBD == null ) {
-              conexaoBD = new ConexaoBD();
-         } 
-         return conexaoBD;
+
+    public static ConexaoBD getInstance() throws ClassNotFoundException, SQLException {
+        if (conexaoBD == null) {
+            conexaoBD = new ConexaoBD();
+        }
+        return conexaoBD;
     }
-    
-    private ConexaoBD() throws ClassNotFoundException, SQLException  {
+
+    private ConexaoBD() throws ClassNotFoundException, SQLException {
         conexao = abrirConexao();
     }
-    
+
     private Connection abrirConexao() throws ClassNotFoundException, SQLException {
         Class.forName(driver); //carrega o drive. Pode gerar ClassNotFoundException
         conexao = DriverManager.getConnection(url, user, password); // abre a conex�o para esta URL usando o driver carregado na linha anterior
         return conexao; //Conseguiu abrir a conexao
     }
-  
-    public static void fecharConexao() throws SQLException{
+
+    public static void fecharConexao() throws SQLException {
         conexao.close();
         conexao = null;
     }
@@ -44,8 +46,7 @@ public class ConexaoBD {
     public static Connection getConexao() {
         return conexao;
     }
-      
-    
+
     public static void main(String[] args) {
         ConexaoBD con;
         try {
@@ -58,6 +59,6 @@ public class ConexaoBD {
         } catch (ClassNotFoundException ex) {
             System.out.println("Erro = " + ex);
         }
-        
+
     }
 }

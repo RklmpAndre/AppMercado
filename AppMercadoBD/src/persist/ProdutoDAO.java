@@ -80,7 +80,6 @@ public class ProdutoDAO implements DAO {
 
     @Override
     public Object read(Object obj) {
-        Objects.requireNonNull(obj);
         if (obj instanceof Integer) {
             try {
                 Integer codigo = (Integer) obj;
@@ -90,20 +89,18 @@ public class ProdutoDAO implements DAO {
                 if (rs.isBeforeFirst()) {
                     rs.next();
                     int id = rs.getInt(1);
-                    String marca = rs.getString(2);
-                    String nome = rs.getString(3);
-                    int quantidade = rs.getInt(4);
-                    String descricao = rs.getString(5);
-                    double preco = rs.getDouble(6);
+                    String marca = rs.getString(3);
+                    String nome = rs.getString(4);
+                    int quantidade = rs.getInt(6);
+                    String descricao = rs.getString(2);
+                    double preco = rs.getDouble(5);
                     int tipo = rs.getInt(7);
                     Produto p = new Produto(marca, nome, descricao, quantidade, preco, TipoProduto.fromInt(tipo));
-
                     p.setId(id);
-
                     return p;
                 }
             } catch (SQLException ex) {
-                System.out.println("Erro = " + ex);
+                System.out.println("Erro = " + ex + "read");
             }
         }
         return null;
@@ -115,13 +112,13 @@ public class ProdutoDAO implements DAO {
         if (obj instanceof Produto) {
             Produto p = (Produto) obj;
             try {
-                String sql = "UPDATE estoque SET marca = ?, nome = ?, quantidade = ?, descricao = ?, preco = ?, tipo = ? WHERE id = ?";
+                String sql = "UPDATE estoque SET descricao = ?, marca = ?, nome = ?, valor_unitario = ?, quantidade = ?, tipo = ? WHERE id = ?";
                 PreparedStatement pstmt = conexao.prepareStatement(sql);
-                pstmt.setString(1, p.getMarca());
-                pstmt.setString(2, p.getNome());
-                pstmt.setInt(3, p.getQuantidade());
-                pstmt.setString(4, p.getDescricao());
-                pstmt.setDouble(5, p.getPreco());
+                pstmt.setString(1, p.getDescricao());
+                pstmt.setString(2, p.getMarca());
+                pstmt.setString(3, p.getNome());
+                pstmt.setDouble(4, p.getPreco());
+                pstmt.setInt(5, p.getQuantidade());
                 pstmt.setInt(6, p.getTipo().ordinal());
                 pstmt.setInt(7, p.getId());
                 pstmt.executeUpdate();
@@ -129,10 +126,8 @@ public class ProdutoDAO implements DAO {
             } catch (SQLException ex) {
                 System.out.println("Erro = " + ex);
             }
-
         }
         return false;
-
     }
 
     @Override
@@ -172,10 +167,10 @@ public class ProdutoDAO implements DAO {
                 produto.setId(id);
                 produtos.add(produto);
             }
+            return produtos;
         } catch (SQLException ex) {
             System.out.println("Erro = " + ex);
         }
-        return produtos;
+        return null;
     }
-
 }
