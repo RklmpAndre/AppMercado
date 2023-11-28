@@ -71,12 +71,12 @@
               <Group type="102" attributes="0">
                   <EmptySpace pref="62" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cpfFTF" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
+                      <Component id="dataFTF" min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="cpfFTF" min="-2" pref="93" max="-2" attributes="0"/>
                       <Component id="cpfLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="nomeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="nomeFTF" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                       <Component id="dataLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="dataFTF" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="63" max="32767" attributes="0"/>
               </Group>
@@ -87,17 +87,17 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="cpfLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cpfFTF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="cpfFTF" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="nomeLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="nomeFTF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="dataLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="dataFTF" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <EmptySpace pref="59" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -115,14 +115,22 @@
             <Property name="text" type="java.lang.String" value="CPF"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="cpfFTF">
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="dataFTF">
-        </Component>
         <Component class="javax.swing.JLabel" name="dataLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Data Nascimento"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="cpfFTF">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(CpfMask);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="MaskFormatter CpfMask = null;&#xa;try{&#xa;CpfMask= new MaskFormatter(&quot;###.###.###-##&quot;);&#xa;} catch (Exception e){&#xa;e.printStackTrace();&#xa;}"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="dataFTF">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(dataMask);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="MaskFormatter dataMask = null;&#xa;        try{&#xa;            dataMask= new MaskFormatter(&quot;##/##/####&quot;);&#xa;        } catch (Exception e){&#xa;            e.printStackTrace();&#xa;        }"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

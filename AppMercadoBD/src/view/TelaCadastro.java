@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 import persist.PessoaDAO;
 import util.ValidaCPF;
 
@@ -42,9 +43,21 @@ public class TelaCadastro extends javax.swing.JFrame {
         nomeFTF = new javax.swing.JFormattedTextField();
         nomeLabel = new javax.swing.JLabel();
         cpfLabel = new javax.swing.JLabel();
-        cpfFTF = new javax.swing.JFormattedTextField();
-        dataFTF = new javax.swing.JFormattedTextField();
         dataLabel = new javax.swing.JLabel();
+        MaskFormatter CpfMask = null;
+        try{
+            CpfMask= new MaskFormatter("###.###.###-##");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        cpfFTF = new javax.swing.JFormattedTextField(CpfMask);
+        MaskFormatter dataMask = null;
+        try{
+            dataMask= new MaskFormatter("##/##/####");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        dataFTF = new javax.swing.JFormattedTextField(dataMask);
         cadastroPanel = new javax.swing.JPanel();
         confirmaEmailFTF = new javax.swing.JFormattedTextField();
         confirmaEmailLabel = new javax.swing.JLabel();
@@ -76,12 +89,12 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(dadosPessoaisPanelLayout.createSequentialGroup()
                 .addContainerGap(62, Short.MAX_VALUE)
                 .addGroup(dadosPessoaisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cpfLabel)
                     .addComponent(nomeLabel)
                     .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataLabel)
-                    .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dataLabel))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         dadosPessoaisPanelLayout.setVerticalGroup(
@@ -89,17 +102,17 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(dadosPessoaisPanelLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(cpfLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nomeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dataLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         cadastroPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro"));
@@ -277,6 +290,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             if(pdao.create(pessoa)){
                 JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
                 new TelaLoja(pessoa.getCpf()).setVisible(true);
+                this.dispose();
             }else{
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
             }

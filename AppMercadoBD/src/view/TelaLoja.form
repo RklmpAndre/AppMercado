@@ -324,9 +324,9 @@
                               <Component id="nomeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="dataEntregaLabel" max="32767" attributes="0"/>
-                              <Component id="dataEntregaFormattedTextField" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="dataEntregaLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="dataEntregaFormattedTextField" min="-2" pref="72" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -446,12 +446,16 @@
             <Property name="text" type="java.lang.String" value="Nome"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="dataEntregaFormattedTextField">
-        </Component>
         <Component class="javax.swing.JLabel" name="dataEntregaLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Data de Entrega"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="dataEntregaFormattedTextField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(dataMask);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="MaskFormatter dataMask = null;&#xa;        try{&#xa;            dataMask= new MaskFormatter(&quot;##/##/####&quot;);&#xa;        } catch (Exception e){&#xa;            e.printStackTrace();&#xa;        }"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

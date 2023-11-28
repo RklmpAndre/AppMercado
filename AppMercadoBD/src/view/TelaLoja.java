@@ -6,11 +6,13 @@ import Controller.*;
 import util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -106,8 +108,14 @@ public class TelaLoja extends javax.swing.JFrame {
         complementoLabel = new javax.swing.JLabel();
         nomeFormattedTextField = new javax.swing.JFormattedTextField();
         nomeLabel = new javax.swing.JLabel();
-        dataEntregaFormattedTextField = new javax.swing.JFormattedTextField();
         dataEntregaLabel = new javax.swing.JLabel();
+        MaskFormatter dataMask = null;
+        try{
+            dataMask= new MaskFormatter("##/##/####");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        dataEntregaFormattedTextField = new javax.swing.JFormattedTextField(dataMask);
         finalizacaoPainel = new javax.swing.JPanel();
         comprarBtn = new javax.swing.JToggleButton();
         pixRadioButton = new javax.swing.JRadioButton();
@@ -269,9 +277,9 @@ public class TelaLoja extends javax.swing.JFrame {
                             .addComponent(nomeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nomeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(dataEntregaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dataEntregaFormattedTextField))))
+                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dataEntregaLabel)
+                            .addComponent(dataEntregaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         entregaPainelLayout.setVerticalGroup(
@@ -484,7 +492,14 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
         double valor_total = 0.0;
-        if (cntrl.listarItensEscolhidos(usuario).isEmpty()) {
+        String data = dataEntregaFormattedTextField.getText();
+        LocalDate dataAtual = null;
+        LocalDate hoje = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        dataAtual = LocalDate.parse(data, formato);
+        if (dataAtual.compareTo(hoje) < 0) {
+            JOptionPane.showMessageDialog(this, "A data de entrega deve igual ou posterior ao dia de hoje");
+        } else if (cntrl.listarItensEscolhidos(usuario).isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
         } else if (formaPagamentoGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
@@ -511,9 +526,8 @@ public class TelaLoja extends javax.swing.JFrame {
                 ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
                 icdao.create(ic);
             }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data_entrega = LocalDate.parse(dataEntregaFormattedTextField.getText(), formatter);
-            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), true, getEndereco().toString(), data_entrega, valor_total);
+
+            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), true, getEndereco().toString(), dataAtual, valor_total);
             historico = historico2;
             hdao.create(historico);
             limparCarrinho();
@@ -796,11 +810,11 @@ public class TelaLoja extends javax.swing.JFrame {
             estadosOrdenados.add(estado.getSigla());
         }
         Collections.sort(estadosOrdenados);
-        
+
         for (String estado : estadosOrdenados) {
-        estadoComboBox.addItem(estado);
-    }
-        
+            estadoComboBox.addItem(estado);
+        }
+
     }
 
     private void configurarTabela() {
@@ -839,9 +853,9 @@ public class TelaLoja extends javax.swing.JFrame {
         }
         return null;
     }
-    
-    private void isAdm(){
-        if(usuario.getUser().getTipoUsuario().ordinal() == 0){
+
+    private void isAdm() {
+        if (usuario.getUser().getTipoUsuario().ordinal() == 0) {
             admMenu.setVisible(false);
             return;
         }

@@ -2,6 +2,7 @@ package view;
 
 import entity.Pessoa;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 import persist.PessoaDAO;
 
 /**
@@ -31,26 +32,25 @@ public class TelaLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        painelLogin = new javax.swing.JPanel();
-        loginLabel = new javax.swing.JLabel();
-        senhaLabel = new javax.swing.JLabel();
-        senhaPasswordField = new javax.swing.JPasswordField();
         cadastro_areaButton = new javax.swing.JButton();
-        loginTextField = new javax.swing.JFormattedTextField();
         entrarButton = new javax.swing.JButton();
+        senhaPasswordField = new javax.swing.JPasswordField();
+        senhaLabel = new javax.swing.JLabel();
+        MaskFormatter CpfMask = null;
+        try{
+            CpfMask= new MaskFormatter("###.###.###-##");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        loginFTF = new javax.swing.JFormattedTextField(CpfMask);
+        loginLabel = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IFStore Login");
         setResizable(false);
 
-        loginLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        loginLabel.setText("Login");
-
-        senhaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        senhaLabel.setText("Senha");
-
-        cadastro_areaButton.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        cadastro_areaButton.setText("Não conta? Cadastre-se");
+        cadastro_areaButton.setText("Não possue conta? Cadastre-se aqui!");
         cadastro_areaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastro_areaButtonActionPerformed(evt);
@@ -65,49 +65,52 @@ public class TelaLogin extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout painelLoginLayout = new javax.swing.GroupLayout(painelLogin);
-        painelLogin.setLayout(painelLoginLayout);
-        painelLoginLayout.setHorizontalGroup(
-            painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelLoginLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addGroup(painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(senhaPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(senhaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(entrarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cadastro_areaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(loginTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+        senhaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        senhaLabel.setText("Senha (mínimo 8 digitos)");
+
+        loginLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginLabel.setText("Login (CPF)");
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/APP-MERCADO__IFRStore_-removebg-preview.png"))); // NOI18N
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(cadastro_areaButton)
+                            .addComponent(entrarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(senhaPasswordField)
+                            .addComponent(loginFTF)
+                            .addComponent(jLabel9))
+                        .addGap(111, 111, 111))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(loginLabel)
+                            .addComponent(senhaLabel))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        painelLoginLayout.setVerticalGroup(
-            painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelLoginLayout.createSequentialGroup()
-                .addGap(64, 64, 64)
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(loginTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loginFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(senhaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(senhaPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(entrarButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(cadastro_areaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,7 +124,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
 
-        String login = loginTextField.getText();
+        String login = loginFTF.getText();
         String senha = senhaPasswordField.getText();
 
         if (pdao.read(login) != null) {
@@ -176,9 +179,9 @@ public class TelaLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cadastro_areaButton;
     private javax.swing.JButton entrarButton;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JFormattedTextField loginFTF;
     private javax.swing.JLabel loginLabel;
-    private javax.swing.JFormattedTextField loginTextField;
-    private javax.swing.JPanel painelLogin;
     private javax.swing.JLabel senhaLabel;
     private javax.swing.JPasswordField senhaPasswordField;
     // End of variables declaration//GEN-END:variables
