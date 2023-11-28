@@ -276,7 +276,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             pessoa.setUser(usuario);
             if(pdao.create(pessoa)){
                 JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
-                new TelaLoja(pessoa.getCpf());
+                new TelaLoja(pessoa.getCpf()).setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
             }

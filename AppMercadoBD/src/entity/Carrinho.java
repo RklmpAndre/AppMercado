@@ -54,4 +54,12 @@ public class Carrinho {
         this.data_compra = data_compra;
     }
 
+    @Override
+    public String toString() {
+        return "Carrinho{" + "id=" + getId() + ", usuario_cpf=" + getUsuarioCpf() + ", data_compra=" + getDataCompraString() + '}';
+    }
+
+    
+    
+    
 }

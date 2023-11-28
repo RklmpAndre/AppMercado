@@ -15,7 +15,7 @@ public class Historico {
     private LocalDate data;
     private boolean entrega;//
     private TipoPagamento tipoPagamento;
-    private Endereco endereco;//
+    private String endereco;//
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private double total_compra;
 
@@ -29,17 +29,17 @@ public class Historico {
         setEntrega(entrega);
     }
 
-    public Historico(int carrinho_id, TipoPagamento tipo_pagamento, boolean entrega, Endereco endereco, LocalDate data, double total_compra) {
+    public Historico(int carrinho_id, TipoPagamento tipo_pagamento, boolean entrega, String endereco, LocalDate data, double total_compra) {
         this(carrinho_id, tipo_pagamento, entrega, total_compra);
-        setEnderecoEntrega(endereco);
+        setEndereco(endereco);
         setData(data);
     }
 
-    public Endereco getEndereco() {
+    public String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
@@ -82,25 +82,39 @@ public class Historico {
     public void setTipoPagamento(TipoPagamento tipoPagamento) {
         this.tipoPagamento = tipoPagamento;
     }
-
-    public Endereco getEnderecoEntrega() {
-        return endereco;
-    }
-
-    public void setEnderecoEntrega(Endereco enderecoEntrega) {
-        this.endereco = enderecoEntrega;
-    }
-
+    
     public LocalDate getData() {
         return data;
     }
 
     public String getDataString() {
-        return data.format(formatter);
+        if (getData() == null) {
+            return " ";
+        }else return data.format(formatter);
     }
 
     public void setData(LocalDate data) {
         Objects.requireNonNull(data);
         this.data = data;
     }
+
+    public String entregaString() {
+        if(isEntrega()){
+            return "Sim";
+        }else return "Não";
+    }
+    
+    @Override
+    public String toString() {
+        if(isEntrega()){
+            return "Historico{" + "id=" + getId() + ", carrinho_id=" + getCarrinho_id() + ", endereco=" + getEndereco() + ", data_entrega=" + getDataString() + ", forma_pagamento=" +
+                getTipoPagamento() + ", entrega=Sim"+ ", total_compra=" + getTotal_compra();
+        }else{
+            return "Historico[" + "id=" + getId() + ", carrinho_id=" + getCarrinho_id() + ", forma_pagamento=" + getTipoPagamento() + ", entrega=Não" + ", total_compra=" + getTotal_compra();
+        }
+        
+    }
+
+    
+    
 }

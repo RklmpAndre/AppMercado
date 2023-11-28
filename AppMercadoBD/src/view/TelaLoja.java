@@ -6,6 +6,9 @@ import Controller.*;
 import util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,6 +46,7 @@ public class TelaLoja extends javax.swing.JFrame {
         preencherComboBoxProdutos();
         configurarTabela();
         atualizarTabelaCarrinho();
+        isAdm();
     }
 
     public TelaLoja(String usuario_id) {
@@ -61,6 +65,7 @@ public class TelaLoja extends javax.swing.JFrame {
         preencherComboBoxProdutos();
         configurarTabela();
         atualizarTabelaCarrinho();
+        isAdm();
     }
 
     /**
@@ -347,7 +352,7 @@ public class TelaLoja extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        perfilMenu.setText("Perfil");
+        perfilMenu.setText("Opções");
 
         historicoComprasBtn.setText("Histórico de Compras");
         historicoComprasBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -465,7 +470,7 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
         double valor_total = 0.0;
-        if (cntrl.listarItens(usuario).isEmpty()) {
+        if (cntrl.listarItensEscolhidos(usuario).isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
         } else if (formaPagamentoGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
@@ -473,7 +478,7 @@ public class TelaLoja extends javax.swing.JFrame {
             carrinho.setDataCompra(LocalDate.now());
             carrinho.setUsuarioCpf(usuario.getCpf());
             cdao.create(carrinho);
-            for (ItemEscolhido item_escolhido : cntrl.listarItens(usuario)) {
+            for (ItemEscolhido item_escolhido : cntrl.listarItensEscolhidos(usuario)) {
                 valor_total += cntrl.valorProdutoCarrinho(item_escolhido.getProduto(), item_escolhido.getQuantidade());
                 ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
                 icdao.create(ic);
@@ -487,14 +492,14 @@ public class TelaLoja extends javax.swing.JFrame {
             carrinho.setDataCompra(LocalDate.now());
             carrinho.setUsuarioCpf(usuario.getCpf());
             cdao.create(carrinho);
-            for (ItemEscolhido item_escolhido : cntrl.listarItens(usuario)) {
+            for (ItemEscolhido item_escolhido : cntrl.listarItensEscolhidos(usuario)) {
                 valor_total += cntrl.valorProdutoCarrinho(item_escolhido.getProduto(), item_escolhido.getQuantidade());
                 ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
                 icdao.create(ic);
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate data_entrega = LocalDate.parse(dataEntregaFormattedTextField.getText(), formatter);
-            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), true, getEndereco(), data_entrega, valor_total);
+            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), true, getEndereco().toString(), data_entrega, valor_total);
             historico = historico2;
             hdao.create(historico);
             limparCarrinho();
@@ -507,7 +512,7 @@ public class TelaLoja extends javax.swing.JFrame {
     }//GEN-LAST:event_entregaCheckBoxActionPerformed
 
     private void historicoComprasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoComprasBtnActionPerformed
-        new TelaHistorico().setVisible(true);
+        new TelaHistorico(usuario).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_historicoComprasBtnActionPerformed
 
@@ -703,7 +708,7 @@ public class TelaLoja extends javax.swing.JFrame {
     private void atualizarTabelaCarrinho() {
         tableModel.setRowCount(0);
 
-        for (ItemEscolhido item : cntrl.listarItens(usuario)) {
+        for (ItemEscolhido item : cntrl.listarItensEscolhidos(usuario)) {
             Object[] rowData = {
                 item.getProduto().getMarca() + " " + item.getProduto().getNome(),
                 item.getQuantidade(),
@@ -761,9 +766,16 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void preencherComboBoxEstado() {
         estadoComboBox.removeAllItems();
+        List<String> estadosOrdenados = new ArrayList<>();
         for (UnidadeFederacao estado : UnidadeFederacao.values()) {
-            estadoComboBox.addItem(estado.getSigla());
+            estadosOrdenados.add(estado.getSigla());
         }
+        Collections.sort(estadosOrdenados);
+        
+        for (String estado : estadosOrdenados) {
+        estadoComboBox.addItem(estado);
+    }
+        
     }
 
     private void configurarTabela() {
@@ -801,5 +813,14 @@ public class TelaLoja extends javax.swing.JFrame {
             }
         }
         return null;
+    }
+    
+    private void isAdm(){
+        if(usuario.getUser().getTipoUsuario().ordinal() == 0){
+            admMenu.setVisible(false);
+            return;
+        }
+        admMenu.setVisible(true);
+        return;
     }
 }

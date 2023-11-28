@@ -158,15 +158,17 @@ public class ItensCarrinhoDAO implements DAO {
     public List<ItensCarrinho> listarItensCarrinho(int carrinho_id) {
         List<ItensCarrinho> itensCarrinho = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM itens_carrinho WHERE carrinho_id = " + carrinho_id;
+            String sql = "SELECT * FROM itens_carrinho WHERE carrinho_id = '" + carrinho_id + "'";
             Statement stmt = conexao.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int produtoId = rs.getInt(2);
-                int quantidade = rs.getInt(3);
-                double valor = rs.getDouble(4);
+                int itens_carrinho_id = rs.getInt(1);
+                int produtoId = rs.getInt(3);
+                int quantidade = rs.getInt(4);
+                double valor = rs.getDouble(5);
                 ItensCarrinho item = new ItensCarrinho(carrinho_id, produtoId, quantidade, valor);
-
+                item.setId(itens_carrinho_id);
+                
                 itensCarrinho.add(item);
             }
         } catch (SQLException sqe) {

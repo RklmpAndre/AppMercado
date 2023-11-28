@@ -5,7 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import util.TipoPagamento;
 
 /**
  *
@@ -41,7 +45,7 @@ public class HistoricoDAO implements DAO {
 
     @Override
     public boolean create(Object obj) {
-         Objects.requireNonNull(obj);
+        Objects.requireNonNull(obj);
         if (obj instanceof Historico) {
             Historico h = (Historico) obj;
             int id = -1;
@@ -51,7 +55,7 @@ public class HistoricoDAO implements DAO {
                 pedido_entrega = 1;
             }
             int forma_pagamento = h.getTipoPagamento().ordinal();
-            String endereco_entrega = h.isEntrega() ? h.getEnderecoEntrega().toString() : " ";
+            String endereco_entrega = h.isEntrega() ? h.getEndereco() : " ";
             String data_entrega = h.isEntrega() ? h.getDataString() : " ";
             double total_compra = h.getTotal_compra();
             try {
@@ -80,7 +84,36 @@ public class HistoricoDAO implements DAO {
 
     @Override
     public Object read(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (obj != null && obj instanceof Integer) {
+            int carrinho_id = (int) obj;
+            String sql = "SELECT * FROM historico WHERE carrinho_id = '" + carrinho_id + "'";
+            try {
+                Statement stmt = conexao.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    int id = rs.getInt(1);
+                    String endereco = rs.getString("endereco");
+                    String data = rs.getString("data");
+                    int forma_pagamento = rs.getInt("forma_pagamento");
+                    int entrega = rs.getInt("entrega");
+                    double total_compra = rs.getDouble("total_compra");
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    Historico historico;
+                    if(entrega == 0){
+                        historico = new Historico(carrinho_id, TipoPagamento.fromInt(forma_pagamento), false, total_compra);
+                        historico.setId(id);
+                        return historico;
+                    }else{
+                        historico = new Historico(carrinho_id, TipoPagamento.fromInt(forma_pagamento), true, endereco, LocalDate.parse(data, formato), total_compra);
+                        historico.setId(id);
+                        return historico;
+                    }
+                }
+            } catch (SQLException sqe) {
+                System.out.println("Erro = " + sqe);
+            }
+        }
+        return null;
     }
 
     @Override

@@ -5,10 +5,11 @@ import entity.ItemEscolhido;
 import entity.ItensCarrinho;
 import entity.Pessoa;
 import entity.Produto;
-import java.time.LocalDate;
 import java.util.List;
 import persist.CarrinhoDAO;
+import persist.HistoricoDAO;
 import persist.ItemEscolhidoDAO;
+import persist.ItensCarrinhoDAO;
 import persist.ProdutoDAO;
 
 /**
@@ -17,20 +18,22 @@ import persist.ProdutoDAO;
  */
 public class Controller {
 
+    ItensCarrinhoDAO icdao = ItensCarrinhoDAO.getInstance();
     ItemEscolhidoDAO iedao = ItemEscolhidoDAO.getInstance();
     ProdutoDAO pdao = ProdutoDAO.getInstance();
     CarrinhoDAO cdao = CarrinhoDAO.getInstance();
+    HistoricoDAO hdao = HistoricoDAO.getInstance();
 
     public Controller() {
     }
     
     public void esvaziarCarrinho(Pessoa usuario) {
-        for (ItemEscolhido item : listarItens(usuario)) {
+        for (ItemEscolhido item : listarItensEscolhidos(usuario)) {
             Object[] keys = {item.getProduto().getId(), usuario.getCpf()};
             iedao.delete(keys);
         }
     }
-    
+
     public boolean maisProduto(Pessoa usuario, Produto produto, int quantidade) {
         ItemEscolhido item_escolhido = new ItemEscolhido(produto, quantidade, valorProdutoCarrinho(produto, quantidade), usuario);
         Object[] keys = {produto.getId(), usuario.getCpf()};
@@ -77,19 +80,21 @@ public class Controller {
         }
         return 0.0;
     }
-    
-    
-    
-    public List<ItemEscolhido> listarItens(Pessoa usuario) {
+
+    public List<ItemEscolhido> listarItensEscolhidos(Pessoa usuario) {
         return iedao.listarItemEscolhido(usuario.getCpf());
     }
-    
-    public ItensCarrinho itemFinal(ItemEscolhido item_escolhido, int carrinho_id){
+
+    public List<ItensCarrinho> listarItensCarrinho(Carrinho carrinho) {
+        return icdao.listarItensCarrinho(carrinho.getId());
+    }
+
+    public ItensCarrinho itemFinal(ItemEscolhido item_escolhido, int carrinho_id) {
         Produto produto = item_escolhido.getProduto();
         int quantidade = item_escolhido.getQuantidade();
         double valor = item_escolhido.getValor();
         ItensCarrinho item_carrinho = new ItensCarrinho(carrinho_id, produto.getId(), quantidade, valor);
         return item_carrinho;
     }
-    
+
 }

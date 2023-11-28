@@ -1,6 +1,7 @@
 package persist;
 
 import entity.Carrinho;
+import entity.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -116,5 +119,25 @@ public class CarrinhoDAO implements DAO {
         }
         return false;
     }
-    
+
+    public List<Carrinho> listarCarrinhos(Pessoa usuario) {
+        List<Carrinho> carrinhos = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM carrinhos WHERE id_usuario = '" + usuario.getCpf() + "'";
+            Statement stmt = conexao.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int carrinho_id = rs.getInt(1);
+                String data_compra = rs.getString(3);
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                Carrinho carrinho = new Carrinho(usuario.getCpf(), LocalDate.parse(data_compra, formato));
+                carrinho.setId(carrinho_id);
+
+                carrinhos.add(carrinho);
+            }
+        } catch (SQLException sqe) {
+            System.out.println("Erro = " + sqe);
+        }
+        return carrinhos;
+    }
 }
