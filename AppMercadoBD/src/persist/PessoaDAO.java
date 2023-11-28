@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import util.TipoUsuario;
 
 /**
@@ -151,6 +153,45 @@ public class PessoaDAO implements DAO {
             }
         }
         return false;
+    }
+    
+    public List<Pessoa> listarPessoasPorTipo(int tipoUsuario) {
+        List<Pessoa> pessoas = new ArrayList<>();
+        String sql = "SELECT * FROM usuarios WHERE tipo = ?";
+        try {
+            PreparedStatement pstmt = conexao.prepareStatement(sql);
+            pstmt.setInt(1, tipoUsuario);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String cpf = rs.getString("cpf");
+                String email = rs.getString("email");
+                String data = rs.getString("data_nascimento");
+                String nome = rs.getString("nome");
+                String senha = rs.getString("senha");
+                int tipo = rs.getInt("tipo");
+
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate dataNascimento = LocalDate.parse(data, formato);
+
+                Enum tipoUser = TipoUsuario.COMUN;
+                if (tipo != 0) {
+                    tipoUser = TipoUsuario.ADMIN;
+                }
+
+                Usuario user = new Usuario(email, senha);
+                user.setTipoUsuario(tipoUser);
+                Pessoa p = new Pessoa(cpf, nome, dataNascimento);
+                p.setUser(user);
+
+                pessoas.add(p);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro = " + ex);
+        }
+
+        return pessoas;
     }
 
 }

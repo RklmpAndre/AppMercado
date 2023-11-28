@@ -5,11 +5,13 @@ import entity.ItemEscolhido;
 import entity.ItensCarrinho;
 import entity.Pessoa;
 import entity.Produto;
+import entity.Usuario;
 import java.util.List;
 import persist.CarrinhoDAO;
 import persist.HistoricoDAO;
 import persist.ItemEscolhidoDAO;
 import persist.ItensCarrinhoDAO;
+import persist.PessoaDAO;
 import persist.ProdutoDAO;
 
 /**
@@ -18,13 +20,18 @@ import persist.ProdutoDAO;
  */
 public class Controller {
 
+    PessoaDAO pdao = PessoaDAO.getInstance();
     ItensCarrinhoDAO icdao = ItensCarrinhoDAO.getInstance();
     ItemEscolhidoDAO iedao = ItemEscolhidoDAO.getInstance();
-    ProdutoDAO pdao = ProdutoDAO.getInstance();
+    ProdutoDAO prdao = ProdutoDAO.getInstance();
     CarrinhoDAO cdao = CarrinhoDAO.getInstance();
     HistoricoDAO hdao = HistoricoDAO.getInstance();
 
     public Controller() {
+    }
+
+    public List<Pessoa> retornaTipoUsuario(int valor){
+        return pdao.listarPessoasPorTipo(valor);
     }
     
     public void esvaziarCarrinho(Pessoa usuario) {
@@ -73,8 +80,8 @@ public class Controller {
 
     public double valorProdutoCarrinho(Produto produto, int quantidade) {
         double valor = 0.0;
-        if (pdao.read(produto.getId()) != null) {
-            Produto p = (Produto) pdao.read(produto.getId());
+        if (prdao.read(produto.getId()) != null) {
+            Produto p = (Produto) prdao.read(produto.getId());
             valor = quantidade * p.getPreco();
             return valor;
         }

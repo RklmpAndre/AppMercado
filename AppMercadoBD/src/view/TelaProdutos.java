@@ -2,70 +2,34 @@ package view;
 
 import persist.*;
 import entity.*;
-import Controller.*;
-import util.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author andre; arthur
  */
-public class TelaLoja extends javax.swing.JFrame {
+public class TelaProdutos extends javax.swing.JFrame {
 
-    private CarrinhoDAO cdao;
     private ProdutoDAO prdao;
-    private ItensCarrinhoDAO icdao;
-    private HistoricoDAO hdao;
     private Pessoa usuario;
     private DefaultTableModel tableModel;
-    private Carrinho carrinho;
-    private Controller cntrl;
-    private Historico historico;
 
     /**
      * Creates new form TelaPrincipal
      */
-    public TelaLoja() {
-        cntrl = new Controller();
-        hdao = HistoricoDAO.getInstance();
+    public TelaProdutos() {
         prdao = ProdutoDAO.getInstance();
-        carrinho = new Carrinho();
-        cdao = CarrinhoDAO.getInstance();
-        icdao = ItensCarrinhoDAO.getInstance();
-        historico = new Historico();
         initComponents();
-        adicionaRadioButton();
-        enderecoCheckBox();
-        preencherComboBoxEstado();
-        preencherComboBoxProdutos();
         configurarTabela();
         atualizarTabelaCarrinho();
-        isAdm();
     }
 
-    public TelaLoja(String usuario_id) {
+    public TelaProdutos(String usuario_id) {
         usuario = (Pessoa) PessoaDAO.getInstance().read(usuario_id);
-        cntrl = new Controller();
-        hdao = HistoricoDAO.getInstance();
         prdao = ProdutoDAO.getInstance();
-        carrinho = new Carrinho();
-        cdao = CarrinhoDAO.getInstance();
-        icdao = ItensCarrinhoDAO.getInstance();
-        historico = new Historico();
         initComponents();
-        adicionaRadioButton();
-        enderecoCheckBox();
-        preencherComboBoxEstado();
-        preencherComboBoxProdutos();
         configurarTabela();
         atualizarTabelaCarrinho();
-        isAdm();
     }
 
     /**
@@ -80,62 +44,27 @@ public class TelaLoja extends javax.swing.JFrame {
         formaPagamentoGroup = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        menusPainel = new javax.swing.JPanel();
-        produtoLabel = new javax.swing.JLabel();
-        produtosComboBox = new javax.swing.JComboBox<>();
-        quantidadeSpn = new javax.swing.JSpinner();
-        quantidadeLabel = new javax.swing.JLabel();
-        adicionarBtn = new javax.swing.JButton();
-        removerBtn = new javax.swing.JButton();
-        limparBtn = new javax.swing.JButton();
-        entregaPainel = new javax.swing.JPanel();
-        entregaCheckBox = new javax.swing.JCheckBox();
-        estadoComboBox = new javax.swing.JComboBox<>();
-        estadoLabel = new javax.swing.JLabel();
-        cepFormattedTextField = new javax.swing.JFormattedTextField();
-        cepLabel1 = new javax.swing.JLabel();
-        cidadeFormattedTextField = new javax.swing.JFormattedTextField();
-        cidadeLabel = new javax.swing.JLabel();
-        bairroFormattedTextField = new javax.swing.JFormattedTextField();
-        bairroLabel = new javax.swing.JLabel();
-        ruaFormattedTextField = new javax.swing.JFormattedTextField();
-        ruaLabel = new javax.swing.JLabel();
-        numeroFormattedTextField = new javax.swing.JFormattedTextField();
-        numeroLabel = new javax.swing.JLabel();
-        complementoFormattedTextField = new javax.swing.JFormattedTextField();
-        complementoLabel = new javax.swing.JLabel();
-        nomeFormattedTextField = new javax.swing.JFormattedTextField();
-        nomeLabel = new javax.swing.JLabel();
-        dataEntregaFormattedTextField = new javax.swing.JFormattedTextField();
-        dataEntregaLabel = new javax.swing.JLabel();
-        finalizacaoPainel = new javax.swing.JPanel();
-        comprarBtn = new javax.swing.JToggleButton();
-        pixRadioButton = new javax.swing.JRadioButton();
-        creditoRadioButton = new javax.swing.JRadioButton();
-        debitoRadioButton = new javax.swing.JRadioButton();
         menu = new javax.swing.JMenuBar();
         perfilMenu = new javax.swing.JMenu();
         historicoComprasBtn = new javax.swing.JMenuItem();
         sairBtn = new javax.swing.JMenuItem();
-        admMenu = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Produto", "Quantidade", "Valor"
+                "Código", "Marca", "Nome", "Descrição", "Valor Unitário", "Quantidade", "Tipo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -148,213 +77,14 @@ public class TelaLoja extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
         }
-
-        javax.swing.GroupLayout menusPainelLayout = new javax.swing.GroupLayout(menusPainel);
-        menusPainel.setLayout(menusPainelLayout);
-        menusPainelLayout.setHorizontalGroup(
-            menusPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        menusPainelLayout.setVerticalGroup(
-            menusPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 193, Short.MAX_VALUE)
-        );
-
-        produtoLabel.setText("Produtos");
-
-        produtosComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        quantidadeSpn.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
-            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
-                quantidadeSpnVetoableChange(evt);
-            }
-        });
-
-        quantidadeLabel.setText("Quantidade");
-
-        adicionarBtn.setText("Adicionar");
-        adicionarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                adicionarBtnActionPerformed(evt);
-            }
-        });
-
-        removerBtn.setText("Remover do Carrinho");
-        removerBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removerBtnActionPerformed(evt);
-            }
-        });
-
-        limparBtn.setText("Limpar Carrinho");
-        limparBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limparBtnActionPerformed(evt);
-            }
-        });
-
-        entregaPainel.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço"));
-        entregaPainel.setPreferredSize(new java.awt.Dimension(1007, 86));
-
-        entregaCheckBox.setText("Quero Entrega");
-        entregaCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entregaCheckBoxActionPerformed(evt);
-            }
-        });
-
-        estadoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        estadoLabel.setText("Estado");
-
-        cepLabel1.setText("CEP");
-
-        cidadeLabel.setText("Cidade");
-
-        bairroLabel.setText("Bairro");
-
-        ruaLabel.setText("Rua");
-
-        numeroLabel.setText("Número");
-
-        complementoLabel.setText("Complemento");
-
-        nomeLabel.setText("Nome");
-
-        dataEntregaLabel.setText("Data de Entrega");
-
-        javax.swing.GroupLayout entregaPainelLayout = new javax.swing.GroupLayout(entregaPainel);
-        entregaPainel.setLayout(entregaPainelLayout);
-        entregaPainelLayout.setHorizontalGroup(
-            entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(entregaPainelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(entregaCheckBox)
-                    .addGroup(entregaPainelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cepLabel1)
-                            .addComponent(cepFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cidadeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cidadeLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(estadoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(estadoLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bairroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bairroLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ruaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ruaLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(entregaPainelLayout.createSequentialGroup()
-                                .addComponent(numeroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(complementoFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(entregaPainelLayout.createSequentialGroup()
-                                .addComponent(numeroLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(complementoLabel)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nomeLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(dataEntregaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dataEntregaFormattedTextField))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        entregaPainelLayout.setVerticalGroup(
-            entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, entregaPainelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(entregaCheckBox)
-                .addGap(9, 9, 9)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cidadeLabel)
-                    .addComponent(cepLabel1)
-                    .addComponent(estadoLabel)
-                    .addComponent(bairroLabel)
-                    .addComponent(ruaLabel)
-                    .addComponent(numeroLabel)
-                    .addComponent(complementoLabel)
-                    .addComponent(nomeLabel)
-                    .addComponent(dataEntregaLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(entregaPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cepFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cidadeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(estadoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bairroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ruaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numeroFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(complementoFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataEntregaFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-
-        finalizacaoPainel.setBorder(javax.swing.BorderFactory.createTitledBorder("Pagamento"));
-        finalizacaoPainel.setPreferredSize(new java.awt.Dimension(1007, 86));
-
-        comprarBtn.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        comprarBtn.setText("Finalizar Compra");
-        comprarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comprarBtnActionPerformed(evt);
-            }
-        });
-
-        pixRadioButton.setText("Pix");
-
-        creditoRadioButton.setText("Crédito");
-        creditoRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                creditoRadioButtonActionPerformed(evt);
-            }
-        });
-
-        debitoRadioButton.setText("Débito");
-
-        javax.swing.GroupLayout finalizacaoPainelLayout = new javax.swing.GroupLayout(finalizacaoPainel);
-        finalizacaoPainel.setLayout(finalizacaoPainelLayout);
-        finalizacaoPainelLayout.setHorizontalGroup(
-            finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(finalizacaoPainelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(debitoRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(creditoRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(pixRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        finalizacaoPainelLayout.setVerticalGroup(
-            finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(finalizacaoPainelLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addGroup(finalizacaoPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(debitoRadioButton)
-                    .addComponent(creditoRadioButton)
-                    .addComponent(pixRadioButton)
-                    .addComponent(comprarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
 
         perfilMenu.setText("Opções");
 
-        historicoComprasBtn.setText("Histórico de Compras");
+        historicoComprasBtn.setText("Voltar");
         historicoComprasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 historicoComprasBtnActionPerformed(evt);
@@ -372,148 +102,33 @@ public class TelaLoja extends javax.swing.JFrame {
 
         menu.add(perfilMenu);
 
-        admMenu.setText("Administrador Área");
-
-        jMenuItem3.setText("Produtos");
-        admMenu.add(jMenuItem3);
-
-        menu.add(admMenu);
-
         setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(entregaPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
-                            .addComponent(finalizacaoPainel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(menusPainel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(produtoLabel)
-                            .addComponent(produtosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(quantidadeLabel)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(quantidadeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(adicionarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(removerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(limparBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 107, Short.MAX_VALUE))))))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(quantidadeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(adicionarBtn)
-                            .addComponent(removerBtn)
-                            .addComponent(quantidadeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(limparBtn)
-                            .addComponent(produtosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(produtoLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(menusPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(entregaPainel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(finalizacaoPainel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 345, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void creditoRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creditoRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_creditoRadioButtonActionPerformed
-
     private void sairBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairBtnActionPerformed
         new TelaLogin().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_sairBtnActionPerformed
 
-    private void quantidadeSpnVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_quantidadeSpnVetoableChange
-    }//GEN-LAST:event_quantidadeSpnVetoableChange
-
-    private void adicionarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarBtnActionPerformed
-        maisProdutos();
-    }//GEN-LAST:event_adicionarBtnActionPerformed
-
-    private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
-        menosProdutos();
-    }//GEN-LAST:event_removerBtnActionPerformed
-
-    private void limparBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparBtnActionPerformed
-        limparCarrinho();
-    }//GEN-LAST:event_limparBtnActionPerformed
-
-    private void comprarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarBtnActionPerformed
-        double valor_total = 0.0;
-        if (cntrl.listarItensEscolhidos(usuario).isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
-        } else if (formaPagamentoGroup.getSelection() == null) {
-            JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
-        } else if (entregaCheckBox.isSelected() == false) {
-            carrinho.setDataCompra(LocalDate.now());
-            carrinho.setUsuarioCpf(usuario.getCpf());
-            cdao.create(carrinho);
-            for (ItemEscolhido item_escolhido : cntrl.listarItensEscolhidos(usuario)) {
-                valor_total += cntrl.valorProdutoCarrinho(item_escolhido.getProduto(), item_escolhido.getQuantidade());
-                ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
-                icdao.create(ic);
-            }
-            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), false, valor_total);
-            historico = historico2;
-            hdao.create(historico);
-            limparCarrinho();
-            JOptionPane.showMessageDialog(this, "Compra realizada com sucesso!");
-        } else {
-            carrinho.setDataCompra(LocalDate.now());
-            carrinho.setUsuarioCpf(usuario.getCpf());
-            cdao.create(carrinho);
-            for (ItemEscolhido item_escolhido : cntrl.listarItensEscolhidos(usuario)) {
-                valor_total += cntrl.valorProdutoCarrinho(item_escolhido.getProduto(), item_escolhido.getQuantidade());
-                ItensCarrinho ic = cntrl.itemFinal(item_escolhido, carrinho.getId());
-                icdao.create(ic);
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data_entrega = LocalDate.parse(dataEntregaFormattedTextField.getText(), formatter);
-            Historico historico2 = new Historico(carrinho.getId(), retornaTipoPagamento(), true, getEndereco().toString(), data_entrega, valor_total);
-            historico = historico2;
-            hdao.create(historico);
-            limparCarrinho();
-            JOptionPane.showMessageDialog(this, "Compra realizada com sucesso!");
-        }
-    }//GEN-LAST:event_comprarBtnActionPerformed
-
-    private void entregaCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entregaCheckBoxActionPerformed
-        enderecoCheckBox();
-    }//GEN-LAST:event_entregaCheckBoxActionPerformed
-
     private void historicoComprasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoComprasBtnActionPerformed
-        new TelaHistorico(usuario).setVisible(true);
-        this.setVisible(false);
+        new TelaLoja(usuario.getCpf()).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_historicoComprasBtnActionPerformed
 
     /**
@@ -534,293 +149,63 @@ public class TelaLoja extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class
+            java.util.logging.Logger.getLogger(TelaProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class
+            java.util.logging.Logger.getLogger(TelaProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class
+            java.util.logging.Logger.getLogger(TelaProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaLoja.class
+            java.util.logging.Logger.getLogger(TelaProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaLoja().setVisible(true);
+                new TelaProdutos().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton adicionarBtn;
-    private javax.swing.JMenu admMenu;
-    private javax.swing.JFormattedTextField bairroFormattedTextField;
-    private javax.swing.JLabel bairroLabel;
-    private javax.swing.JFormattedTextField cepFormattedTextField;
-    private javax.swing.JLabel cepLabel1;
-    private javax.swing.JFormattedTextField cidadeFormattedTextField;
-    private javax.swing.JLabel cidadeLabel;
-    private javax.swing.JFormattedTextField complementoFormattedTextField;
-    private javax.swing.JLabel complementoLabel;
-    private javax.swing.JToggleButton comprarBtn;
-    private javax.swing.JRadioButton creditoRadioButton;
-    private javax.swing.JFormattedTextField dataEntregaFormattedTextField;
-    private javax.swing.JLabel dataEntregaLabel;
-    private javax.swing.JRadioButton debitoRadioButton;
-    private javax.swing.JCheckBox entregaCheckBox;
-    private javax.swing.JPanel entregaPainel;
-    private javax.swing.JComboBox<String> estadoComboBox;
-    private javax.swing.JLabel estadoLabel;
-    private javax.swing.JPanel finalizacaoPainel;
     private javax.swing.ButtonGroup formaPagamentoGroup;
     private javax.swing.JMenuItem historicoComprasBtn;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton limparBtn;
     private javax.swing.JMenuBar menu;
-    private javax.swing.JPanel menusPainel;
-    private javax.swing.JFormattedTextField nomeFormattedTextField;
-    private javax.swing.JLabel nomeLabel;
-    private javax.swing.JFormattedTextField numeroFormattedTextField;
-    private javax.swing.JLabel numeroLabel;
     private javax.swing.JMenu perfilMenu;
-    private javax.swing.JRadioButton pixRadioButton;
-    private javax.swing.JLabel produtoLabel;
-    private javax.swing.JComboBox<String> produtosComboBox;
-    private javax.swing.JLabel quantidadeLabel;
-    private javax.swing.JSpinner quantidadeSpn;
-    private javax.swing.JButton removerBtn;
-    private javax.swing.JFormattedTextField ruaFormattedTextField;
-    private javax.swing.JLabel ruaLabel;
     private javax.swing.JMenuItem sairBtn;
     // End of variables declaration//GEN-END:variables
 
-    private Endereco getEndereco() {
-        boolean status = true;
-        int numero = 0;
 
-        String cep = cepFormattedTextField.getText();
-
-        if (cep.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "CEP não foi informado");
-            cepFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        String cidade = cidadeFormattedTextField.getText();
-
-        if (cidade.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Cidade não foi informada");
-            cidadeFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        UnidadeFederacao uf = UnidadeFederacao.fromSigla((String) estadoComboBox.getSelectedItem());
-
-        String bairro = bairroFormattedTextField.getText();
-
-        if (bairro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Bairro não foi informado");
-            bairroFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        String rua = ruaFormattedTextField.getText();
-
-        if (rua.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Rua não foi informada");
-            ruaFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        try {
-            numero = Integer.parseInt(numeroFormattedTextField.getText());
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(this, "Erro ao informar número");
-            numeroFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        String complemento = complementoFormattedTextField.getText();
-
-        if (complemento.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complemento não foi informado");
-            complementoFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        String nome = nomeFormattedTextField.getText();
-
-        if (nome.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nome não foi informado");
-            nomeFormattedTextField.grabFocus();
-            status = false;
-        }
-
-        if (status) {
-            Endereco endereco = new Endereco(cep, cidade, uf, bairro, rua, numero, complemento, nome);
-            JOptionPane.showMessageDialog(this, endereco.toString());
-            return endereco;
-        }
-
-        return null;
-
-    }
-
-    private void limparCarrinho() {
-        cntrl.esvaziarCarrinho(usuario);
-        atualizarTabelaCarrinho();
-    }
-
-    private void maisProdutos() {
-        Produto p = produtoSelecionado();
-        int quantidade = (int) quantidadeSpn.getValue();
-        if (quantidade <= 0) {
-            cntrl.maisProduto(usuario, p, 1);
-            atualizarTabelaCarrinho();
-            return;
-        }
-        cntrl.maisProduto(usuario, p, quantidade);
-        atualizarTabelaCarrinho();
-    }
-
-    private void menosProdutos() {
-        Produto p = produtoSelecionado();
-        Integer chave[] = {carrinho.getId(), p.getId()};
-        int quantidade = (int) quantidadeSpn.getValue();
-        if (quantidade <= 0) {
-            cntrl.menosProduto(usuario, p, 1);
-            atualizarTabelaCarrinho();
-            return;
-        }
-        cntrl.menosProduto(usuario, p, quantidade);
-        atualizarTabelaCarrinho();
-    }
 
     private void atualizarTabelaCarrinho() {
         tableModel.setRowCount(0);
 
-        for (ItemEscolhido item : cntrl.listarItensEscolhidos(usuario)) {
+        for (Produto produto : prdao.listarTudo()) {
             Object[] rowData = {
-                item.getProduto().getMarca() + " " + item.getProduto().getNome(),
-                item.getQuantidade(),
-                cntrl.valorProdutoCarrinho(item.getProduto(), item.getQuantidade())
+                produto.getId(), produto.getMarca(), produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getQuantidade(), produto.getTipo()
             };
             tableModel.addRow(rowData);
         }
     }
 
-    private Produto produtoSelecionado() {
-        String produto_escolhido = (String) produtosComboBox.getSelectedItem();
-        for (Produto p : prdao.listarTudo()) {
-            String nome_produto = p.getMarca() + " " + p.getNome() + " - R$" + p.getPreco();
-            if (produto_escolhido.equals(nome_produto)) {
-                return p;
-            }
-        }
-
-        return null;
-    }
-
-    private void enderecoCheckBox() {
-        boolean selecionado = entregaCheckBox.isSelected();
-
-        cepFormattedTextField.setEnabled(false);
-        cidadeFormattedTextField.setEnabled(false);
-        estadoComboBox.setEnabled(false);
-        bairroFormattedTextField.setEnabled(false);
-        ruaFormattedTextField.setEnabled(false);
-        numeroFormattedTextField.setEnabled(false);
-        complementoFormattedTextField.setEnabled(false);
-        nomeFormattedTextField.setEnabled(false);
-        dataEntregaFormattedTextField.setEnabled(false);
-
-        if (selecionado) {
-            cepFormattedTextField.setEnabled(true);
-            cidadeFormattedTextField.setEnabled(true);
-            estadoComboBox.setEnabled(true);
-            bairroFormattedTextField.setEnabled(true);
-            ruaFormattedTextField.setEnabled(true);
-            numeroFormattedTextField.setEnabled(true);
-            complementoFormattedTextField.setEnabled(true);
-            nomeFormattedTextField.setEnabled(true);
-            dataEntregaFormattedTextField.setEnabled(true);
-        }
-    }
-
-    private void preencherComboBoxProdutos() {
-        produtosComboBox.removeAllItems();
-        for (Produto produto : prdao.listarTudo()) {
-            produtosComboBox.addItem(produto.getMarca() + " " + produto.getNome()
-                    + " - R$" + produto.getPreco());
-        }
-    }
-
-    private void preencherComboBoxEstado() {
-        estadoComboBox.removeAllItems();
-        List<String> estadosOrdenados = new ArrayList<>();
-        for (UnidadeFederacao estado : UnidadeFederacao.values()) {
-            estadosOrdenados.add(estado.getSigla());
-        }
-        Collections.sort(estadosOrdenados);
         
-        for (String estado : estadosOrdenados) {
-        estadoComboBox.addItem(estado);
-    }
-        
-    }
 
     private void configurarTabela() {
         // Configura o DefaultTableModel para a jTable1
         tableModel = new DefaultTableModel(
                 new Object[][]{}, // Dados iniciais (vazio)
-                new String[]{"Produto", "Quantidade", "Valor"} // Nomes das colunas
+                new String[]{"Código", "Marca", "Nome", "Descrição", "Valor Unitário", "Quantidade", "Tipo"} // Nomes das colunas
         );
 
         jTable1.setModel(tableModel);
     }
 
-    private void adicionaRadioButton() {
-        formaPagamentoGroup.add(debitoRadioButton);
-        formaPagamentoGroup.add(creditoRadioButton);
-        formaPagamentoGroup.add(pixRadioButton);
-    }
-
-    private TipoPagamento retornaTipoPagamento() {
-        TipoPagamento tp;
-        if (formaPagamentoGroup.getSelection() != null) {
-            if (debitoRadioButton.isSelected()) {
-                // O usuário selecionou Débito
-                tp = TipoPagamento.DEBITO;
-                return tp;
-                // Agora você pode usar o tipoPagamento como necessário
-            } else if (creditoRadioButton.isSelected()) {
-                // O usuário selecionou Crédito
-                return tp = TipoPagamento.CREDITO;
-                // Agora você pode usar o tipoPagamento como necessário
-            } else if (pixRadioButton.isSelected()) {
-                // O usuário selecionou Pix
-                return tp = TipoPagamento.PIX;
-                // Agora você pode usar o tipoPagamento como necessário
-            }
-        }
-        return null;
-    }
-    
-    private void isAdm(){
-        if(usuario.getUser().getTipoUsuario().ordinal() == 0){
-            admMenu.setVisible(false);
-            return;
-        }
-        admMenu.setVisible(true);
-        return;
-    }
 }

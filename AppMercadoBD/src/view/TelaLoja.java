@@ -118,7 +118,8 @@ public class TelaLoja extends javax.swing.JFrame {
         historicoComprasBtn = new javax.swing.JMenuItem();
         sairBtn = new javax.swing.JMenuItem();
         admMenu = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        produtosMenuItem = new javax.swing.JMenuItem();
+        funcionariosMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -374,8 +375,21 @@ public class TelaLoja extends javax.swing.JFrame {
 
         admMenu.setText("Administrador Área");
 
-        jMenuItem3.setText("Produtos");
-        admMenu.add(jMenuItem3);
+        produtosMenuItem.setText("Produtos");
+        produtosMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                produtosMenuItemActionPerformed(evt);
+            }
+        });
+        admMenu.add(produtosMenuItem);
+
+        funcionariosMenuItem.setText("Funcionários");
+        funcionariosMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcionariosMenuItemActionPerformed(evt);
+            }
+        });
+        admMenu.add(funcionariosMenuItem);
 
         menu.add(admMenu);
 
@@ -516,6 +530,16 @@ public class TelaLoja extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_historicoComprasBtnActionPerformed
 
+    private void produtosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_produtosMenuItemActionPerformed
+        new TelaProdutos(usuario.getCpf()).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_produtosMenuItemActionPerformed
+
+    private void funcionariosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionariosMenuItemActionPerformed
+        new TelaFuncionarios(usuario.getCpf()).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_funcionariosMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -580,8 +604,8 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JLabel estadoLabel;
     private javax.swing.JPanel finalizacaoPainel;
     private javax.swing.ButtonGroup formaPagamentoGroup;
+    private javax.swing.JMenuItem funcionariosMenuItem;
     private javax.swing.JMenuItem historicoComprasBtn;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton limparBtn;
@@ -595,6 +619,7 @@ public class TelaLoja extends javax.swing.JFrame {
     private javax.swing.JRadioButton pixRadioButton;
     private javax.swing.JLabel produtoLabel;
     private javax.swing.JComboBox<String> produtosComboBox;
+    private javax.swing.JMenuItem produtosMenuItem;
     private javax.swing.JLabel quantidadeLabel;
     private javax.swing.JSpinner quantidadeSpn;
     private javax.swing.JButton removerBtn;

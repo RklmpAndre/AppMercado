@@ -186,7 +186,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('040.217.400-31','andre2016mendes@gmail.com','03/07/2003','André Mendes Pinto','030720033',0),('684.242.500-01','ryosuke.sorye@gmail.com','20/08/2003','Lune Seraphim Vieira','andrezinho17',0);
+INSERT INTO `usuarios` VALUES ('040.217.400-31','andre2016mendes@gmail.com','03/07/2003','André Mendes Pinto','030720033',1),('684.242.500-01','ryosuke.sorye@gmail.com','20/08/2003','Lune Seraphim Vieira','andrezinho17',0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -199,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-28  4:20:16
+-- Dump completed on 2023-11-28 11:11:41
