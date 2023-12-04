@@ -9,6 +9,7 @@ import persist.CarrinhoDAO;
 import persist.HistoricoDAO;
 import persist.ItensCarrinhoDAO;
 import persist.PessoaDAO;
+import util.TipoUsuario;
 
 /**
  *
@@ -33,5 +34,8 @@ public class App {
 //            System.out.println(ic.toString());
 //        }
         new TelaLogin().setVisible(true);
+//        Pessoa p = (Pessoa) pdao.read("040.217.400-31");;
+//        p.getUser().setTipoUsuario(TipoUsuario.ADMIN);
+//        pdao.update(p);
     }
 }

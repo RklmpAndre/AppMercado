@@ -149,11 +149,19 @@
               <Group type="102" attributes="0">
                   <EmptySpace pref="62" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="confirmarSenhaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="confirmarSenhaLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="confirmarSenhaLabel2" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="emailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="confirmaEmailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="confirmaEmailFTF" alignment="0" max="32767" attributes="0"/>
-                      <Component id="senhaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="senhaLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="confirmarSenhaLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="emailFTF" alignment="0" max="32767" attributes="0"/>
                       <Component id="confirmarSenhaPF" alignment="1" max="32767" attributes="0"/>
                       <Component id="senhaPF" alignment="0" pref="200" max="32767" attributes="0"/>
@@ -174,11 +182,17 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="confirmaEmailFTF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="senhaLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="senhaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="confirmarSenhaLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="senhaPF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                  <Component id="confirmarSenhaLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="confirmarSenhaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="confirmarSenhaLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="confirmarSenhaPF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="30" max="32767" attributes="0"/>
@@ -214,6 +228,16 @@
         <Component class="javax.swing.JPasswordField" name="confirmarSenhaPF">
         </Component>
         <Component class="javax.swing.JPasswordField" name="senhaPF">
+        </Component>
+        <Component class="javax.swing.JLabel" name="confirmarSenhaLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(minimo 8 digitos)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="confirmarSenhaLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(minimo 8 digitos)"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

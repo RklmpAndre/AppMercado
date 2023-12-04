@@ -214,6 +214,11 @@ public class TelaLoja extends javax.swing.JFrame {
         });
 
         estadoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        estadoComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                estadoComboBoxActionPerformed(evt);
+            }
+        });
 
         estadoLabel.setText("Estado");
 
@@ -495,11 +500,8 @@ public class TelaLoja extends javax.swing.JFrame {
         String data = dataEntregaFormattedTextField.getText();
         LocalDate dataAtual = null;
         LocalDate hoje = LocalDate.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        dataAtual = LocalDate.parse(data, formato);
-        if (dataAtual.compareTo(hoje) < 0) {
-            JOptionPane.showMessageDialog(this, "A data de entrega deve igual ou posterior ao dia de hoje");
-        } else if (cntrl.listarItensEscolhidos(usuario).isEmpty()) {
+
+        if (cntrl.listarItensEscolhidos(usuario).isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você não tem nenhum produto para finalizar a compra!\nAdicione algo (:");
         } else if (formaPagamentoGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "Escolha uma forma de pagamento antes de finalizar a compra.");
@@ -518,6 +520,11 @@ public class TelaLoja extends javax.swing.JFrame {
             limparCarrinho();
             JOptionPane.showMessageDialog(this, "Compra realizada com sucesso!");
         } else {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            dataAtual = LocalDate.parse(data, formato);
+            if (dataAtual.compareTo(hoje) < 0) {
+                JOptionPane.showMessageDialog(this, "A data de entrega deve igual ou posterior ao dia de hoje");
+            }
             carrinho.setDataCompra(LocalDate.now());
             carrinho.setUsuarioCpf(usuario.getCpf());
             cdao.create(carrinho);
@@ -553,6 +560,10 @@ public class TelaLoja extends javax.swing.JFrame {
         new TelaFuncionarios(usuario.getCpf()).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_funcionariosMenuItemActionPerformed
+
+    private void estadoComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_estadoComboBoxActionPerformed
 
     /**
      * @param args the command line arguments

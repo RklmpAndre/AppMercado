@@ -6,6 +6,7 @@ import entity.ItensCarrinho;
 import entity.Pessoa;
 import entity.Produto;
 import entity.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 import persist.CarrinhoDAO;
 import persist.HistoricoDAO;
@@ -30,10 +31,10 @@ public class Controller {
     public Controller() {
     }
 
-    public List<Pessoa> retornaTipoUsuario(int valor){
+    public List<Pessoa> retornaTipoUsuario(int valor) {
         return pdao.listarPessoasPorTipo(valor);
     }
-    
+
     public void esvaziarCarrinho(Pessoa usuario) {
         for (ItemEscolhido item : listarItensEscolhidos(usuario)) {
             Object[] keys = {item.getProduto().getId(), usuario.getCpf()};
@@ -92,8 +93,15 @@ public class Controller {
         return iedao.listarItemEscolhido(usuario.getCpf());
     }
 
-    public List<ItensCarrinho> listarItensCarrinho(Carrinho carrinho) {
-        return icdao.listarItensCarrinho(carrinho.getId());
+    public List<String> listarItensCarrinho(Carrinho carrinho) {
+        List<String> produtos = new ArrayList<>();
+        List<ItensCarrinho>ic = icdao.listarItensCarrinho(carrinho.getId());
+        for(ItensCarrinho itens : icdao.listarItensCarrinho(carrinho.getId())){
+            Produto p = (Produto) prdao.read(itens.getProduto_id());
+            String produtosString = p.getMarca() + " " + p.getNome() + ", quantidade: " + itens.getQuantidade() + ", valor: " + itens.getValor();
+            produtos.add(produtosString);
+        }
+        return produtos;
     }
 
     public ItensCarrinho itemFinal(ItemEscolhido item_escolhido, int carrinho_id) {
@@ -102,6 +110,20 @@ public class Controller {
         double valor = item_escolhido.getValor();
         ItensCarrinho item_carrinho = new ItensCarrinho(carrinho_id, produto.getId(), quantidade, valor);
         return item_carrinho;
+    }
+    
+    public boolean apagarDados(Pessoa usuario){
+        for(Carrinho c : cdao.listarCarrinhos(usuario)){
+            hdao.delete(c.getId());
+            for(ItensCarrinho ic : icdao.listarItensCarrinho(c.getId())){
+                icdao.delete(ic.getCarrinho_id());
+            }
+        }
+        for(Carrinho c : cdao.listarCarrinhos(usuario)){
+            cdao.delete(c.getId());
+        }
+        if(pdao.delete(usuario.getCpf())) return true;
+        return false;
     }
 
 }

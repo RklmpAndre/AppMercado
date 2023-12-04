@@ -17,7 +17,6 @@ public class TelaLogin extends javax.swing.JFrame {
      * Creates new form TelaLogin
      */
     public TelaLogin() {
-        
         pdao = PessoaDAO.getInstance();
         initComponents();
 
@@ -126,12 +125,18 @@ public class TelaLogin extends javax.swing.JFrame {
 
         String login = loginFTF.getText();
         String senha = senhaPasswordField.getText();
-
+        if (senha.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Senha não informada!");
+            senhaPasswordField.grabFocus();
+            return;
+        }
         if (pdao.read(login) != null) {
             Pessoa p = (Pessoa) pdao.read(login);
             if (senha.equals(p.getUser().getSenha())) {
                 new TelaLoja(p.getCpf()).setVisible(true);
                 this.setVisible(false);
+            }else {
+                JOptionPane.showMessageDialog(this, "Senha incorreta!");
             }
         } else {
             JOptionPane.showMessageDialog(this, "CPF ou Email não encontrado");
@@ -171,7 +176,9 @@ public class TelaLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaLogin().setVisible(true);
+                TelaLogin telaLogin = new TelaLogin();
+                telaLogin.setVisible(true);
+                telaLogin.loginFTF.requestFocus();
             }
         });
     }

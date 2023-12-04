@@ -8,7 +8,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import util.TipoUsuario;
 import util.ValidaCPF;
 
@@ -18,6 +20,9 @@ import util.ValidaCPF;
  */
 public class TelaFuncionarios extends javax.swing.JFrame {
 
+    private CarrinhoDAO cdao;
+    private HistoricoDAO hdao;
+    private ItensCarrinhoDAO icdao;
     private PessoaDAO pdao;
     private Pessoa usuario;
     private DefaultTableModel tableModel;
@@ -28,19 +33,25 @@ public class TelaFuncionarios extends javax.swing.JFrame {
      */
     public TelaFuncionarios() {
         cntrl = new Controller();
+        cdao = CarrinhoDAO.getInstance();
+        hdao = HistoricoDAO.getInstance();
+        icdao = ItensCarrinhoDAO.getInstance();
         pdao = PessoaDAO.getInstance();
         initComponents();
         configurarTabela();
-        atualizarTabelaCarrinho();
+        atualizarTabelaFuncionarios();
     }
 
     public TelaFuncionarios(String usuario_id) {
         cntrl = new Controller();
+        cdao = CarrinhoDAO.getInstance();
+        hdao = HistoricoDAO.getInstance();
+        icdao = ItensCarrinhoDAO.getInstance();
         usuario = (Pessoa) PessoaDAO.getInstance().read(usuario_id);
         pdao = PessoaDAO.getInstance();
         initComponents();
         configurarTabela();
-        atualizarTabelaCarrinho();
+        atualizarTabelaFuncionarios();
     }
 
     /**
@@ -51,16 +62,16 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        formaPagamentoGroup = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        adicionarBtn = new javax.swing.JButton();
+        modificarBtn = new javax.swing.JButton();
+        removerBtn = new javax.swing.JButton();
+        limparCamposBtn = new javax.swing.JButton();
+        nomeLabel1 = new javax.swing.JLabel();
         cpfLabel = new javax.swing.JLabel();
         nomeLabel = new javax.swing.JLabel();
         nomeFTF = new javax.swing.JFormattedTextField();
@@ -87,6 +98,11 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dataFTF = new javax.swing.JFormattedTextField(dataMask);
+        confirmarSenhaLabel2 = new javax.swing.JLabel();
+        confirmarSenhaLabel3 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        pesquisarFTF = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
         menu = new javax.swing.JMenuBar();
         perfilMenu = new javax.swing.JMenu();
         historicoComprasBtn = new javax.swing.JMenuItem();
@@ -94,6 +110,12 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,6 +137,11 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -125,35 +152,69 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados"));
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton2.setText("ADICIONAR");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        adicionarBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        adicionarBtn.setText("ADICIONAR");
+        adicionarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                adicionarBtnActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new java.awt.GridBagConstraints());
 
-        jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton3.setText("MODIFICAR");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(52, 69, 0, 69);
-        jPanel2.add(jButton3, gridBagConstraints);
+        modificarBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        modificarBtn.setText("MODIFICAR");
+        modificarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarBtnActionPerformed(evt);
+            }
+        });
 
-        jButton4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton4.setText("REMOVER");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(55, 69, 50, 69);
-        jPanel2.add(jButton4, gridBagConstraints);
+        removerBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        removerBtn.setText("REMOVER");
+        removerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerBtnActionPerformed(evt);
+            }
+        });
+
+        limparCamposBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        limparCamposBtn.setText("LIMPAR CAMPOS");
+        limparCamposBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparCamposBtnActionPerformed(evt);
+            }
+        });
+
+        nomeLabel1.setText("selecione um funcionário na tabela");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(limparCamposBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modificarBtn)
+                    .addComponent(adicionarBtn)
+                    .addComponent(nomeLabel1))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(adicionarBtn)
+                .addGap(53, 53, 53)
+                .addComponent(modificarBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(removerBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(limparCamposBtn)
+                .addGap(54, 54, 54))
+        );
 
         cpfLabel.setText("CPF");
 
@@ -175,6 +236,10 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             }
         });
 
+        confirmarSenhaLabel2.setText("(minimo 8 digitos)");
+
+        confirmarSenhaLabel3.setText("(minimo 8 digitos)");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -182,40 +247,42 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomeLabel)
-                            .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(confirmarSenhaLabel)
-                                .addComponent(emailLabel)
-                                .addComponent(confirmaEmailLabel)
-                                .addComponent(confirmaEmailFTF)
-                                .addComponent(senhaLabel)
-                                .addComponent(emailFTF)
-                                .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(senhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(dataLabel)
-                            .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cpfLabel)
-                            .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeLabel)
+                    .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(confirmarSenhaLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(confirmarSenhaLabel3))
+                        .addComponent(emailLabel)
+                        .addComponent(confirmaEmailLabel)
+                        .addComponent(confirmaEmailFTF)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(senhaLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(confirmarSenhaLabel2))
+                        .addComponent(emailFTF)
+                        .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(senhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dataLabel)
+                    .addComponent(cpfLabel)
+                    .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(cpfLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cpfLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cpfFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nomeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,7 +290,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
                         .addComponent(dataLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dataFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addGap(13, 13, 13)
                         .addComponent(emailLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(emailFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,15 +299,58 @@ public class TelaFuncionarios extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(confirmaEmailFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(senhaLabel)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(senhaLabel)
+                            .addComponent(confirmarSenhaLabel2))
                         .addGap(10, 10, 10)
-                        .addComponent(senhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(12, 12, 12)
-                .addComponent(confirmarSenhaLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(senhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(confirmarSenhaLabel)
+                            .addComponent(confirmarSenhaLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 17, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        pesquisarFTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisarFTFActionPerformed(evt);
+            }
+        });
+        pesquisarFTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pesquisarFTFKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pesquisarFTFKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pesquisarFTFKeyTyped(evt);
+            }
+        });
+
+        jLabel1.setText("Pesquisar na tabela");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(pesquisarFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(pesquisarFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         perfilMenu.setText("Opções");
@@ -269,15 +379,21 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -295,7 +411,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_historicoComprasBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void adicionarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarBtnActionPerformed
         boolean status = true;
 
         String cpf = cpfFTF.getText();
@@ -303,6 +419,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao informar o cpf");
             cpfFTF.grabFocus();
             status = false;
+            return;
         }
 
         String nome = nomeFTF.getText();
@@ -310,6 +427,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao informar o nome");
             nomeFTF.grabFocus();
             status = false;
+            return;
         }
 
         String data = dataFTF.getText();
@@ -321,6 +439,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             if (dataAniversario.compareTo(hoje) > 0) {
                 status = false;
                 JOptionPane.showMessageDialog(this, "A data de aniversario deve ser anterior ao dia de hoje");
+                return;
             }
 
         } catch (DateTimeParseException dex) {
@@ -334,6 +453,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         if (!email.matches(EMAIL_PATTERN)) {
             JOptionPane.showMessageDialog(null, "Endereço de email errado!");
             status = false;
+            return;
         }
 
         String email2 = emailFTF.getText();
@@ -341,6 +461,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Os emails não conferem");
             confirmaEmailFTF.grabFocus();
             status = false;
+            return;
         }
 
         String senha = senhaPF.getText();
@@ -348,6 +469,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "A senha deve ter pelo menos 8 digitos");
             senhaPF.grabFocus();
             status = false;
+            return;
         }
 
         String senha2 = confirmarSenhaPF.getText();
@@ -355,26 +477,246 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "As senhas não conferem");
             confirmarSenhaPF.grabFocus();
             status = false;
+            return;
         }
-        
-        if(status){
+
+        if (status) {
             Pessoa pessoa = new Pessoa(cpf, nome, dataAniversario);
             Usuario usuario = new Usuario(email, senha);
             pessoa.setUser(usuario);
             pessoa.getUser().setTipoUsuario(TipoUsuario.ADMIN);
-            if(pdao.create(pessoa)){
+            if (pdao.read(pessoa.getCpf()) != null) {
+                Pessoa p2 = (Pessoa) pdao.read(pessoa.getCpf());
+                if (p2.getUser().getTipoUsuario() == TipoUsuario.ADMIN) {
+                    JOptionPane.showMessageDialog(this, "Funcionário já existente, caso queira mudar as informações por favor usar o botão modificar");
+                    return;
+                } else {
+                    pdao.update(pessoa);
+                    limparCampos();
+                    atualizarTabelaFuncionarios();
+                    return;
+                }
+            }
+            if (pdao.create(pessoa)) {
                 JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
-                
-                atualizarTabelaCarrinho();
-            }else{
+                limparCampos();
+                atualizarTabelaFuncionarios();
+            } else {
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_adicionarBtnActionPerformed
 
     private void dataFTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataFTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dataFTFActionPerformed
+
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow != -1) {
+
+            String cpf = model.getValueAt(selectedRow, 0).toString();
+            String nome = model.getValueAt(selectedRow, 1).toString();
+            String email = model.getValueAt(selectedRow, 2).toString();
+            String dataNascimento = model.getValueAt(selectedRow, 3).toString();
+            String senha = usuario.getUser().getSenha();
+
+            // Define os valores nos campos de texto formatados
+            cpfFTF.setValue(cpf);
+            cpfFTF.setEditable(false);
+            nomeFTF.setText(nome);
+            emailFTF.setText(email);
+            confirmaEmailFTF.setText(email);
+            senhaPF.setText(senha);
+            confirmarSenhaPF.setText(senha);
+            dataFTF.setValue(dataNascimento);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void modificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBtnActionPerformed
+        boolean status = true;
+
+        String cpf = cpfFTF.getText();
+
+        String nome = nomeFTF.getText();
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar o nome");
+            nomeFTF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String data = dataFTF.getText();
+        LocalDate dataAniversario = null;
+        LocalDate hoje = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            dataAniversario = LocalDate.parse(data, formato);
+            if (dataAniversario.compareTo(hoje) > 0) {
+                status = false;
+                JOptionPane.showMessageDialog(this, "A data de aniversario deve ser anterior ao dia de hoje");
+                return;
+            }
+
+        } catch (DateTimeParseException dex) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar a data de aniversario");
+            status = false;
+        }
+
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String email = emailFTF.getText();
+        if (!email.matches(EMAIL_PATTERN)) {
+            JOptionPane.showMessageDialog(null, "Endereço de email errado!");
+            status = false;
+            return;
+        }
+
+        String email2 = emailFTF.getText();
+        if (!email.equals(email2)) {
+            JOptionPane.showMessageDialog(this, "Os emails não conferem");
+            confirmaEmailFTF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String senha = senhaPF.getText();
+        if (senha.isEmpty() || senha.length() < 8) {
+            JOptionPane.showMessageDialog(this, "A senha deve ter pelo menos 8 digitos");
+            senhaPF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String senha2 = confirmarSenhaPF.getText();
+        if (!senha.equals(senha2)) {
+            JOptionPane.showMessageDialog(this, "As senhas não conferem");
+            confirmarSenhaPF.grabFocus();
+            status = false;
+            return;
+        }
+
+        if (status) {
+            Pessoa pessoa = new Pessoa(cpf, nome, dataAniversario);
+            Usuario usuario = new Usuario(email, senha);
+            usuario.setTipoUsuario(TipoUsuario.ADMIN);
+            pessoa.setUser(usuario);
+            if (pdao.update(pessoa)) {
+                JOptionPane.showMessageDialog(this, "Atualizado com sucesso");
+                limparCampos();
+                cpfFTF.setEditable(true);
+                atualizarTabelaFuncionarios();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar");
+            }
+        }
+    }//GEN-LAST:event_modificarBtnActionPerformed
+
+    private void limparCamposBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCamposBtnActionPerformed
+        limparCampos();
+    }//GEN-LAST:event_limparCamposBtnActionPerformed
+
+    private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
+        boolean status = true;
+
+        String cpf = cpfFTF.getText();
+
+        String nome = nomeFTF.getText();
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar o nome");
+            nomeFTF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String data = dataFTF.getText();
+        LocalDate dataAniversario = null;
+        LocalDate hoje = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            dataAniversario = LocalDate.parse(data, formato);
+            if (dataAniversario.compareTo(hoje) > 0) {
+                status = false;
+                JOptionPane.showMessageDialog(this, "A data de aniversario deve ser anterior ao dia de hoje");
+                return;
+            }
+
+        } catch (DateTimeParseException dex) {
+            JOptionPane.showMessageDialog(this, "Erro ao informar a data de aniversario");
+            status = false;
+        }
+
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String email = emailFTF.getText();
+        if (!email.matches(EMAIL_PATTERN)) {
+            JOptionPane.showMessageDialog(null, "Endereço de email errado!");
+            status = false;
+            return;
+        }
+
+        String email2 = emailFTF.getText();
+        if (!email.equals(email2)) {
+            JOptionPane.showMessageDialog(this, "Os emails não conferem");
+            confirmaEmailFTF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String senha = senhaPF.getText();
+        if (senha.isEmpty() || senha.length() < 8) {
+            JOptionPane.showMessageDialog(this, "A senha deve ter pelo menos 8 digitos");
+            senhaPF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String senha2 = confirmarSenhaPF.getText();
+        if (!senha.equals(senha2)) {
+            JOptionPane.showMessageDialog(this, "As senhas não conferem");
+            confirmarSenhaPF.grabFocus();
+            status = false;
+            return;
+        }
+
+        if (status) {
+            Pessoa pessoa = new Pessoa(cpf, nome, dataAniversario);
+            Usuario usuario = new Usuario(email, senha);
+            usuario.setTipoUsuario(TipoUsuario.ADMIN);
+            pessoa.setUser(usuario);
+            if (cntrl.apagarDados(pessoa)) {
+                JOptionPane.showMessageDialog(this, "Removido com sucesso");
+                limparCampos();
+                cpfFTF.setEditable(true);
+                atualizarTabelaFuncionarios();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao remover");
+            }
+        }
+    }//GEN-LAST:event_removerBtnActionPerformed
+
+    private void pesquisarFTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarFTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pesquisarFTFActionPerformed
+
+    private void pesquisarFTFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisarFTFKeyTyped
+        atualizarTabelaFiltrada();
+    }//GEN-LAST:event_pesquisarFTFKeyTyped
+
+    private void pesquisarFTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisarFTFKeyPressed
+        atualizarTabelaFiltrada();
+    }//GEN-LAST:event_pesquisarFTFKeyPressed
+
+    private void pesquisarFTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisarFTFKeyReleased
+        atualizarTabelaFiltrada();
+    }//GEN-LAST:event_pesquisarFTFKeyReleased
 
     /**
      * @param args the command line arguments
@@ -419,9 +761,12 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adicionarBtn;
     private javax.swing.JFormattedTextField confirmaEmailFTF;
     private javax.swing.JLabel confirmaEmailLabel;
     private javax.swing.JLabel confirmarSenhaLabel;
+    private javax.swing.JLabel confirmarSenhaLabel2;
+    private javax.swing.JLabel confirmarSenhaLabel3;
     private javax.swing.JPasswordField confirmarSenhaPF;
     private javax.swing.JFormattedTextField cpfFTF;
     private javax.swing.JLabel cpfLabel;
@@ -429,27 +774,28 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private javax.swing.JLabel dataLabel;
     private javax.swing.JFormattedTextField emailFTF;
     private javax.swing.JLabel emailLabel;
-    private javax.swing.ButtonGroup formaPagamentoGroup;
     private javax.swing.JMenuItem historicoComprasBtn;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton limparCamposBtn;
     private javax.swing.JMenuBar menu;
+    private javax.swing.JButton modificarBtn;
     private javax.swing.JFormattedTextField nomeFTF;
     private javax.swing.JLabel nomeLabel;
+    private javax.swing.JLabel nomeLabel1;
     private javax.swing.JMenu perfilMenu;
+    private javax.swing.JFormattedTextField pesquisarFTF;
+    private javax.swing.JButton removerBtn;
     private javax.swing.JMenuItem sairBtn;
     private javax.swing.JLabel senhaLabel;
     private javax.swing.JPasswordField senhaPF;
     // End of variables declaration//GEN-END:variables
 
-
-
-    private void atualizarTabelaCarrinho() {
+    private void atualizarTabelaFuncionarios() {
         tableModel.setRowCount(0);
 
         for (Pessoa p : cntrl.retornaTipoUsuario(1)) {
@@ -460,8 +806,6 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         }
     }
 
-        
-
     private void configurarTabela() {
         // Configura o DefaultTableModel para a jTable1
         tableModel = new DefaultTableModel(
@@ -470,5 +814,29 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         );
 
         jTable1.setModel(tableModel);
+    }
+
+    private void limparCampos() {
+        cpfFTF.setText("");
+        nomeFTF.setText("");
+        dataFTF.setText("");
+        emailFTF.setText("");
+        confirmaEmailFTF.setText("");
+        senhaPF.setText("");
+        confirmarSenhaPF.setText("");
+    }
+
+    private void atualizarTabelaFiltrada() {
+        // Obtém o texto do campo de pesquisa
+        String textoPesquisa = pesquisarFTF.getText().toLowerCase();
+
+        // Cria um TableRowSorter baseado no modelo da tabela
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+
+        // Define o filtro para incluir linhas que contenham o texto da pesquisa
+        sorter.setRowFilter(RowFilter.regexFilter(textoPesquisa));
+
+        // Aplica o sorter à JTable
+        jTable1.setRowSorter(sorter);
     }
 }

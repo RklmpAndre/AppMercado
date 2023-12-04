@@ -67,6 +67,8 @@ public class TelaCadastro extends javax.swing.JFrame {
         confirmarSenhaLabel = new javax.swing.JLabel();
         confirmarSenhaPF = new javax.swing.JPasswordField();
         senhaPF = new javax.swing.JPasswordField();
+        confirmarSenhaLabel1 = new javax.swing.JLabel();
+        confirmarSenhaLabel2 = new javax.swing.JLabel();
         logarButton = new javax.swing.JButton();
         cadastrarButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -125,6 +127,10 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         confirmarSenhaLabel.setText("Confirmar Senha");
 
+        confirmarSenhaLabel1.setText("(minimo 8 digitos)");
+
+        confirmarSenhaLabel2.setText("(minimo 8 digitos)");
+
         javax.swing.GroupLayout cadastroPanelLayout = new javax.swing.GroupLayout(cadastroPanel);
         cadastroPanel.setLayout(cadastroPanelLayout);
         cadastroPanelLayout.setHorizontalGroup(
@@ -132,11 +138,17 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(cadastroPanelLayout.createSequentialGroup()
                 .addContainerGap(62, Short.MAX_VALUE)
                 .addGroup(cadastroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(confirmarSenhaLabel)
+                    .addGroup(cadastroPanelLayout.createSequentialGroup()
+                        .addComponent(confirmarSenhaLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(confirmarSenhaLabel2))
                     .addComponent(emailLabel)
                     .addComponent(confirmaEmailLabel)
                     .addComponent(confirmaEmailFTF)
-                    .addComponent(senhaLabel)
+                    .addGroup(cadastroPanelLayout.createSequentialGroup()
+                        .addComponent(senhaLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(confirmarSenhaLabel1))
                     .addComponent(emailFTF)
                     .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(senhaPF, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
@@ -154,11 +166,15 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(confirmaEmailFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(senhaLabel)
+                .addGroup(cadastroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(senhaLabel)
+                    .addComponent(confirmarSenhaLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(senhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(confirmarSenhaLabel)
+                .addGroup(cadastroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(confirmarSenhaLabel)
+                    .addComponent(confirmarSenhaLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(confirmarSenhaPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
@@ -287,6 +303,10 @@ public class TelaCadastro extends javax.swing.JFrame {
             Pessoa pessoa = new Pessoa(cpf, nome, dataAniversario);
             Usuario usuario = new Usuario(email, senha);
             pessoa.setUser(usuario);
+            if(pdao.read(pessoa.getCpf()) != null){
+                JOptionPane.showMessageDialog(this, "Usuário já existente!");
+                return;
+            }
             if(pdao.create(pessoa)){
                 JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
                 new TelaLoja(pessoa.getCpf()).setVisible(true);
@@ -338,6 +358,8 @@ public class TelaCadastro extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField confirmaEmailFTF;
     private javax.swing.JLabel confirmaEmailLabel;
     private javax.swing.JLabel confirmarSenhaLabel;
+    private javax.swing.JLabel confirmarSenhaLabel1;
+    private javax.swing.JLabel confirmarSenhaLabel2;
     private javax.swing.JPasswordField confirmarSenhaPF;
     private javax.swing.JFormattedTextField cpfFTF;
     private javax.swing.JLabel cpfLabel;

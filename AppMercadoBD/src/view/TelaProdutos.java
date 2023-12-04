@@ -2,7 +2,12 @@ package view;
 
 import persist.*;
 import entity.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import util.TipoProduto;
 
 /**
  *
@@ -21,6 +26,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         prdao = ProdutoDAO.getInstance();
         initComponents();
         configurarTabela();
+        preencherComboBoxTipoProduto();
         atualizarTabelaCarrinho();
     }
 
@@ -28,6 +34,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         usuario = (Pessoa) PessoaDAO.getInstance().read(usuario_id);
         prdao = ProdutoDAO.getInstance();
         initComponents();
+        preencherComboBoxTipoProduto();
         configurarTabela();
         atualizarTabelaCarrinho();
     }
@@ -44,6 +51,30 @@ public class TelaProdutos extends javax.swing.JFrame {
         formaPagamentoGroup = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        pesquisarFTF = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        adicionarBtn = new javax.swing.JButton();
+        modificarBtn = new javax.swing.JButton();
+        removerBtn = new javax.swing.JButton();
+        limparCamposBtn = new javax.swing.JButton();
+        nomeLabel1 = new javax.swing.JLabel();
+        cpfLabel = new javax.swing.JLabel();
+        nomeLabel = new javax.swing.JLabel();
+        marcaFTF = new javax.swing.JFormattedTextField();
+        dataLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        valorFTF = new javax.swing.JFormattedTextField();
+        confirmaEmailLabel = new javax.swing.JLabel();
+        senhaLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        descTA = new javax.swing.JTextArea();
+        senhaLabel1 = new javax.swing.JLabel();
+        idFTF = new javax.swing.JFormattedTextField();
+        nomeFTF = new javax.swing.JFormattedTextField();
+        quantidadeSpinner = new javax.swing.JSpinner();
+        tipoCB = new javax.swing.JComboBox<>();
         menu = new javax.swing.JMenuBar();
         perfilMenu = new javax.swing.JMenu();
         historicoComprasBtn = new javax.swing.JMenuItem();
@@ -82,6 +113,185 @@ public class TelaProdutos extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(6).setResizable(false);
         }
 
+        pesquisarFTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisarFTFActionPerformed(evt);
+            }
+        });
+        pesquisarFTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pesquisarFTFKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pesquisarFTFKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pesquisarFTFKeyTyped(evt);
+            }
+        });
+
+        jLabel1.setText("Pesquisar na tabela");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados"));
+
+        adicionarBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        adicionarBtn.setText("ADICIONAR");
+        adicionarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarBtnActionPerformed(evt);
+            }
+        });
+
+        modificarBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        modificarBtn.setText("MODIFICAR");
+        modificarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarBtnActionPerformed(evt);
+            }
+        });
+
+        removerBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        removerBtn.setText("REMOVER");
+        removerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerBtnActionPerformed(evt);
+            }
+        });
+
+        limparCamposBtn.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        limparCamposBtn.setText("LIMPAR CAMPOS");
+        limparCamposBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparCamposBtnActionPerformed(evt);
+            }
+        });
+
+        nomeLabel1.setText("selecione um produto na tabela");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(limparCamposBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adicionarBtn)
+                    .addComponent(modificarBtn)
+                    .addComponent(nomeLabel1)
+                    .addComponent(removerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(adicionarBtn)
+                .addGap(53, 53, 53)
+                .addComponent(modificarBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(removerBtn)
+                .addGap(73, 73, 73)
+                .addComponent(limparCamposBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        cpfLabel.setText("Código");
+
+        nomeLabel.setText("Marca");
+
+        dataLabel.setText("Nome");
+
+        emailLabel.setText("Descrição");
+
+        valorFTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valorFTFActionPerformed(evt);
+            }
+        });
+
+        confirmaEmailLabel.setText("Valor Unitário");
+
+        senhaLabel.setText("Quantidade");
+
+        descTA.setColumns(20);
+        descTA.setRows(5);
+        jScrollPane2.setViewportView(descTA);
+
+        senhaLabel1.setText("Tipo");
+
+        tipoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tipoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoCBActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nomeLabel)
+                    .addComponent(cpfLabel)
+                    .addComponent(marcaFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataLabel)
+                    .addComponent(emailLabel)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valorFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(confirmaEmailLabel)
+                    .addComponent(senhaLabel)
+                    .addComponent(senhaLabel1)
+                    .addComponent(idFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantidadeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cpfLabel)
+                        .addGap(12, 12, 12)
+                        .addComponent(idFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nomeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(marcaFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dataLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nomeFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emailLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(confirmaEmailLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(valorFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(senhaLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quantidadeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(senhaLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tipoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 83, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
         perfilMenu.setText("Opções");
 
         historicoComprasBtn.setText("Voltar");
@@ -108,13 +318,28 @@ public class TelaProdutos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(185, 185, 185))
+                    .addComponent(pesquisarFTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 345, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pesquisarFTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -130,6 +355,42 @@ public class TelaProdutos extends javax.swing.JFrame {
         new TelaLoja(usuario.getCpf()).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_historicoComprasBtnActionPerformed
+
+    private void pesquisarFTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarFTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pesquisarFTFActionPerformed
+
+    private void pesquisarFTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisarFTFKeyPressed
+        atualizarTabelaFiltrada();
+    }//GEN-LAST:event_pesquisarFTFKeyPressed
+
+    private void pesquisarFTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisarFTFKeyReleased
+        atualizarTabelaFiltrada();
+    }//GEN-LAST:event_pesquisarFTFKeyReleased
+
+    private void pesquisarFTFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisarFTFKeyTyped
+        atualizarTabelaFiltrada();
+    }//GEN-LAST:event_pesquisarFTFKeyTyped
+
+    private void adicionarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarBtnActionPerformed
+    }//GEN-LAST:event_adicionarBtnActionPerformed
+
+    private void modificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBtnActionPerformed
+    }//GEN-LAST:event_modificarBtnActionPerformed
+
+    private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
+    }//GEN-LAST:event_removerBtnActionPerformed
+
+    private void limparCamposBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCamposBtnActionPerformed
+    }//GEN-LAST:event_limparCamposBtnActionPerformed
+
+    private void valorFTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorFTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valorFTFActionPerformed
+
+    private void tipoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoCBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,16 +435,45 @@ public class TelaProdutos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adicionarBtn;
+    private javax.swing.JLabel confirmaEmailLabel;
+    private javax.swing.JLabel cpfLabel;
+    private javax.swing.JLabel dataLabel;
+    private javax.swing.JTextArea descTA;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.ButtonGroup formaPagamentoGroup;
     private javax.swing.JMenuItem historicoComprasBtn;
+    private javax.swing.JFormattedTextField idFTF;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton limparCamposBtn;
+    private javax.swing.JFormattedTextField marcaFTF;
     private javax.swing.JMenuBar menu;
+    private javax.swing.JButton modificarBtn;
+    private javax.swing.JFormattedTextField nomeFTF;
+    private javax.swing.JLabel nomeLabel;
+    private javax.swing.JLabel nomeLabel1;
     private javax.swing.JMenu perfilMenu;
+    private javax.swing.JFormattedTextField pesquisarFTF;
+    private javax.swing.JSpinner quantidadeSpinner;
+    private javax.swing.JButton removerBtn;
     private javax.swing.JMenuItem sairBtn;
+    private javax.swing.JLabel senhaLabel;
+    private javax.swing.JLabel senhaLabel1;
+    private javax.swing.JComboBox<String> tipoCB;
+    private javax.swing.JFormattedTextField valorFTF;
     // End of variables declaration//GEN-END:variables
 
-
+    private void preencherComboBoxTipoProduto() {
+        tipoCB.removeAllItems();
+        for (TipoProduto produto : TipoProduto.values()) {
+            tipoCB.addItem(produto.getTipoProduto().toString());
+        }
+    }
 
     private void atualizarTabelaCarrinho() {
         tableModel.setRowCount(0);
@@ -196,8 +486,6 @@ public class TelaProdutos extends javax.swing.JFrame {
         }
     }
 
-        
-
     private void configurarTabela() {
         // Configura o DefaultTableModel para a jTable1
         tableModel = new DefaultTableModel(
@@ -207,5 +495,19 @@ public class TelaProdutos extends javax.swing.JFrame {
 
         jTable1.setModel(tableModel);
     }
+    
+    private void atualizarTabelaFiltrada() {
+        // Obtém o texto do campo de pesquisa
+        String textoPesquisa = pesquisarFTF.getText().toLowerCase();
 
+        // Cria um TableRowSorter baseado no modelo da tabela
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+
+        // Define o filtro para incluir linhas que contenham o texto da pesquisa
+        sorter.setRowFilter(RowFilter.regexFilter(textoPesquisa));
+
+        // Aplica o sorter à JTable
+        jTable1.setRowSorter(sorter);
+    }
+    
 }

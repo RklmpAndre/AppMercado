@@ -125,7 +125,21 @@ public class ItensCarrinhoDAO implements DAO {
 
     @Override
     public boolean delete(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Objects.requireNonNull(obj);
+        if (obj instanceof Integer) {
+            try {
+                Integer id = (Integer) obj;
+                String sql = "DELETE FROM itens_carrinho WHERE carrinho_id = '" + id + "'";
+                Statement stmt = conexao.createStatement();
+                int nreg = stmt.executeUpdate(sql);
+                if (nreg > 0) {
+                    return true;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro = " + ex);
+            }
+        }
+        return false;
     }
 
     public Object retornoCarrinhoProduto(Object obj) {

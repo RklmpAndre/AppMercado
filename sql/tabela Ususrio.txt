@@ -1,9 +1,0 @@
-create table usuario(
-	cpf varchar(14) PRIMARY KEY not null,
-    endereco varchar(256) not null,
-    nome varchar(75) not null,
-    dataNascimento date not null,
-    email varchar(100) not null,
-    senha varchar(50) not null,
-    tipoUsuario INT not null
-);
