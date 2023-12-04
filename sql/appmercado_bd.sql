@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 CREATE DATABASE  IF NOT EXISTS `appmercado_bd` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `appmercado_bd`;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: appmercado_bd
@@ -26,17 +23,6 @@ USE `appmercado_bd`;
 
 DROP TABLE IF EXISTS `carrinhos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-<<<<<<< HEAD
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `carrinhos` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `id_usuario` varchar(14) COLLATE utf8mb4_general_ci NOT NULL,
-  `data` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_usuario` (`id_usuario`),
-  CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-=======
 /*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `carrinhos` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -46,7 +32,6 @@ CREATE TABLE `carrinhos` (
   KEY `fk_usuario` (`id_usuario`),
   CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`cpf`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,10 +40,6 @@ CREATE TABLE `carrinhos` (
 
 LOCK TABLES `carrinhos` WRITE;
 /*!40000 ALTER TABLE `carrinhos` DISABLE KEYS */;
-<<<<<<< HEAD
-INSERT INTO `carrinhos` VALUES (16,'040.217.400-31','28/11/2023'),(17,'040.217.400-31','28/11/2023'),(18,'040.217.400-31','28/11/2023'),(19,'040.217.400-31','28/11/2023');
-=======
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40000 ALTER TABLE `carrinhos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,30 +49,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `estoque`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-<<<<<<< HEAD
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estoque` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `descricao` text COLLATE utf8mb4_general_ci,
-  `marca` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nome` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-=======
 /*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `estoque` (
   `id` int NOT NULL AUTO_INCREMENT,
   `descricao` text COLLATE utf8_general_ci,
   `marca` varchar(150) COLLATE utf8_general_ci DEFAULT NULL,
   `nome` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
   `valor_unitario` double DEFAULT NULL,
   `quantidade` int DEFAULT NULL,
   `tipo` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-=======
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,32 +78,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `historico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-<<<<<<< HEAD
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `historico` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `carrinho_id` int NOT NULL,
-  `endereco` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `data` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-=======
 /*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `historico` (
   `id` int NOT NULL AUTO_INCREMENT,
   `carrinho_id` int NOT NULL,
   `endereco` varchar(255) COLLATE utf8_general_ci NOT NULL,
   `data` varchar(10) COLLATE utf8_general_ci NOT NULL,
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
   `forma_pagamento` int NOT NULL,
   `entrega` int NOT NULL,
   `total_compra` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_itens_carrinho` (`carrinho_id`),
   CONSTRAINT `fk_carrinho_historico` FOREIGN KEY (`carrinho_id`) REFERENCES `carrinhos` (`id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-=======
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,10 +99,6 @@ CREATE TABLE `historico` (
 
 LOCK TABLES `historico` WRITE;
 /*!40000 ALTER TABLE `historico` DISABLE KEYS */;
-<<<<<<< HEAD
-INSERT INTO `historico` VALUES (14,16,' ',' ',2,0,4999.9),(15,17,'Rua=\'Dona Alice\', numero=\'115\', complemento=\'Casa\', nome=\'Minha Casa\', bairro=\'Santa Luzia\', cidade=\'Capão da Canoa\', estado=\'UnidadeFederacao{nome=\'Rio Grande do Sul\', sigla=\'RS\', capital=\'Porto Alegre\'}\', cep=\'95555-000\'}','10/10/2023',2,1,899.9),(16,18,'Rua=\'Ceci\', numero=\'608\', complemento=\'Casa\', nome=\'Casa Mãe\', bairro=\'Zona Nova\', cidade=\'Capão da Canoa\', estado=\'UnidadeFederacao{nome=\'Rio Grande do Sul\', sigla=\'RS\', capital=\'Porto Alegre\'}\', cep=\'95555-000\'}','10/02/2023',1,1,5489.37),(17,19,' ',' ',1,0,1499.97);
-=======
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40000 ALTER TABLE `historico` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,11 +108,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `item_escolhido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-<<<<<<< HEAD
-/*!50503 SET character_set_client = utf8mb4 */;
-=======
 /*!50503 SET character_set_client = utf8 */;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 CREATE TABLE `item_escolhido` (
   `id` int NOT NULL AUTO_INCREMENT,
   `produto_id` int DEFAULT NULL,
@@ -171,11 +118,7 @@ CREATE TABLE `item_escolhido` (
   PRIMARY KEY (`id`),
   KEY `fk_produtos` (`produto_id`),
   CONSTRAINT `fk_produtos` FOREIGN KEY (`produto_id`) REFERENCES `estoque` (`id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-=======
 ) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,11 +136,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `itens_carrinho`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-<<<<<<< HEAD
-/*!50503 SET character_set_client = utf8mb4 */;
-=======
 /*!50503 SET character_set_client = utf8 */;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 CREATE TABLE `itens_carrinho` (
   `id` int NOT NULL AUTO_INCREMENT,
   `carrinho_id` int NOT NULL,
@@ -209,11 +148,7 @@ CREATE TABLE `itens_carrinho` (
   KEY `fk_produto` (`produto_id`),
   CONSTRAINT `fk_carrinho` FOREIGN KEY (`carrinho_id`) REFERENCES `carrinhos` (`id`),
   CONSTRAINT `fk_produto` FOREIGN KEY (`produto_id`) REFERENCES `estoque` (`id`)
-<<<<<<< HEAD
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-=======
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,10 +157,6 @@ CREATE TABLE `itens_carrinho` (
 
 LOCK TABLES `itens_carrinho` WRITE;
 /*!40000 ALTER TABLE `itens_carrinho` DISABLE KEYS */;
-<<<<<<< HEAD
-INSERT INTO `itens_carrinho` VALUES (35,16,1,10,4999.9),(36,17,2,1,899.9),(37,18,2,6,5399.4),(38,18,7,3,89.97),(39,19,1,3,1499.97);
-=======
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40000 ALTER TABLE `itens_carrinho` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,19 +166,6 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-<<<<<<< HEAD
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuarios` (
-  `cpf` varchar(14) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `data_nascimento` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `nome` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `senha` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipo` int NOT NULL,
-  PRIMARY KEY (`cpf`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-=======
 /*!50503 SET character_set_client = utf8 */;
 CREATE TABLE `usuarios` (
   `cpf` varchar(14) COLLATE utf8_general_ci NOT NULL,
@@ -259,7 +177,6 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`cpf`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,11 +185,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-<<<<<<< HEAD
-INSERT INTO `usuarios` VALUES ('040.217.400-31','andre2016mendes@gmail.com','03/07/2003','André Mendes Pinto','030720033',1),('684.242.500-01','ryosuke.sorye@gmail.com','20/08/2003','Lune Seraphim Vieira','andrezinho17',0);
-=======
 INSERT INTO `usuarios` VALUES ('040.217.400-31','andre2016mendes@gmail.com','03/07/2003','André Flores Mendes','030720033',1),('582.219.490-78','a@a.com','01/01/2000','-------------------------','12345678',1);
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -285,8 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2023-11-28 11:11:41
-=======
 -- Dump completed on 2023-11-28 23:55:45
->>>>>>> 1c341d50ee753e9186dd3592a568977ada359b9f

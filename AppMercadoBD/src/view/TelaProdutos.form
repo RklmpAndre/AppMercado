@@ -88,6 +88,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jScrollPane1MouseClicked"/>
+      </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
@@ -147,6 +150,9 @@
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -184,14 +190,20 @@
                       <Component id="dataLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="emailLabel" min="-2" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="valorFTF" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                      <Component id="confirmaEmailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="senhaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="senhaLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="idFTF" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
+                      <Component id="codigoFTF" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
                       <Component id="nomeFTF" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                      <Component id="quantidadeSpinner" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="tipoCB" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="valorFTF" min="-2" pref="75" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="confirmaEmailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="quantidadeSpinner" alignment="0" max="32767" attributes="0"/>
+                          <Component id="tipoCB" alignment="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
@@ -208,7 +220,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="cpfLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="idFTF" min="-2" max="-2" attributes="0"/>
+                          <Component id="codigoFTF" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="nomeLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -224,16 +236,19 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="confirmaEmailLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="valorFTF" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="valorFTF" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="senhaLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="quantidadeSpinner" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="senhaLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="tipoCB" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="83" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="89" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -248,13 +263,13 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="70" max="32767" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
-                          <Component id="limparCamposBtn" alignment="2" min="-2" pref="194" max="-2" attributes="0"/>
                           <Component id="adicionarBtn" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="modificarBtn" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="nomeLabel1" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="removerBtn" alignment="2" min="-2" pref="132" max="-2" attributes="0"/>
+                          <Component id="limparCamposBtn" alignment="2" min="-2" pref="194" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -263,15 +278,15 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                       <Component id="adicionarBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="modificarBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="nomeLabel1" min="-2" pref="16" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="removerBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="limparCamposBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -387,7 +402,7 @@
             <Property name="text" type="java.lang.String" value="Tipo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="idFTF">
+        <Component class="javax.swing.JFormattedTextField" name="codigoFTF">
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="nomeFTF">
         </Component>
@@ -410,6 +425,11 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="R$"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
