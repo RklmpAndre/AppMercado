@@ -173,6 +173,11 @@ public class TelaLoja extends javax.swing.JFrame {
         produtoLabel.setText("Produtos");
 
         produtosComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        produtosComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                produtosComboBoxActionPerformed(evt);
+            }
+        });
 
         quantidadeSpn.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
             public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
@@ -564,6 +569,10 @@ public class TelaLoja extends javax.swing.JFrame {
     private void estadoComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_estadoComboBoxActionPerformed
+
+    private void produtosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_produtosComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_produtosComboBoxActionPerformed
 
     /**
      * @param args the command line arguments

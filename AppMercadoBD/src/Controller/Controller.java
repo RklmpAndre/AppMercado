@@ -57,7 +57,6 @@ public class Controller {
             return true;
         }
         return false;
-
     }
 
     public boolean menosProduto(Pessoa usuario, Produto produto, int quantidade) {

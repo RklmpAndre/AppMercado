@@ -30,7 +30,16 @@ public enum TipoProduto {
         }
         throw new IllegalArgumentException("Tipo de produto inválido: " + tipo);
     }
-
+    
+    public static String retornaString(String tipo) {
+        for (TipoProduto produto : values()) {
+            if (produto.tipoProduto.equalsIgnoreCase(tipo)) {
+                return produto.getTipoProduto();
+            }
+        }
+        throw new IllegalArgumentException("Tipo de produto inválido: " + tipo);
+    }
+    
     public static TipoProduto fromInt(int valor) {
         switch (valor) {
             case 0:

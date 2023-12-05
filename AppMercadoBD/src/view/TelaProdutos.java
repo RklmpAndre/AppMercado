@@ -342,15 +342,13 @@ public class TelaProdutos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(185, 185, 185))
-                    .addComponent(pesquisarFTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(pesquisarFTF, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,6 +449,7 @@ public class TelaProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_adicionarBtnActionPerformed
 
     private void modificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBtnActionPerformed
+
     }//GEN-LAST:event_modificarBtnActionPerformed
 
     private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
@@ -495,7 +494,7 @@ public class TelaProdutos extends javax.swing.JFrame {
             valorFTF.setText(valor);
             int quantidadeInt = Integer.parseInt(quantidade);
             quantidadeSpinner.setValue(quantidadeInt);
-            tipoCB.setSelectedItem(tipo);
+            tipoCB.setSelectedItem(TipoProduto.retornaString(tipo));
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -588,7 +587,7 @@ public class TelaProdutos extends javax.swing.JFrame {
     private void preencherComboBoxTipoProduto() {
         tipoCB.removeAllItems();
         for (TipoProduto produto : TipoProduto.values()) {
-            tipoCB.addItem(produto.getTipoProduto().toString());
+            tipoCB.addItem(produto.getTipoProduto());
         }
     }
 
@@ -597,7 +596,7 @@ public class TelaProdutos extends javax.swing.JFrame {
 
         for (Produto produto : prdao.listarTudo()) {
             Object[] rowData = {
-                produto.getId(), produto.getMarca(), produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getQuantidade(), produto.getTipo()
+                produto.getId(), produto.getMarca(), produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getQuantidade(), produto.getTipo().getTipoProduto()
             };
             tableModel.addRow(rowData);
         }
