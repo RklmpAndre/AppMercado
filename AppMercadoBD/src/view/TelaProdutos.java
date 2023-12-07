@@ -2,8 +2,6 @@ package view;
 
 import persist.*;
 import entity.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -395,7 +393,7 @@ public class TelaProdutos extends javax.swing.JFrame {
 
     private void adicionarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarBtnActionPerformed
         boolean status = true;
-        
+
         String marca = marcaFTF.getText();
         if (marca.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Marca não informada");
@@ -403,7 +401,7 @@ public class TelaProdutos extends javax.swing.JFrame {
             status = false;
             return;
         }
-        
+
         String nome = nomeFTF.getText();
         if (nome.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nome não informado");
@@ -412,7 +410,7 @@ public class TelaProdutos extends javax.swing.JFrame {
             return;
         }
         String desc = descTA.getText();
-        if(desc.isEmpty()){
+        if (desc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Descrição do produto não informada!");
             descTA.grabFocus();
             status = false;
@@ -426,33 +424,173 @@ public class TelaProdutos extends javax.swing.JFrame {
             status = false;
             return;
         }
-        if(valor <= 0.0){
+        if (valor <= 0.0) {
             JOptionPane.showMessageDialog(this, "Preço não pode ser zero ou menor");
             valorFTF.grabFocus();
             status = false;
             return;
         }
         int quantidade = (int) quantidadeSpinner.getValue();
-        if(quantidade <= 0) quantidade = 1;
+        if (quantidade <= 0) {
+            quantidade = 1;
+        }
+
         String tipoString = (String) tipoCB.getSelectedItem();
         TipoProduto tipo = TipoProduto.fromString(tipoString);
-        if(status){
-            Produto produto = new Produto(marca, nome, desc, quantidade, valor, tipo);
-            if(prdao.create(produto)){
-                JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
-                limparCampos();
-                atualizarTabelaCarrinho();
+
+        if (codigoFTF.getText().equals("")) {
+            if (status) {
+                Produto produto = new Produto(marca, nome, desc, quantidade, valor, tipo);
+                if (prdao.create(produto)) {
+                    JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
+                    limparCampos();
+                    atualizarTabelaCarrinho();
+                    return;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
+                }
             }
         }
-        
-        
+        int id = Integer.parseInt(codigoFTF.getText());
+
+        if (status) {
+            Produto produto = new Produto(marca, nome, desc, quantidade, valor, tipo);
+            produto.setId(id);
+            if (prdao.read(produto.getId()) == null) {
+                if (prdao.create(produto)) {
+                    JOptionPane.showMessageDialog(this, "Cadastrado com sucesso");
+                    limparCampos();
+                    atualizarTabelaCarrinho();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Produto já cadastrado!");
+            }
+
+        }
     }//GEN-LAST:event_adicionarBtnActionPerformed
 
     private void modificarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarBtnActionPerformed
+        boolean status = true;
 
+        int id = Integer.parseInt(codigoFTF.getText());
+
+        String marca = marcaFTF.getText();
+        if (marca.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Marca não informada");
+            marcaFTF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String nome = nomeFTF.getText();
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nome não informado");
+            nomeFTF.grabFocus();
+            status = false;
+            return;
+        }
+        String desc = descTA.getText();
+        if (desc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Descrição do produto não informada!");
+            descTA.grabFocus();
+            status = false;
+            return;
+        }
+        String preco = valorFTF.getText();
+        double valor = Double.parseDouble(preco);
+        if (preco.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preço não informado");
+            valorFTF.grabFocus();
+            status = false;
+            return;
+        }
+        if (valor <= 0.0) {
+            JOptionPane.showMessageDialog(this, "Preço não pode ser zero ou menor");
+            valorFTF.grabFocus();
+            status = false;
+            return;
+        }
+        int quantidade = (int) quantidadeSpinner.getValue();
+        if (quantidade <= 0) {
+            quantidade = 1;
+        }
+        String tipoString = (String) tipoCB.getSelectedItem();
+        TipoProduto tipo = TipoProduto.fromString(tipoString);
+        if (status) {
+            Produto produto = new Produto(marca, nome, desc, quantidade, valor, tipo);
+            produto.setId(id);
+            if (prdao.update(produto)) {
+                JOptionPane.showMessageDialog(this, "Alterado com sucesso");
+                limparCampos();
+                atualizarTabelaCarrinho();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao remover");
+            }
+
+        }
     }//GEN-LAST:event_modificarBtnActionPerformed
 
     private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
+        boolean status = true;
+
+        int id = Integer.parseInt(codigoFTF.getText());
+
+        String marca = marcaFTF.getText();
+        if (marca.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Marca não informada");
+            marcaFTF.grabFocus();
+            status = false;
+            return;
+        }
+
+        String nome = nomeFTF.getText();
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nome não informado");
+            nomeFTF.grabFocus();
+            status = false;
+            return;
+        }
+        String desc = descTA.getText();
+        if (desc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Descrição do produto não informada!");
+            descTA.grabFocus();
+            status = false;
+            return;
+        }
+        String preco = valorFTF.getText();
+        double valor = Double.parseDouble(preco);
+        if (preco.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preço não informado");
+            valorFTF.grabFocus();
+            status = false;
+            return;
+        }
+        if (valor <= 0.0) {
+            JOptionPane.showMessageDialog(this, "Preço não pode ser zero ou menor");
+            valorFTF.grabFocus();
+            status = false;
+            return;
+        }
+        int quantidade = (int) quantidadeSpinner.getValue();
+        if (quantidade <= 0) {
+            quantidade = 1;
+        }
+        String tipoString = (String) tipoCB.getSelectedItem();
+        TipoProduto tipo = TipoProduto.fromString(tipoString);
+        if (status) {
+            Produto produto = new Produto(marca, nome, desc, quantidade, valor, tipo);
+            produto.setId(id);
+            if (prdao.delete(produto.getId())) {
+                JOptionPane.showMessageDialog(this, "Removido com sucesso");
+                limparCampos();
+                atualizarTabelaCarrinho();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao remover");
+            }
+
+        }
     }//GEN-LAST:event_removerBtnActionPerformed
 
     private void limparCamposBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCamposBtnActionPerformed
