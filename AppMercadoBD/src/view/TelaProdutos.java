@@ -367,7 +367,7 @@ public class TelaProdutos extends javax.swing.JFrame {
 
     private void sairBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairBtnActionPerformed
         new TelaLogin().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_sairBtnActionPerformed
 
     private void historicoComprasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoComprasBtnActionPerformed

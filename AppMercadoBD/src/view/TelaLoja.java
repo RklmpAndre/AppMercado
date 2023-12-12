@@ -482,7 +482,7 @@ public class TelaLoja extends javax.swing.JFrame {
 
     private void sairBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairBtnActionPerformed
         new TelaLogin().setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_sairBtnActionPerformed
 
     private void quantidadeSpnVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_quantidadeSpnVetoableChange
@@ -710,10 +710,8 @@ public class TelaLoja extends javax.swing.JFrame {
 
         String complemento = complementoFormattedTextField.getText();
 
-        if (complemento.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complemento não foi informado");
-            complementoFormattedTextField.grabFocus();
-            status = false;
+        if(complemento.isBlank()){
+            complemento= " ";
         }
 
         String nome = nomeFormattedTextField.getText();
