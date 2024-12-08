@@ -1,11 +1,4 @@
-# App_Mercado_BD
-Projeto do Aplicativo de Compras de um Mercado em java com integração de Banco de Dados.
+# App_Mercado
+Projeto em java com integração a um banco SQL de um aplicativo de encomenda de compras de mercado. 
 
-# Afazeres
-Criar os métodos do PessoaDAO: Read, Update e Delete
-
-Read: Pesquisa dentro do banco e trás o que foi pesquisado; Se utiliza de uma chave para pesquisa //Usar os códigos da professora como estudo
-
-Update: Atualiza o objeto pedido do banco. Exemplo: Pessoa com nome André vai mudar para Arthur
-
-Delete: Apaga o objeto pedido do banco. Exemplo: Pessoa Arthur some do banco
+Feito como trabalho final do 3º ano no Instituto Federal Rio Grande do Sul - Campus Osório.
